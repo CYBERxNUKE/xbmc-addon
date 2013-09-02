@@ -1,0 +1,12 @@
+<addon id="repository.cyberxnuke" name="CYBERxNUKE Repository" version="1.0" provider-name="CYBERxNUKE">
+<extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
+<info compressed="true">https://xbmc-addon.googlecode.com/svn/addons.xml</info>
+<checksum>https://xbmc-addon.googlecode.com/svn/addons.xml.md5</checksum>
+<datadir zip="true">http://xbmc-addon.googlecode.com/svn/</datadir>
+</extension>
+<extension point="xbmc.addon.metadata">
+<summary>CYBERxNUKE Repository</summary>
+<description>CYBERxNUKE Repository</description>
+<platform>all</platform>
+</extension>
+</addon>

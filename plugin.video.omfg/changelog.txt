@@ -1,0 +1,17 @@
+v2.0.0 - official CYBERxNUKE
+cleaned up code and added guide.
+
+v1.0.6 - official CYBERxNUKE
+encrypted streams fix
+
+v1.0.5 - unofficial CYBERxNUKE
+video fix and user/pass fix
+
+v1.0.3
+quick fix
+
+v1.0.2
+Better Login
+
+v1.0.0
+Initial Release

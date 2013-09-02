@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addons>
+<addon id="plugin.video.gta" name="LiveStreaming4U" version="1.0" provider-name="InternetTvGuru">
+  <requires>
+    <import addon="xbmc.python" version="2.0"/>
+    <import addon="script.module.t0mm0.common" version="1.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">LiveStreaming4U</summary>
+    <description lang="en">Official LiveStreaming4U Streams plug-in. www.gtastreams.com</description>
+    <platform>all</platform>
+  </extension>
+  <extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
+<info compressed="true">https://xbmc-addon.googlecode.com/svn/addons.xml</info>
+<checksum>
+https://xbmc-addon.googlecode.com/svn/addons.xml.md5
+</checksum>
+<datadir zip="true">http://xbmc-addon.googlecode.com/svn/</datadir>
+</extension>
+</addon>
+
+<addon id="plugin.video.offside" name="OffSide Streams" version="2.2.1" provider-name="Mikey1234">
+  <requires>
+    <import addon="xbmc.python" version="2.0"/>
+    <import addon="script.module.t0mm0.common" version="1.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">OffSide Streams</summary>
+    <description lang="en">Stream all of your favourites sports,movies and tv from OffSide Streams</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="plugin.video.omfg" name="OMFG Streams" version="2.0.0" provider-name="CYBERxNUKE">
+  <requires>
+    <import addon="xbmc.python" version="2.0"/>
+    <import addon="script.module.t0mm0.common" version="1.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">OMFG Streams</summary>
+    <description lang="en">Official OMFG Streams plug-in. www.omfgstreams.com</description>
+    <platform>all</platform>
+  </extension>
+  <extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
+    <info compressed="true">https://xbmc-addon.googlecode.com/svn/addons.xml</info>
+    <checksum>https://xbmc-addon.googlecode.com/svn/addons.xml.md5</checksum>
+    <datadir zip="true">http://xbmc-addon.googlecode.com/svn/</datadir>
+  </extension>
+</addon>
+
+<addon id="repository.cyberxnuke" name="CYBERxNUKE Repository" version="1.0" provider-name="CYBERxNUKE">
+<extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
+<info compressed="true">https://xbmc-addon.googlecode.com/svn/addons.xml</info>
+<checksum>https://xbmc-addon.googlecode.com/svn/addons.xml.md5</checksum>
+<datadir zip="true">http://xbmc-addon.googlecode.com/svn/</datadir>
+</extension>
+<extension point="xbmc.addon.metadata">
+<summary>CYBERxNUKE Repository</summary>
+<description>CYBERxNUKE Repository</description>
+<platform>all</platform>
+</extension>
+</addon>
+</addons>
