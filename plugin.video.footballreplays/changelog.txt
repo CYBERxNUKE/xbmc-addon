@@ -1,0 +1,16 @@
+v1.0.5
+Fixed Playing Wrong Video
+
+v1.0.3
+Added Highlights
+
+v1.0.2
+Fixed Next Page
+
+v1.0.1
+Added Search Function
+Added Date Of Matches
+
+
+v1.0
+Initial Release
