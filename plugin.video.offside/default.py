@@ -4,7 +4,8 @@ import time
 from t0mm0.common.net import Net
 import tvguide
 
-ADDON = xbmcaddon.Addon(id='plugin.video.offside')
+PLUGIN='plugin.video.offside'
+ADDON = xbmcaddon.Addon(id=PLUGIN)
 deletepy = xbmc.translatePath(os.path.join(ADDON.getAddonInfo('path'),ADDON.getSetting('delete')))
 image='http://www.offsidestreams.com/site/wp-content/uploads/2013/05/'
 country=os.path.join(ADDON.getAddonInfo('path'),'resources','country')
@@ -14,18 +15,9 @@ forOffset_gmt=tvguide.offset_gmt()
 print '####################################'
 
 
-if ADDON.getSetting('visitor_ga')=='':
-    from random import randint
-    ADDON.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
-
     
 net=Net()
-VERSION = "2.2.1"
-PATH = "OffSide Streams"            
-UATRACK="UA-35537758-1"
 
-print PATH
-print VERSION
 
 
 
@@ -58,60 +50,23 @@ if ADDON.getSetting('firstrun')=='':
 	    ADDON.setSetting('pass',search_entered)
 	    
 	if ADDON.getSetting('timezone')=='':
-	    link=open(country).read()
-	    match=re.compile('name=(.+?)".+?"').findall(link)
-	    uniques=[]
-	    for name in match:
-	        if name not in uniques:
-	            uniques.append(name)
-	    dialog=xbmcgui.Dialog()
-	    name=uniques[xbmcgui.Dialog().select('Please Choose Your Region', uniques)]
-	    print name
-	    settimezone=[]
-	    regionselect=[]
-	    r='name=%s"(.+?)-(.+?)"'%name 
-	    print r
-	    link=open(country).read()
-	    match=re.compile(r).findall(link)  
-	    print match
-	    for country,region in match:
-	        regionselect.append(region)
-	        settimezone.append(country+'%2F'+region)
-	    region=settimezone[xbmcgui.Dialog().select('Please Select Closest City', regionselect)]
-	    ADDON.setSetting('timezone',region)
 	    countryselect=['USA','Europe']
 	    server=['0','1']
 	    region=server[xbmcgui.Dialog().select('Please Select Server', countryselect)]
 	    ADDON.setSetting('server',region)
+	    ADDON.setSetting('timezone',region)
 	    ADDON.setSetting('firstrun','true')
     
     
-    
-def DownloaderClass(url,dest):
-    dp = xbmcgui.DialogProgress()
-    dp.create("OffSide Streams","Downloading",'[COLOR yellow]UPDATING NEW PLUGIN[/COLOR]')
-    urllib.urlretrieve(url,dest,lambda nb, bs, fs, url=url: _pbhook(nb,bs,fs,url,dp))
- 
-def _pbhook(numblocks, blocksize, filesize, url=None,dp=None):
-    try:
-        percent = min((numblocks*blocksize*100)/filesize, 100)
-        dp.update(percent)
-    except:
-        percent = 100
-        dp.update(percent)
-    if dp.iscanceled(): 
-        raise Exception("Canceled")
-        dp.close()
-        
         
     
 updatetxt='http://xbmc-hub-repo.googlecode.com/svn/maintenance_do_not_touch/hubmaintenance/update.txt'    
-site='http://offsidestreams.com/site/channels/'
+site='http://offsidestreams.com/site/live-tv/'
 image='http://offsidestreams.com/site/wp-content/uploads/2013/06/'
 calendar='https://www.google.com/calendar/embed?showTitle=0&showPrint=0&showTabs=0&showCalendars=0&mode=AGENDA&height=600&wkst=2&bgcolor=%23FFFFFF&src=synxtv%40gmail.com&color=%23875509&ctz='+ADDON.getSetting('timezone')
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 cookie_path = os.path.join(datapath, 'cookies')
-cookie_jar = os.path.join(cookie_path, "offsidestreams.lwp")
+cookie_jar = os.path.join(cookie_path, "offside_new.lwp")
     
 
 def LOGIN():
@@ -121,7 +76,7 @@ def LOGIN():
     
     data     = {'pwd': password,
                                             'log': username,
-                                            'wp-submit': 'Log In'}
+                                            'wp-submit': 'Log In','redirect_to':'http://offsidestreams.com/site','testcookie':'1'}
     headers  = {'Host':'offsidestreams.com',
                                             'Origin':'http://offsidestreams.com',
                                             'Referer':'http://offsidestreams.com/site/wp-login.php',
@@ -140,9 +95,9 @@ if os.path.exists(cookie_jar) == False:
 def server():
     quality = ADDON.getSetting('server')
     if quality == '0':
-        return 'http://synx.tv/vai/us-channels.js'
+        return 'http://offsidestreams.com/site/us-channels.js'
     elif quality == '1':
-        return 'http://synx.tv/vai/nl-channels.js'
+        return 'http://offsidestreams.com/site/nl-channels.js'
 
 def CATEGORIES():
     addDir('[COLOR red]Full Match Replays HD[/COLOR]','url',3,'','','','')
@@ -348,112 +303,12 @@ def maxVideoQuality():
         
         
         
-def REPLAYCATEGORIES():
-    addDir('Full Matches','url',30,'','','','')
-    addDir('Search Team','url',40,'','','','')
-    setView('movies', 'main') 
-       #setView is setting the automatic view.....first is what section "movies"......second is what you called it in the settings xml  
+def REPLAY():
+        ok=True
+        cmd = 'plugin://plugin.video.footballreplays/'
+        xbmc.executebuiltin('XBMC.Container.Update(%s)' % cmd)
+        return ok
  
-    
-def REPLAYCATEGORIES2():
-    link=OPEN_URL('http://livefootballvideo.com/fullmatch')
-    r='rel="bookmark" title="(.+?)"><img src="(.+?)".+?<div class="postcontent">.+?<h2><a href="(.+?)".+?longdate" rel=".+?">(.+?)/(.+?)/(.+?)</p>'
-    match=re.compile(r,re.DOTALL).findall(link)
-    print match
-    for name,iconimage,url,month,day,year in match:
-        _date='%s/%s/%s'%(day,month,year)  
-        _name='%s-[COLOR yellow][%s][/COLOR]'%(name,_date)    
-        addDir(_name,url,10,iconimage,'','','')
-    addDir('Next Page >>','url',20,'','','','',1)
-    setView('movies', 'main') 
-       #setView is setting the automatic view.....first is what section "movies"......second is what you called it in the settings xml  
-       
-def NEXTPAGE(play):
-    pagenum=int(play) +1
-    link=OPEN_URL('http://livefootballvideo.com/fullmatch/page/'+str(pagenum))
-    r='rel="bookmark" title="(.+?)"><img src="(.+?)".+?<div class="postcontent">.+?<h2><a href="(.+?)".+?longdate" rel=".+?">(.+?)/(.+?)/(.+?)</p>'
-    match=re.compile(r,re.DOTALL).findall(link)
-    print match
-    for name,iconimage,url,month,day,year in match:
-        _date='%s/%s/%s'%(day,month,year)  
-        _name='%s-[COLOR yellow][%s][/COLOR]'%(name,_date)    
-        addDir(_name,url,10,iconimage,'','','')
-    addDir('Next Page >>','url',20,'','','','',pagenum)
-    setView('movies', 'default') 
-                      												  
-def GETLINKS(name,url):#  cause mode is empty in this one it will go back to first directory
-    link=OPEN_URL(url)
-    r='src="http://www.dailymotion.com/embed/video/(.+?)\?.+?"></iframe>'
-    match=re.compile(r,re.DOTALL).findall(link)
-    for url in match:
-        addDir(name,url,2000,GETTHUMB(url),'','','')
-        
-        
-def Search():
-        search_entered = ''
-        keyboard = xbmc.Keyboard(search_entered, 'Search Football Replays')
-        keyboard.doModal()
-        if keyboard.isConfirmed():
-            search_entered = keyboard.getText() .replace(' ','+')  # sometimes you need to replace spaces with + or %20#
-            if search_entered == None:
-                return False
-        link=OPEN_MAGIC('http://www.google.com/cse?cx=partner-pub-9069051203647610:8413886168&ie=UTF-8&q=%s&sa=Search&ref=livefootballvideo.com/highlights'%search_entered)
-        match=re.compile('" href="(.+?)" onmousedown=".+?">(.+?)</a>').findall(link)
-        for url,dirtyname in match: 
-            import HTMLParser
-            cleanname= HTMLParser.HTMLParser().unescape(dirtyname)
-            name= cleanname.replace('<b>','').replace('</b>','')
-            addDir(name,url,10,'','','','')
-        setView('movies', 'default') 
-        
-        
-def GETTHUMB(url):
-    try:
-        import json
-        content = OPEN_URL('https://api.dailymotion.com/video/%s?fields=thumbnail_large_url'%url)
-        data = json.loads(content)
-        icon=data['thumbnail_large_url']
-        return icon
-    except:
-        return ''
-        
-        
-def getStreamUrl(id):
-    maxVideoQuality == maxVideoQuality()
-    content = OPEN_URL("http://www.dailymotion.com/embed/video/"+id)
-    if content.find('"statusCode":410') > 0 or content.find('"statusCode":403') > 0:
-        xbmc.executebuiltin('XBMC.Notification(Info:,Not Found! (DailyMotion)!,5000)')
-        return ""
-    else:
-        matchFullHD = re.compile('"stream_h264_hd1080_url":"(.+?)"', re.DOTALL).findall(content)
-        matchHD = re.compile('"stream_h264_hd_url":"(.+?)"', re.DOTALL).findall(content)
-        matchHQ = re.compile('"stream_h264_hq_url":"(.+?)"', re.DOTALL).findall(content)
-        matchSD = re.compile('"stream_h264_url":"(.+?)"', re.DOTALL).findall(content)
-        matchLD = re.compile('"stream_h264_ld_url":"(.+?)"', re.DOTALL).findall(content)
-        url = ""
-        if matchFullHD and maxVideoQuality == "1080p":
-            url = urllib.unquote_plus(matchFullHD[0]).replace("\\", "")
-        elif matchHD and (maxVideoQuality == "720p" or maxVideoQuality == "1080p"):
-            url = urllib.unquote_plus(matchHD[0]).replace("\\", "")
-        elif matchHQ:
-            url = urllib.unquote_plus(matchHQ[0]).replace("\\", "")
-        elif matchSD:
-            url = urllib.unquote_plus(matchSD[0]).replace("\\", "")
-        elif matchLD:
-            url = urllib.unquote_plus(matchLD[0]).replace("\\", "")
-        return url
-        
-        
-def PLAYSTREAM(name,url,iconimage):
-        link = getStreamUrl(url)
-        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
-        liz.setInfo( type="Video", infoLabels={ "Title": name} )
-        liz.setProperty("IsPlayable","true")
-        pl = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        pl.clear()
-        pl.add(link, liz)
-        xbmc.Player().play(pl)
-        
         
  
     
@@ -471,7 +326,6 @@ def OPEN_MAGIC(url):
         
     
 def fullguide(name,url,iconimage,description):
-    GA('Checking','Tv Guide: '+description)
     description=description.split('[COLOR yellow]')[0]
     url=tvguide.fulltvguide(description)
     link=OPEN_URL(url)
@@ -492,7 +346,6 @@ def Grab_Day(date):
 def PLAY_STREAM(name,url,iconimage,play,description):
     if play=='True':
         desc=description.replace('%20',' ').replace('i-H','i/H').replace('  ',' +')
-        GA('Playing',description)
         link = OPEN_URL(server())
         link = link.split('"title": "')
         r='"file": "(.+?)",'
@@ -503,9 +356,9 @@ def PLAY_STREAM(name,url,iconimage,play,description):
                 try:
                         net.set_cookies(cookie_jar)
                         html = net.http_GET(site).content
-                        var = re.findall('urlkey = "(.+?)"',html,re.M|re.DOTALL)
+                        var = re.findall('urlkey1 = "(.+?)"',html,re.M|re.DOTALL)
                         liz=xbmcgui.ListItem(description, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
-                        stream_url='%s swfUrl=http://p.jwpcdn.com/6/5/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(rtmp.replace('" + urlkey + "',var[0]),var[0],site)
+                        stream_url='%s swfUrl=http://p.jwpcdn.com/6/6/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(rtmp.replace('" + urlkey1 + "',var[0]),var[0],site)
                         liz.setInfo( type="Video", infoLabels={ "Title": name} )
                         liz.setProperty("IsPlayable","true")
                         pl = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
@@ -516,9 +369,9 @@ def PLAY_STREAM(name,url,iconimage,play,description):
                         LOGIN()
                         net.set_cookies(cookie_jar)
                         html = net.http_GET(site).content
-                        var = re.findall('urlkey = "(.+?)"',html,re.M|re.DOTALL)
+                        var = re.findall('urlkey1 = "(.+?)"',html,re.M|re.DOTALL)
                         liz=xbmcgui.ListItem(description, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
-                        stream_url='%s swfUrl=http://p.jwpcdn.com/6/5/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(rtmp.replace('" + urlkey + "',var[0]),var[0],site)
+                        stream_url='%s swfUrl=http://p.jwpcdn.com/6/6/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(rtmp.replace('" + urlkey1 + "',var[0]),var[0],site)
                         liz.setInfo( type="Video", infoLabels={ "Title": name} )
                         liz.setProperty("IsPlayable","true")
                         pl = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
@@ -527,11 +380,10 @@ def PLAY_STREAM(name,url,iconimage,play,description):
                         xbmc.Player().play(pl)
     else:
         try:
-	        GA('Playing',description)
 	        net.set_cookies(cookie_jar)
 	        html = net.http_GET(site).content
-	        var = re.findall('urlkey = "(.+?)"',html,re.M|re.DOTALL)
-	        stream_url='%s swfUrl=http://p.jwpcdn.com/6/5/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(url.replace('" + urlkey + "',var[0]),var[0],site)
+	        var = re.findall('urlkey1 = "(.+?)"',html,re.M|re.DOTALL)
+	        stream_url='%s swfUrl=http://p.jwpcdn.com/6/6/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(url.replace('" + urlkey1 + "',var[0]),var[0],site)
 	        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
 	        liz.setInfo( type="Video", infoLabels={ "Title": description} )
 	        liz.setProperty("IsPlayable","true")
@@ -541,11 +393,10 @@ def PLAY_STREAM(name,url,iconimage,play,description):
 	        xbmc.Player().play(pl)
         except:
 	        LOGIN()
-	        GA('Playing',description)
 	        net.set_cookies(cookie_jar)
 	        html = net.http_GET(site).content
-	        var = re.findall('urlkey = "(.+?)"',html,re.M|re.DOTALL)
-	        stream_url='%s swfUrl=http://p.jwpcdn.com/6/5/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(url.replace('" + urlkey + "',var[0]),var[0],site)
+	        var = re.findall('urlkey1 = "(.+?)"',html,re.M|re.DOTALL)
+	        stream_url='%s swfUrl=http://p.jwpcdn.com/6/6/jwplayer.flash.swf app=liveedge?wmsAuthSign=%s pageUrl=%s timeout=10'%(url.replace('" + urlkey1 + "',var[0]),var[0],site)
 	        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
 	        liz.setInfo( type="Video", infoLabels={ "Title": description} )
 	        liz.setProperty("IsPlayable","true")
@@ -559,172 +410,12 @@ def EXIT():
         xbmc.executebuiltin("XBMC.Container.Update(path,replace)")
         xbmc.executebuiltin("XBMC.ActivateWindow(Home)")
         
-        
-def parseDate(dateString):
-    try:
-        return datetime.datetime.fromtimestamp(time.mktime(time.strptime(dateString.encode('utf-8', 'replace'), "%Y-%m-%d %H:%M:%S")))
-    except:
-        return datetime.datetime.today() - datetime.timedelta(days = 1) #force update
-
-
-def checkGA():
-
-    secsInHour = 60 * 60
-    threshold  = 2 * secsInHour
-
-    now   = datetime.datetime.today()
-    prev  = parseDate(ADDON.getSetting('ga_time'))
-    delta = now - prev
-    nDays = delta.days
-    nSecs = delta.seconds
-
-    doUpdate = (nDays > 0) or (nSecs > threshold)
-    if not doUpdate:
-        return
-
-    ADDON.setSetting('ga_time', str(now).split('.')[0])
-    APP_LAUNCH()
-    
-    
-    
-                    
-def send_request_to_google_analytics(utm_url):
-    ua='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
-    import urllib2
-    try:
-        req = urllib2.Request(utm_url, None,
-                                    {'User-Agent':ua}
-                                     )
-        response = urllib2.urlopen(req).read()
-    except:
-        print ("GA fail: %s" % utm_url)         
-    return response
-       
-def GA(group,name):
-        try:
-            try:
-                from hashlib import md5
-            except:
-                from md5 import md5
-            from random import randint
-            import time
-            from urllib import unquote, quote
-            from os import environ
-            from hashlib import sha1
-            VISITOR = ADDON.getSetting('visitor_ga')
-            utm_gif_location = "http://www.google-analytics.com/__utm.gif"
-            if not group=="None":
-                    utm_track = utm_gif_location + "?" + \
-                            "utmwv=" + VERSION + \
-                            "&utmn=" + str(randint(0, 0x7fffffff)) + \
-                            "&utmt=" + "event" + \
-                            "&utme="+ quote("5("+PATH+"*"+group+"*"+name+")")+\
-                            "&utmp=" + quote(PATH) + \
-                            "&utmac=" + UATRACK + \
-                            "&utmcc=__utma=%s" % ".".join(["1", VISITOR, VISITOR, VISITOR,VISITOR,"2"])
-                    try:
-                        print "============================ POSTING TRACK EVENT ============================"
-                        send_request_to_google_analytics(utm_track)
-                    except:
-                        print "============================  CANNOT POST TRACK EVENT ============================" 
-            if name=="None":
-                    utm_url = utm_gif_location + "?" + \
-                            "utmwv=" + VERSION + \
-                            "&utmn=" + str(randint(0, 0x7fffffff)) + \
-                            "&utmp=" + quote(PATH) + \
-                            "&utmac=" + UATRACK + \
-                            "&utmcc=__utma=%s" % ".".join(["1", VISITOR, VISITOR, VISITOR, VISITOR,"2"])
-            else:
-                if group=="None":
-                       utm_url = utm_gif_location + "?" + \
-                                "utmwv=" + VERSION + \
-                                "&utmn=" + str(randint(0, 0x7fffffff)) + \
-                                "&utmp=" + quote(PATH+"/"+name) + \
-                                "&utmac=" + UATRACK + \
-                                "&utmcc=__utma=%s" % ".".join(["1", VISITOR, VISITOR, VISITOR, VISITOR,"2"])
-                else:
-                       utm_url = utm_gif_location + "?" + \
-                                "utmwv=" + VERSION + \
-                                "&utmn=" + str(randint(0, 0x7fffffff)) + \
-                                "&utmp=" + quote(PATH+"/"+group+"/"+name) + \
-                                "&utmac=" + UATRACK + \
-                                "&utmcc=__utma=%s" % ".".join(["1", VISITOR, VISITOR, VISITOR, VISITOR,"2"])
-                                
-            print "============================ POSTING ANALYTICS ============================"
-            send_request_to_google_analytics(utm_url)
-            
-        except:
-            print "================  CANNOT POST TO ANALYTICS  ================" 
+         
             
             
-def APP_LAUNCH():
-        versionNumber = int(xbmc.getInfoLabel("System.BuildVersion" )[0:2])
-        if versionNumber < 12:
-            if xbmc.getCondVisibility('system.platform.osx'):
-                if xbmc.getCondVisibility('system.platform.atv2'):
-                    log_path = '/var/mobile/Library/Preferences'
-                else:
-                    log_path = os.path.join(os.path.expanduser('~'), 'Library/Logs')
-            elif xbmc.getCondVisibility('system.platform.ios'):
-                log_path = '/var/mobile/Library/Preferences'
-            elif xbmc.getCondVisibility('system.platform.windows'):
-                log_path = xbmc.translatePath('special://home')
-                log = os.path.join(log_path, 'xbmc.log')
-                logfile = open(log, 'r').read()
-            elif xbmc.getCondVisibility('system.platform.linux'):
-                log_path = xbmc.translatePath('special://home/temp')
-            else:
-                log_path = xbmc.translatePath('special://logpath')
-            log = os.path.join(log_path, 'xbmc.log')
-            logfile = open(log, 'r').read()
-            match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
-        elif versionNumber > 11:
-            print '======================= more than ===================='
-            log_path = xbmc.translatePath('special://logpath')
-            log = os.path.join(log_path, 'xbmc.log')
-            logfile = open(log, 'r').read()
-            match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
-        else:
-            logfile='Starting XBMC (Unknown Git:.+?Platform: Unknown. Built.+?'
-            match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
-        print '==========================   '+PATH+' '+VERSION+'  =========================='
-        try:
-            from hashlib import md5
-        except:
-            from md5 import md5
-        from random import randint
-        import time
-        from urllib import unquote, quote
-        from os import environ
-        from hashlib import sha1
-        import platform
-        VISITOR = ADDON.getSetting('visitor_ga')
-        for build, PLATFORM in match:
-            if re.search('12',build[0:2],re.IGNORECASE): 
-                build="Frodo" 
-            if re.search('11',build[0:2],re.IGNORECASE): 
-                build="Eden" 
-            if re.search('13',build[0:2],re.IGNORECASE): 
-                build="Gotham" 
-            print build
-            print PLATFORM
-            utm_gif_location = "http://www.google-analytics.com/__utm.gif"
-            utm_track = utm_gif_location + "?" + \
-                    "utmwv=" + VERSION + \
-                    "&utmn=" + str(randint(0, 0x7fffffff)) + \
-                    "&utmt=" + "event" + \
-                    "&utme="+ quote("5(APP LAUNCH*"+build+"*"+ADDON.getSetting('user')+")")+\
-                    "&utmp=" + quote(PATH) + \
-                    "&utmac=" + UATRACK + \
-                    "&utmcc=__utma=%s" % ".".join(["1", VISITOR, VISITOR, VISITOR,VISITOR,"2"])
-            try:
-                print "============================ POSTING APP LAUNCH TRACK EVENT ============================"
-                send_request_to_google_analytics(utm_track)
-            except:
-                print "============================  CANNOT POST APP LAUNCH TRACK EVENT ============================" 
-checkGA()
-        
-        
+            
+            
+                     
         
         
     
@@ -758,7 +449,7 @@ def addDir(name,url,mode,iconimage,play,date,description,page=''):
         if mode == 2000 or mode==2:
             ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
         else:
-            ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+            ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
  
         
@@ -823,7 +514,7 @@ elif mode==2:
         PLAY_STREAM(name,url,iconimage,play,description)
         
 elif mode==3:
-        REPLAYCATEGORIES()
+        REPLAY()
         
 elif mode==200:
         schedule(name,url,iconimage)
@@ -834,18 +525,6 @@ elif mode==201:
 elif mode==2001:
         ADDON.openSettings()
         
-       
-elif mode==10:
-        GETLINKS(name,url)
-        
-elif mode==20:
-        NEXTPAGE(page)
-        
-elif mode==30:
-        REPLAYCATEGORIES2()
-        
-elif mode==40:
-        Search()
         
 elif mode==2000:
         PLAYSTREAM(name,url,iconimage)
