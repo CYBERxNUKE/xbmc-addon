@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.offside" name="OffSide Streams" version="2.2.9" provider-name="Mikey1234">
+<addon id="plugin.video.offside" name="Hacked Streams" version="4.0" provider-name="CYBERxNUKE">
   <requires>
     <import addon="xbmc.python" version="2.0"/>
     <import addon="script.module.t0mm0.common" version="1.1.0"/>
@@ -10,7 +10,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="en">OffSide Streams</summary>
-    <description lang="en">Stream all of your favourites sports,movies and tv from OffSide Streams</description>
+    <description lang="en">Stream all of your favourites sports,movies and tv from Hacked Streams</description>
     <platform>all</platform>
   </extension>
 </addon>
