@@ -9,7 +9,7 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">OffSide Streams</summary>
+    <summary lang="en">Hacked Streams</summary>
     <description lang="en">Stream all of your favourites sports,movies and tv from Hacked Streams</description>
     <platform>all</platform>
   </extension>

@@ -135,7 +135,7 @@ def CATEGORIES():
             addDir(name,url,2,iconimage,'False','',_name)
     except:
         dialog = xbmcgui.Dialog()
-        dialog.ok("[COLOR yellow]OffSide Streams [/COLOR]","[COLOR red]Login ERROR! [/COLOR]", "Do You Have An Account Set Up ?", "[COLOR yellow]www.offsidestreams.com[/COLOR]")
+        dialog.ok("[COLOR yellow]Hacked Streams [/COLOR]","[COLOR red]Login ERROR! [/COLOR]", "Do You Have An Account Set Up ?", "[COLOR yellow]www.cyberxnuke.com[/COLOR]")
         xbmc.executebuiltin("XBMC.Container.Update(path,replace)")
         xbmc.executebuiltin("XBMC.ActivateWindow(Home)")
         
@@ -306,7 +306,7 @@ def schedule(name,url,iconimage):
             addDir(name_,url,2,iconimage.replace(' ','%20').replace('i/H','i-H'),'True','',For_Name)
     else:
         dialog = xbmcgui.Dialog()
-        dialog.ok("OffSide Streams", '',"Sorry No Schedule Found", "")
+        dialog.ok("Hacked Streams", '',"Sorry No Schedule Found", "")
         xbmc.executebuiltin('XBMC.Container.Update(%s?mode=None&url=None,replace)'%sys.argv[0])
         
         
