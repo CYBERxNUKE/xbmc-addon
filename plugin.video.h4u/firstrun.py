@@ -2,7 +2,7 @@ import urllib,urllib2,sys,re,xbmcplugin,xbmcgui,xbmcaddon,xbmc,os
 
 
 
-ADDON = xbmcaddon.Addon(id='plugin.video.hackedstreams')
+ADDON = xbmcaddon.Addon(id='plugin.video.h4u')
 country=os.path.join(ADDON.getAddonInfo('path'),'resources','country')
 print country
 def OPEN_URL(url):

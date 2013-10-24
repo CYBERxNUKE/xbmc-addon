@@ -2,7 +2,7 @@ import urllib,urllib2,sys,re,xbmcplugin,xbmcgui,xbmcaddon,xbmc,os,time,datetime
 
 
 
-ADDON = xbmcaddon.Addon(id='plugin.video.offside')
+ADDON = xbmcaddon.Addon(id='plugin.video.h4u')
 baseurl='http://www.bleb.org/tv/data/listings/0/'
 
     
