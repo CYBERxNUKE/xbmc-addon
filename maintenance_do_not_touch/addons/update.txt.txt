@@ -1,0 +1,6 @@
+update"000000001"
+
+url="plugin.video.omfg-2.0.1.zip"
+
+
+delete="default.py"
