@@ -132,13 +132,13 @@ def return_url(name):
         url=baseurl+'sky_movies_comedy.xml'	
     elif 'Sky Drama' in name:
         url=baseurl+'sky_movies_drama.xml'	
-    elif 'Sky Family' in name:
+    elif 'Sky Movies family' in name:
         url=baseurl+'sky_movies_family.xml'	
     elif 'Sky Modern Greats' in name:
         url=baseurl+'sky_movies_modern_greats.xml'	
-    elif 'Sky Premiere' in name:
+    elif 'Sky Movies premier' in name:
         url=baseurl+'sky_movies_premiere.xml'	
-    elif 'Sky SciFi/Horror' in name:
+    elif 'Sky Sci-Fi' in name:
         url=baseurl+'sky_movies_sci-fi_horror.xml'	
     elif 'Sky Sports 1' in name:
         url=baseurl+'sky_sports1.xml'	
@@ -152,8 +152,12 @@ def return_url(name):
         url=baseurl+'sky_sports_news.xml'	
     elif 'Sky Thriller' in name:
         url=baseurl+'sky_movies_crime_thriller.xml'
+    elif 'Sky One' in name:
+        url=baseurl+'sky_one.xml'
+    elif 'ITV 1' in name:
+        url=baseurl+'itv1_hd.xml'
     else:
-        url='None Found'
+        url='- None Found'
     return url
 
     
@@ -161,7 +165,7 @@ def return_url(name):
 
 def tvguide(name):
     url=return_url(name)
-    if 'Al Jazeera' in name:
+    if 'JSC' in name:
 	    For_Name=name
 	    url    =  'http://www.en.aljazeerasport.tv/fragment/aljazeera/fragments/components/ajax/channelList/channel/plus%s/maxRecords/0'%(name.split('+')[1])	
 	    link   =  OPEN_URL(url).replace('\n','').replace('  ','')
@@ -170,7 +174,7 @@ def tvguide(name):
 	    match = re.compile(pattern, re.M|re.DOTALL).findall(link)
 	    return ' - '+match[0]
 	        
-    elif not 'None Found' in url:
+    elif not '- None Found' in url:
     
         forOffset_gmt=offset_gmt()
         if '+' in forOffset_gmt:
@@ -211,7 +215,7 @@ def tvguide(name):
         
 def fulltvguide(name):
     url=return_url(name)
-    if not 'None Found' in url:
+    if not '- None Found' in url:
         return url
     else:
         return ''

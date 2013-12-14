@@ -1,3 +1,6 @@
+v2.0.2 - eddymc fix
+JSC guide change
+
 v2.0.0 - official CYBERxNUKE
 cleaned up code and added guide.
 
