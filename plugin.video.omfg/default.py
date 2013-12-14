@@ -16,7 +16,7 @@ print '####################################'
 
 
 net=Net()
-VERSION = "1.0.7"
+VERSION = "2.0.3"
 PATH = "OMFG Streams"            
 
 print PATH
@@ -649,8 +649,15 @@ if mode==None or url==None or len(url)<1:
         CATEGORIES()
                
 elif mode==2:
+        dialog = xbmcgui.DialogProgress()
+        dialog.create("PLEASE WAIT, Loading Channel.")
+        dialog.update(25)
+        xbmc.sleep( 1000 )
+        dialog.update(50)
         PLAY_STREAM(name,url,iconimage,play,description)
-        
+        dialog.update(100)
+        dialog.close()
+
 elif mode==3:
         REPLAYCATEGORIES()
         
@@ -663,7 +670,6 @@ elif mode==201:
 elif mode==2001:
         ADDON.openSettings()
         
-       
 elif mode==10:
         GETLINKS(name,url)
         
@@ -677,7 +683,14 @@ elif mode==40:
         Search()
         
 elif mode==2000:
+        dialog = xbmcgui.DialogProgress()
+        dialog.create("PLEASE WAIT, Loading Channel.")
+        dialog.update(25)
+        xbmc.sleep( 1000 )
+        dialog.update(50)
         PLAYSTREAM(name,url,iconimage)
-       
+        dialog.update(100)
+        dialog.close()
+
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
