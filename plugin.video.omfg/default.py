@@ -221,7 +221,7 @@ def _ret_time(start):
         
         
 def schedule(name,url,iconimage):
-    name=iconimage.split('06/')[1].replace('.png','')
+    name=iconimage.split('omfg/')[1].replace('.png','')
     if 'COLOR' in name:
          name=name.split('[')[0]
          For_Name=name
