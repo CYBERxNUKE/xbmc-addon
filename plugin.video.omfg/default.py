@@ -16,7 +16,7 @@ print '####################################'
 
 
 net=Net()
-VERSION = "2.0.3"
+VERSION = "2.0.4"
 PATH = "OMFG Streams"            
 
 print PATH
