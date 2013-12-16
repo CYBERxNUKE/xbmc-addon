@@ -140,9 +140,9 @@ def return_url(name):
         url=baseurl+'sky_movies_premiere.xml'	
     elif 'Sky Sci-Fi' in name:
         url=baseurl+'sky_movies_sci-fi_horror.xml'	
-    elif 'Sky Sports 1' in name:
+    elif 'SKY Sports 1' in name:
         url=baseurl+'sky_sports1.xml'	
-    elif 'Sky Sports 2' in name:
+    elif 'SKY Sports 2' in name:
         url=baseurl+'sky_sports2.xml'	
     elif 'Sky Sports 3' in name:
         url=baseurl+'sky_sports3.xml'	
@@ -156,6 +156,12 @@ def return_url(name):
         url=baseurl+'sky_one.xml'
     elif 'ITV 1' in name:
         url=baseurl+'itv1_hd.xml'
+    elif 'Sky News HD' in name:
+        url=baseurl+'sky_news.xml'
+    elif 'BBC One' in name:
+        url=baseurl+'bbc1.xml'
+    elif 'BBC Two' in name:
+        url=baseurl+'bbc2.xml'
     else:
         url='- None Found'
     return url

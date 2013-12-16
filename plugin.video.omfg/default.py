@@ -7,7 +7,7 @@ import tvguide
 
 ADDON = xbmcaddon.Addon(id='plugin.video.omfg')
 deletepy = xbmc.translatePath(os.path.join(ADDON.getAddonInfo('path'),ADDON.getSetting('delete')))
-image='http://www.offsidestreams.com/site/wp-content/uploads/2013/05/'
+image='http://code.google.com/p/xbmc-addon/source/browse/omfg/'
 country=os.path.join(ADDON.getAddonInfo('path'),'resources','country')
 
 forOffset=tvguide.offset_time()
@@ -31,54 +31,28 @@ def OPEN_URL(url):
     return link
 
 
-if ADDON.getSetting('firstrun')=='':
-	if ADDON.getSetting('user')=='':
-	    dialog = xbmcgui.Dialog()
-	    dialog.ok("OMFG Streams", "You Now Need To Input", "Your [COLOR yellow]Username[/COLOR]")
-	    search_entered = ''
-	    keyboard = xbmc.Keyboard(search_entered, 'OMFG Streams')
-	    keyboard.doModal()
-	    if keyboard.isConfirmed():
-	        search_entered = keyboard.getText() 
-	    ADDON.setSetting('user',search_entered)
-	    
-	if ADDON.getSetting('pass')=='':
-	    dialog = xbmcgui.Dialog()
-	    dialog.ok("OMFG Streams", "You Now Need To Input", "Your [COLOR yellow]Password[/COLOR]")
-	    search_entered = ''
-	    keyboard = xbmc.Keyboard(search_entered, 'OMFG Streams')
-	    keyboard.doModal()
-	    if keyboard.isConfirmed():
-	        search_entered = keyboard.getText() 
-	    ADDON.setSetting('pass',search_entered)
-	    
-	if ADDON.getSetting('timezone')=='':
-	    link=open(country).read()
-	    match=re.compile('name=(.+?)".+?"').findall(link)
-	    uniques=[]
-	    for name in match:
-	        if name not in uniques:
-	            uniques.append(name)
-	    dialog=xbmcgui.Dialog()
-	    name=uniques[xbmcgui.Dialog().select('Please Choose Your Region', uniques)]
-	    print name
-	    settimezone=[]
-	    regionselect=[]
-	    r='name=%s"(.+?)-(.+?)"'%name 
-	    print r
-	    link=open(country).read()
-	    match=re.compile(r).findall(link)  
-	    print match
-	    for country,region in match:
-	        regionselect.append(region)
-	        settimezone.append(country+'%2F'+region)
-	    region=settimezone[xbmcgui.Dialog().select('Please Select Closest City', regionselect)]
-	    ADDON.setSetting('timezone',region)
-	    countryselect=['USA','Europe']
-	    server=['0','1']
-	    region=server[xbmcgui.Dialog().select('Please Select Server', countryselect)]
-	    ADDON.setSetting('server',region)
-	    ADDON.setSetting('firstrun','true')
+if ADDON.getSetting('user')=='':
+    dialog = xbmcgui.Dialog()
+    dialog.ok("OMFG Streams", "You Now Need To Input", "Your [COLOR yellow]Username[/COLOR]")
+    search_entered = ''
+    keyboard = xbmc.Keyboard(search_entered, 'OffSide Streams')
+    keyboard.doModal()
+    if keyboard.isConfirmed():
+        search_entered = keyboard.getText() 
+    ADDON.setSetting('user',search_entered)
+    
+    dialog.ok("OMFG Streams", "You Now Need To Input", "Your [COLOR yellow]Password[/COLOR]")
+    search_entered = ''
+    keyboard = xbmc.Keyboard(search_entered, 'OffSide Streams')
+    keyboard.doModal()
+    if keyboard.isConfirmed():
+        search_entered = keyboard.getText() 
+    ADDON.setSetting('pass',search_entered)
+    
+    countryselect=['USA','Europe']
+    server=['0','1']
+    region=server[xbmcgui.Dialog().select('Please Select Server', countryselect)]
+    ADDON.setSetting('server',region)
     
     
     
@@ -101,7 +75,6 @@ def _pbhook(numblocks, blocksize, filesize, url=None,dp=None):
         
     
 site='http://omfgstreams.com/forums/view.php?pg=streamcentral_eu'
-image='http://offsidestreams.com/site/wp-content/uploads/2013/06/'
 calendar='https://www.google.com/calendar/embed?showTitle=0&showPrint=0&showTabs=0&showCalendars=0&mode=AGENDA&height=600&wkst=2&bgcolor=%23FFFFFF&src=synxtv%40gmail.com&color=%23875509&ctz='+ADDON.getSetting('timezone')
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 cookie_path = os.path.join(datapath, 'cookies')
@@ -135,8 +108,6 @@ if os.path.exists(cookie_jar) == False:
 def server():
     quality = ADDON.getSetting('server')
     if quality == '0':
-        return 'http://synx.tv/vai/us-channels.js'
-    elif quality == '1':
         return 'http://synx.tv/vai/nl-channels.js'
 
 def CATEGORIES():
@@ -650,7 +621,7 @@ if mode==None or url==None or len(url)<1:
                
 elif mode==2:
         dialog = xbmcgui.DialogProgress()
-        dialog.create("PLEASE WAIT, Loading Channel.")
+        dialog.create("PLEASE WAIT", "Loading Channel....")
         dialog.update(25)
         xbmc.sleep( 1000 )
         dialog.update(50)
@@ -684,7 +655,7 @@ elif mode==40:
         
 elif mode==2000:
         dialog = xbmcgui.DialogProgress()
-        dialog.create("PLEASE WAIT, Loading Channel.")
+        dialog.create("PLEASE WAIT", "Loading Channel....")
         dialog.update(25)
         xbmc.sleep( 1000 )
         dialog.update(50)
