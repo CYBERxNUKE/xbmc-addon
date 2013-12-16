@@ -111,7 +111,7 @@ def server():
         return 'http://synx.tv/vai/nl-channels.js'
 
 def CATEGORIES():
-    addDir('[COLOR red]Full Match Replays HD[/COLOR]','url',3,'','','','')
+    addDir('[COLOR red]Full Match Replays HD[/COLOR]','url',3,'http://computertechs.org/xbmc/omfg/Full%20Match%20Replays%20HD.png','','','')
     try:
         link = OPEN_URL(server())
         link = link.split('window.channels =')[1]
