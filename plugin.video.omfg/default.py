@@ -7,7 +7,7 @@ import tvguide
 
 ADDON = xbmcaddon.Addon(id='plugin.video.omfg')
 deletepy = xbmc.translatePath(os.path.join(ADDON.getAddonInfo('path'),ADDON.getSetting('delete')))
-image='http://xbmc-addon.googlecode.com/svn/omfg/'
+image='http://computertechs.org/xbmc/omfg/'
 country=os.path.join(ADDON.getAddonInfo('path'),'resources','country')
 
 forOffset=tvguide.offset_time()
@@ -111,7 +111,7 @@ def server():
         return 'http://synx.tv/vai/nl-channels.js'
 
 def CATEGORIES():
-    addDir('[COLOR red]Full Match Replays HD[/COLOR]','url',3,'','','','')
+    addDir('[COLOR red]Full Match Replays HD[/COLOR]','url',3,'http://computertechs.org/xbmc/omfg/Full%20Match%20Replays%20HD.png','','','')
     try:
         link = OPEN_URL(server())
         link = link.split('window.channels =')[1]
