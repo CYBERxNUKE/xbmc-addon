@@ -7,7 +7,7 @@ import tvguide
 
 ADDON = xbmcaddon.Addon(id='plugin.video.omfg')
 deletepy = xbmc.translatePath(os.path.join(ADDON.getAddonInfo('path'),ADDON.getSetting('delete')))
-image='http://code.google.com/p/xbmc-addon/source/browse/omfg/'
+image='http://xbmc-addon.googlecode.com/svn/omfg/'
 country=os.path.join(ADDON.getAddonInfo('path'),'resources','country')
 
 forOffset=tvguide.offset_time()
