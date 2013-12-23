@@ -35,7 +35,7 @@ if ADDON.getSetting('user')=='':
     dialog = xbmcgui.Dialog()
     dialog.ok("OMFG Streams", "You Now Need To Input", "Your [COLOR yellow]Username[/COLOR]")
     search_entered = ''
-    keyboard = xbmc.Keyboard(search_entered, 'OffSide Streams')
+    keyboard = xbmc.Keyboard(search_entered, 'OMFG Streams')
     keyboard.doModal()
     if keyboard.isConfirmed():
         search_entered = keyboard.getText() 
@@ -43,7 +43,7 @@ if ADDON.getSetting('user')=='':
     
     dialog.ok("OMFG Streams", "You Now Need To Input", "Your [COLOR yellow]Password[/COLOR]")
     search_entered = ''
-    keyboard = xbmc.Keyboard(search_entered, 'OffSide Streams')
+    keyboard = xbmc.Keyboard(search_entered, 'OMFG Streams')
     keyboard.doModal()
     if keyboard.isConfirmed():
         search_entered = keyboard.getText() 
