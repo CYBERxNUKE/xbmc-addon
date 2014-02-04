@@ -1,0 +1,30 @@
+v2.0.5 - official CYBERxNUKE
+removed progress bar to interact better with TV Guide. 
+
+v2.0.4 - official CYBERxNUKE
+Added images to new channels.
+
+v2.0.3 - official CYBERxNUKE
+added progress bar and notice to streams.
+fixed guide for sky movies.
+
+v2.0.2 - eddymc fix
+JSC guide change
+
+v2.0.0 - official CYBERxNUKE
+cleaned up code and added guide.
+
+v1.0.6 - official CYBERxNUKE
+encrypted streams fix
+
+v1.0.5 - unofficial CYBERxNUKE
+video fix and user/pass fix
+
+v1.0.3
+quick fix
+
+v1.0.2
+Better Login
+
+v1.0.0
+Initial Release

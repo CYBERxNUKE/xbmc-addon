@@ -22,7 +22,7 @@ https://xbmc-addon.googlecode.com/svn/addons.xml.md5
 </extension>
 </addon>
 
-<addon id="plugin.video.omfg" name="OMFG Streams" version="2.0.4" provider-name="CYBERxNUKE">
+<addon id="plugin.video.omfg" name="OMFG Streams" version="2.0.5" provider-name="CYBERxNUKE">
   <requires>
     <import addon="xbmc.python" version="2.0"/>
     <import addon="script.module.t0mm0.common" version="1.1.0"/>
@@ -55,21 +55,19 @@ https://xbmc-addon.googlecode.com/svn/addons.xml.md5
 </extension>
 </addon>
 
-<addon id="script.tvgomfg" name="OMFG TV Guide" version="1.0.9" provider-name="CYBERxNUKE">
+<addon id="script.tvgomfg" name="OMFG TV Guide" version="1.1.1" provider-name="CYBERxNUKE">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.module.simplejson" version="2.0.10"/>
         <import addon="script.module.elementtree" version="1.2.7"/>
         <import addon="script.module.buggalo" version="1.1.2"/>
     </requires>
-    <extension point="xbmc.python.script" library="addon.py">
-	<provides>video</provides>
-	</extension>
+    <extension point="xbmc.python.script" library="addon.py"><provides>video</provides></extension>
     <extension point="xbmc.python.script" library="addon.py"/>
     <extension point="xbmc.service" library="service.py" start="login" />
     <extension point="xbmc.addon.metadata">
         <summary lang="en">TV Guide with XMLTV and streaming support</summary>
-        <description lang="en">A comprehensive EPG that is compatible with many popular live TV addons. TV Guide Dixie gives you an overview on what is on TV right now whilst automatically triggering your favourite live TV addons.[CR]EPG data can be retrieved from XMLTV file or specialised DIXIE Url sources.[CR][CR]Navigate using the arrow keys and change page using channel + / -.[CR]</description>
+        <description lang="en">Modified for use with OMFG Streams channel listings. The TV guide gives you an overview on whats on TV right now, so you don't have to change the channel away from XBMC![CR]EPG data can be retrieved from OMFG Streams.[CR][CR]Navigate using the arrow keys and change page using channel + / -.[CR]</description>
         <platform>all</platform>
         <language></language>
         <license>GPLv2</license>
