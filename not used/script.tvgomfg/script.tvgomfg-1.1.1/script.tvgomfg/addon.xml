@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.tvgomfg" name="OMFG TV Guide" version="1.1.1" provider-name="CYBERxNUKE">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.module.simplejson" version="2.0.10"/>
+        <import addon="script.module.elementtree" version="1.2.7"/>
+        <import addon="script.module.buggalo" version="1.1.2"/>
+    </requires>
+    <extension point="xbmc.python.script" library="addon.py"><provides>video</provides></extension>
+    <extension point="xbmc.python.script" library="addon.py"/>
+    <extension point="xbmc.service" library="service.py" start="login" />
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">TV Guide with XMLTV and streaming support</summary>
+        <description lang="en">Modified for use with OMFG Streams channel listings. The TV guide gives you an overview on whats on TV right now, so you don't have to change the channel away from XBMC![CR]EPG data can be retrieved from OMFG Streams.[CR][CR]Navigate using the arrow keys and change page using channel + / -.[CR]</description>
+        <platform>all</platform>
+        <language></language>
+        <license>GPLv2</license>
+    </extension>
+</addon>

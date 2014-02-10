@@ -1,0 +1,16 @@
+v1.0.9
+dynamic channels
+
+v1.0.8 - unreleased
+
+v1.0.5 - unreleased
+
+v1.0.3 - unreleased
+
+v1.0.1
+updated xml file
+Work In Progress
+
+v1.0.0
+customized TVGuide Dixie for OMFG TV Guide.
+Work In Progress
