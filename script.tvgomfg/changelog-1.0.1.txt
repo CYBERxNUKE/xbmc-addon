@@ -1,7 +1,0 @@
-v1.0.1
-updated xml file
-Work In Progress
-
-v1.0.0
-customized TVGuide Dixie for OMFG TV Guide.
-Work In Progress
