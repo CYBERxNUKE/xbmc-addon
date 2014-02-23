@@ -42,7 +42,7 @@ https://xbmc-addon.googlecode.com/svn/addons.xml.md5
   </extension>
 </addon>
 
-<addon id="plugin.video.NUKEprivate" name="Private NUKE Streams" version="3.0.0" provider-name="CYBERxNUKE">
+<addon id="plugin.video.NUKEprivate" name="Private NUKE Streams" version="3.0.1" provider-name="CYBERxNUKE">
   <requires>
     <import addon="xbmc.python" version="2.0"/>
     <import addon="script.module.t0mm0.common" version="1.1.0"/>
