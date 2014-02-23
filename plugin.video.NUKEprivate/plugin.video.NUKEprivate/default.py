@@ -16,7 +16,7 @@ print '####################################'
 
 
 net=Net()
-VERSION = "3.0.0"
+VERSION = "2.0.8"
 PATH = "NUKE Streams"            
 
 print PATH
@@ -30,6 +30,26 @@ def OPEN_URL(url):
     link= con.read()
     return link
 
+
+if ADDON.getSetting('user')=='':
+    dialog = xbmcgui.Dialog()
+    dialog.ok("NUKE Streams", "You Now Need To Input", "Your [COLOR yellow]Username[/COLOR]")
+    search_entered = ''
+    keyboard = xbmc.Keyboard(search_entered, 'NUKE Streams')
+    keyboard.doModal()
+    if keyboard.isConfirmed():
+        search_entered = keyboard.getText() 
+    ADDON.setSetting('user',search_entered)
+    
+    dialog.ok("NUKE Streams", "You Now Need To Input", "Your [COLOR yellow]Password[/COLOR]")
+    search_entered = ''
+    keyboard = xbmc.Keyboard(search_entered, 'NUKE Streams')
+    keyboard.doModal()
+    if keyboard.isConfirmed():
+        search_entered = keyboard.getText() 
+    ADDON.setSetting('pass',search_entered)    
+    
+    
 def DownloaderClass(url,dest):
     dp = xbmcgui.DialogProgress()
     dp.create("NUKE Streams","Downloading",'[COLOR yellow]UPDATING NEW PLUGIN[/COLOR]')
@@ -52,13 +72,13 @@ site='https://www.tvandsportstreams.tv/live-streams/'
 calendar='https://www.google.com/calendar/embed?showTitle=0&showPrint=0&showTabs=0&showCalendars=0&mode=AGENDA&height=600&wkst=2&bgcolor=%23FFFFFF&src=synxtv%40gmail.com&color=%23875509&ctz='+ADDON.getSetting('timezone')
 datapath = xbmc.translatePath(ADDON.getAddonInfo('profile'))
 cookie_path = os.path.join(datapath, 'cookies')
-cookie_jar = os.path.join(cookie_path, "NUKEprivate.lwp")
+cookie_jar = os.path.join(cookie_path, "NUKE.lwp")
     
 
 def LOGIN():
     loginurl = 'https://www.tvandsportstreams.tv/wp-login.php'
-    username = 'cyberxnuke'
-    password = 'nuke123'
+    username = ADDON.getSetting('user')
+    password = ADDON.getSetting('pass')
     
     data     = {'pwd': password,
                                             'log': username,
