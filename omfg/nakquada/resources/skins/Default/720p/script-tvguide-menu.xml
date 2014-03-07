@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window type="dialog">
+    <allowoverlay>yes</allowoverlay>
+    <defaultcontrol always="true">4005</defaultcontrol>
+    <coordinates>
+        <system>1</system>
+        <posx>3</posx>
+        <posy>3</posy>
+    </coordinates>
+    <animation effect="slide" start="0,0" end="0,0" time="050">WindowOpen</animation>
+    <animation effect="slide" start="0,0" end="0,0" time="050">WindowClose</animation>
+    <controls>
+
+<!-- MAIN MENU BACKGROUND (FADE OUT OVER WHOLE EPG) -->
+        <control type="image">
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1280</width>
+            <height>800</height>
+            <texture>bg_fade.png</texture>
+        </control>
+
+ <!-- MAIN MENU -->       
+        <control type="image">
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1274</width>
+            <height>50</height>
+            <texture>mainmenu_active.png</texture>
+        </control>
+
+<!-- CHANNEL LOGO OR TEXT -->
+        <control type="image" id="4100"> <!-- Logo Placeholder -->
+            <posx>50</posx>
+            <posy>50</posy>
+            <width>130</width>
+            <height>70</height>
+            <aspectratio>keep</aspectratio>
+            <visible>false</visible> <!-- To hide Logo or text -->
+        </control>
+
+        <control type="label" id="4101"> 
+            <posx>50</posx>
+            <posy>50</posy>
+            <width>240</width>
+            <height>50</height>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <visible>false</visible> <!-- To hide Logo or text -->
+       </control>
+
+<!-- WATCH BUTTON -->
+        <control type="button" id="4000"> 
+            <posx>897</posx>
+            <posy>6</posy>
+            <width>112</width>
+            <height>34</height>
+            <texturefocus>watch_on.png</texturefocus>
+            <texturenofocus>watch_off.png</texturenofocus>
+            <onleft>4001</onleft>
+            <onright>4002</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+			<textoffsetx>2000</textoffsetx><!-- OFFSET TO HIDE DEFAULT LABELS FROM PYTHON -->
+            <textoffsety>2000</textoffsety>
+            <textcolor>ffffffff</textcolor>
+        </control>
+
+<!-- CHOOSE STREAM BUTTON -->
+        <control type="button" label="Label" showLabel="false" id="4001"> 
+            <posx>730</posx>
+            <posy>6</posy>
+            <width>159</width>
+            <height>34</height>
+            <texturefocus>choose_on.png</texturefocus>
+            <texturenofocus>choose_off.png</texturenofocus>
+            <onleft>4003</onleft>
+            <onright>4000</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ccffffff</textcolor>
+            <textoffsetx>2000</textoffsetx><!-- OFFSET TO HIDE DEFAULT LABELS FROM PYTHON -->
+            <textoffsety>2000</textoffsety>
+			<label>$ADDON[script.tvgnuke 30304]</label>
+        </control>
+
+
+<!--        <control type="label"> 
+            <posx>255</posx>
+            <posy>390</posy>
+            <width>220</width>
+            <height>200</height>
+            <font>font13</font>
+            <textcolor>3232ccff</textcolor>
+            <label>$ADDON[script.tvgnuke 30305]</label>
+            <wrapmultiline>true</wrapmultiline>
+        </control>  -->
+
+<!-- CURRENT PROGRAM TITLE -->
+        <control type="label" id="4102">
+            <posx>30</posx>
+            <posy>190</posy>
+            <width>220</width>
+            <height>50</height>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <visible>false</visible> <!-- TO HIDE PROGRAM TITLE -->
+        </control>
+
+<!-- REMINDER BUTTON -->
+        <control type="button" id="4002"> 
+            <posx>1017</posx>
+            <posy>6</posy>
+            <width>115</width>
+            <height>34</height>
+            <texturefocus>remind_on.png</texturefocus>
+            <texturenofocus>remind_off.png</texturenofocus>
+            <onleft>4000</onleft>
+            <onright>4004</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <textoffsetx>2000</textoffsetx><!-- OFFSET TO HIDE DEFAULT LABELS FROM PYTHON -->
+            <textoffsety>2000</textoffsety>
+        </control>
+
+<!-- CHANNELS BUTTON -->
+        <control type="button" id="4003"> 
+            <posx>394</posx>
+            <posy>6</posy>
+            <width>142</width>
+            <height>34</height>
+            <texturefocus>channels_on.png</texturefocus>
+            <texturenofocus>channels_off.png</texturenofocus>
+            <onleft>4005</onleft>
+            <onright>4001</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <textoffsetx>2000</textoffsetx><!-- OFFSET TO HIDE DEFAULT LABELS FROM PYTHON -->
+            <textoffsety>2000</textoffsety>
+            <!-- <label>$ADDON[script.tvgnuke 30307]</label> -->
+            <label></label>
+        </control>
+
+<!-- QUIT BUTTON -->c
+        <control type="button" id="4004"> 
+            <posx>1140</posx>
+            <posy>6</posy>
+            <width>91</width>
+            <height>34</height>
+            <texturefocus>quit_on.png</texturefocus>
+            <texturenofocus>quit_off.png</texturenofocus>
+            <onleft>4002</onleft>
+            <onright>4005</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <!-- <label>$ADDON[script.tvgnuke 30308]</label> -->
+        </control>
+
+<!-- CATEGORIES Button -->
+        <control type="button" id="4005"> 
+            <posx>230</posx>
+            <posy>6</posy>
+            <width>156</width>
+            <height>34</height>
+            <texturefocus>cats_on.png</texturefocus>
+            <texturenofocus>cats_off.png</texturenofocus>
+            <onleft>4004</onleft>
+            <onright>4003</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <!-- <label>$ADDON[script.tvgnuke 30309]</label> -->
+        </control>
+
+
+    </controls>
+</window>
