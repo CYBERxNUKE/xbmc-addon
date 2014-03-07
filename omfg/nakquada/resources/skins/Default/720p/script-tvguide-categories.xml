@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window type="dialog">
+    <allowoverlay>yes</allowoverlay>
+    <defaultcontrol always="true">7000</defaultcontrol>
+    <coordinates>
+        <system>1</system>
+        <posx>0</posx>
+        <posy>0</posy>
+    </coordinates>
+    <animation effect="slide" start="0,0" end="0,0" time="250">WindowOpen</animation>
+    <animation effect="slide" start="0,0" end="0,0" time="250">WindowClose</animation>
+    <controls>
+        <control type="label" id="7001">
+            <description>visibility marker for selection box</description>
+        </control>
+
+
+<!--- DUMMY MENU START -->
+
+    <!-- MAIN MENU BACKGROUND (FADE OUT OVER WHOLE EPG) -->
+        <control type="image">
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1280</width>
+            <height>800</height>
+            <texture>bg_fade.png</texture>
+        </control>
+
+         <!-- MAIN MENU BG -->       
+        <control type="image">
+            <posx>3</posx>
+            <posy>3</posy>
+            <width>1274</width>
+            <height>50</height>
+            <texture>mainmenu_active.png</texture>
+        </control>
+
+     <!-- CATEGORIES Dummy Button (Reverse focus to simulate active status) -->
+        <control type="button"> 
+            <posx>233</posx><!-- OFFSET 3mm X&Y FROM ORIGINAL BUTTON ON MENU -->
+            <posy>9</posy>
+            <width>156</width>
+            <height>34</height>
+            <texturefocus>cats_on.png</texturefocus>
+            <texturenofocus>cats_on.png</texturenofocus>
+            <onleft>4004</onleft>
+            <onright>4003</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <!-- <label>$ADDON[script.tvgnuke 30309]</label> -->
+        </control>
+
+
+    <!-- CHANNELS Dummy Button (Reverse focus to simulate active status) -->
+        <control type="button"> 
+            <posx>397</posx>
+            <posy>9</posy>
+            <width>142</width>
+            <height>34</height>
+            <texturefocus>channels_off.png</texturefocus>
+            <texturenofocus>channels_off.png</texturenofocus>
+            <onleft>4005</onleft>
+            <onright>4001</onright>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font15</font>
+            <textcolor>ffffffff</textcolor>
+            <textoffsetx>2000</textoffsetx><!-- OFFSET TO HIDE DEFAULT LABELS FROM PYTHON -->
+            <textoffsety>2000</textoffsety>
+            <!-- <label>$ADDON[script.tvgnuke 30307]</label> -->
+            <label></label>
+        </control>
+
+        <control type="image"> <!-- DUMMY STREAM SETUP BUTTON -->
+            <posx>733</posx>
+            <posy>9</posy>
+            <width>159</width>
+            <height>34</height>
+            <texture>choose_off.png</texture>
+        </control>
+
+        <control type="image"> <!-- DUMMY WATCH BUTTON -->
+            <posx>900</posx>
+            <posy>9</posy>
+            <width>112</width>
+            <height>34</height>
+            <texture>watch_off.png</texture>
+        </control>
+
+         <control type="image"> <!-- DUMMY REMIND BUTTON -->
+            <posx>1020</posx>
+            <posy>9</posy>
+            <width>115</width>
+            <height>34</height>
+            <texture>remind_off.png</texture>
+        </control>
+
+         <control type="image"> <!-- DUMMY QUIT BUTTON -->
+            <posx>1143</posx>
+            <posy>9</posy>
+            <width>91</width>
+            <height>34</height>
+            <texture>quit_off.png</texture>
+        </control>
+
+
+<!-- DUMMY MENU END -->
+
+        <control type="image"> <!-- Background of Menu Flyout Panel -->
+            <posx>190</posx>
+            <posy>49</posy>
+            <width>310</width>
+            <height>640</height>
+            <texture>menu_panel.png</texture>
+        </control>
+        <control type="group">
+            <posx>0</posx>
+            <posy>320</posy>
+            <width>560</width>
+            <height>38</height>
+            <visible>!Control.IsVisible(7001)</visible>
+            <animation type="Visible">
+                <effect type="slide" start="0,0" end="0,0" time="500" />
+            </animation>
+            <animation type="Hidden">
+                <effect type="slide" start="0,0" end="0,0" time="500" />
+            </animation>
+
+            <control type="image">
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>560</width>
+                <height>160</height>
+                <texture>tvguide-glasspane.png</texture>
+            </control>
+            <control type="image">
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>560</width>
+                <height>160</height>
+                <texture>tvguide-glasspane.png</texture>
+            </control>
+
+            <control type="image">
+                <posx>12</posx>
+                <posy>20</posy>
+                <width>16</width>
+                <height>40</height>
+                <texture>tvguide-channel-updownarrow.png</texture>
+            </control>
+            <control type="image">
+                <posx>40</posx>
+                <posy>20</posy>
+                <width>500</width>
+                <height>38</height>
+            </control>
+            <control type="button" id="7002">
+                <posx>36</posx>
+                <posy>20</posy>
+                <width>500</width>
+                <height>31</height>
+                <aligny>center</aligny>
+                <font>font13</font>
+                <textcolor>ffffffff</textcolor>
+                <label>text</label>
+                <texturefocus>tvguide-program-grey-focus.png</texturefocus>
+                <texturenofocus>tvguide-program-grey.png</texturenofocus>
+            </control>
+            <control type="label">
+                <posx>36</posx>
+                <posy>70</posy>
+                <width>500</width>
+                <height>60</height>
+                <font>font13</font>
+                <textcolor>ffffffff</textcolor>
+                <label>$ADDON[script.tvgnuke 30310]</label>
+            </control>
+        </control>
+
+        <control type="label"> <!-- Choose A Category Label -->
+            <posx>20</posx>
+            <posy>20</posy>
+            <width>520</width>
+            <height>40</height>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font13</font>
+            <textcolor>ffffffff</textcolor>
+            <label>$ADDON[script.tvgnuke 30310]</label>
+            <visible>false</visible><!-- Made invisible - nakquada -->
+        </control>
+
+        <control type="list" id="7000"> <!-- Container for List of Categories -->
+            <posx>198</posx>
+            <posy>82</posy>
+            <width>236</width>
+            <height>600</height>
+            <viewtype label="list">list</viewtype>
+            <orientation>vertical</orientation>
+            <focusposition>0</focusposition>
+            <onright>7002</onright>
+            <onleft>7002</onleft>
+
+            <itemlayout width="216" height="31">
+                <control type="image">
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <width>236</width>
+                    <height>31</height>
+                    <!-- <texture>tvguide-program-grey.png</texture> -->
+                </control>
+                <control type="label"> <!-- Unselected List Text Position -->
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <width>200</width>
+                    <height>31</height>
+                    <aligny>center</aligny>
+                    <font>font13</font>
+                    <textcolor>ffffffff</textcolor>
+                    <info>ListItem.Label</info>
+                    <scroll>false</scroll> <!-- To prevent long Category names from scrolling -->
+                </control>
+
+                <control type="image"> <!-- Icon Position -->
+                    <posx>210</posx>
+                    <posy>6</posy>
+                    <width>22</width>
+                    <height>22</height>
+                    <info>ListItem.Icon</info>
+                </control>
+
+            </itemlayout>
+            <focusedlayout width="300" height="31"> 
+                <control type="image"> <!-- Selection Box -->
+                    <posx>0</posx>
+                    <posy>1</posy>
+                    <width>240</width>
+                    <height>31</height>
+                    <texture>panel_select.png</texture>
+                    <visible>Control.HasFocus(7000)</visible>
+                </control>
+
+                <control type="label"><!-- Category select Text position -->
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <width>205</width>
+                    <height>31</height>
+                    <aligny>center</aligny>
+                    <font>font13</font>
+                    <textcolor>ffffffff</textcolor>
+                    <label>$INFO[ListItem.Label]</label>
+                    <scroll>false</scroll>
+                 </control>
+
+                <control type="image"> <!-- Selected Item Icon Position -->
+                    <posx>210</posx>
+                    <posy>6</posy>
+                    <width>22</width>
+                    <height>22</height>
+                    <info>ListItem.Icon</info>
+                 </control>
+            </focusedlayout>
+        </control>
+
+<!-- SAVE BUTTON -->
+        <control type="button" id="7002">
+            <posx>455</posx>
+            <posy>100</posy>
+            <width>36</width>
+            <height>36</height>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font13</font>
+            <textcolor>ffffffff</textcolor>
+            <!-- <label>$ADDON[script.tvgnuke 30311]</label> -->
+            <texturefocus>save_focus.png</texturefocus>
+            <texturenofocus>save.png</texturenofocus>
+            <onleft>7000</onleft>
+            <onright>7000</onright>
+            <onup>7003</onup>
+            <ondown>7003</ondown>
+        </control>
+
+<!-- CANCEL BUTTON -->
+        <control type="button" id="7003">
+            <posx>455</posx>
+            <posy>150</posy>
+            <width>36</width>
+            <height>36</height>
+            <align>center</align>
+            <aligny>center</aligny>
+            <font>font13</font>
+            <textcolor>ffffffff</textcolor>
+            <!-- <label>$ADDON[script.tvgnuke 30312]</label> -->
+            <texturefocus>cancel_focus.png</texturefocus>
+            <texturenofocus>cancel.png</texturenofocus>
+            <onleft>7000</onleft>
+            <onright>7000</onright>
+            <onup>7002</onup>
+            <ondown>7002</ondown>
+        </control>
+
+    </controls>
+</window>
