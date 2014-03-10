@@ -16,6 +16,8 @@
         
 	<setting id="gmtprev" type="text" label="Previous GMT" default="0" visible="false"/>
 	<setting id="categories" label="categories" type="text" default="" visible="false"/>
+
+        <setting id="enable.touch" label="30123" type="bool" default="false" />
     </category>
 
     <category label="30114">
@@ -33,10 +35,6 @@
     <category label="30112">
         <setting id="notifications.enabled" label="30106" type="bool" default="false" />
         <setting label="30108" type="action" action="RunScript($CWD/notification.py)" />
-    </category>
-    
-    <category label="30122">
-        <setting id="enable.touch" label="30123" type="bool" default="false" />
     </category>
     
     <category label="30125">

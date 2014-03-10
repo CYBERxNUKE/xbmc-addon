@@ -56,22 +56,6 @@ print '********* LATEST SKINS VERSION *********'
 print SKINSVERSION
 
 
-ooOOOoo = ''
-def ttTTtt(i, t1, t2=[]):
-	t = ooOOOoo
-	for c in t1:
-	  t += chr(c)
-	  i += 1
-	  if i > 1:
-	   t = t[:-1]
-	   i = 0  
-	for c in t2:
-	  t += chr(c)
-	  i += 1
-	  if i > 1:
-	   t = t[:-1]
-	   i = 0
-	return t
 
 try:
     if not os.path.exists(mashpath):
