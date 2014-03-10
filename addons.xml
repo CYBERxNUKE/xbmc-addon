@@ -55,7 +55,7 @@ https://xbmc-addon.googlecode.com/svn/addons.xml.md5
 </extension>
 </addon>
 
-<addon id="script.tvgnuke" name="NUKE TV GUIDE" version="2.0.3" provider-name="CYBERxNUKE">
+<addon id="script.tvgnuke" name="NUKE TV GUIDE" version="2.0.4" provider-name="CYBERxNUKE">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.module.simplejson" version="2.0.10"/>
