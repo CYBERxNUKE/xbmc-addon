@@ -74,7 +74,7 @@ https://xbmc-addon.googlecode.com/svn/addons.xml.md5
 </addon>
 
 
-<addon id="repository.superrepo" name="SuperRepo Repositories "version="0.5.207" provider-name="Bart Otten">
+<addon id="repository.superrepo.org.gotham.repositories" name="SuperRepo Repositories "version="0.5.207" provider-name="Bart Otten">
 
 <requires>
 
