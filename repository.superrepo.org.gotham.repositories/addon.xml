@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
-<addon id="repository.superrepo" name="SuperRepo Repositories "version="0.5.207" provider-name="Bart Otten">
+<addon id="repository.superrepo.org.gotham.repositories" name="SuperRepo Repositories "version="0.5.207" provider-name="Bart Otten">
 
 <requires>
 
