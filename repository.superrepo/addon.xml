@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<addon id="repository.superrepo" name="SuperRepo Repositories "version="0.5.207" provider-name="Bart Otten">
+
+<requires>
+
+<import addon="xbmc.addon" version="12.0.0" />
+
+</requires>
+<extension point="xbmc.addon.repository" name="SuperRepo Repositories">
+<info compressed="false">http://xml.superrepo.org/v5/.xml/gotham/repositories/addons.xml</info>
+
+<checksum>http://md5.superrepo.org/v5/.md5/gotham/repositories/addons.xml.md5</checksum>
+<datadir zip="true">http://redirect.superrepo.org/v5/addons/</datadir>
+<hashes>true</hashes>
+
+</extension>
+
+<extension point="xbmc.addon.metadata">
+
+<summary>A list of SuperRepo.org Repositories</summary>
+<summary lang="nl">Een lijst met SuperRepo.org Repositories</summary>
+
+<summary lang="cz">Zoznam SuperRepo.org Repozitárov</summary>
+
+<summary lang="de">Eine Liste der SuperRepo.org Repositories</summary>
+
+<description>Install repositories with ease using the SuperRepo Repositories List. Go to Settings >> Addons >> SuperRepo Repositories List >> Addon Repositories.</description>
+<disclaimer>The repository is maintained by the Kodi community and our generator fetches addons from multiple sources. Therefore SuperRepo accepts no responsibility for included addons.[CR]</disclaimer>
+                <disclaimer lang="nl">De repository wordt onderhouden door de Kodi gemeenschap en de generator verzamelt addons van verschillende bronnen. Daarom accepteert SuperRepo geen enkele verantwoordelijkheid voor de ingevoegde addons.[CR]</disclaimer>
+                <disclaimer lang="cz">Repozitár je udržiavaný komunitou Kodi a generátor preberá addons z rôznych zdrojov. Vzhľadom na to, SuperRepo nenesie žiadnu zodpovednosť za služby poskytované týmito addons.[CR]</disclaimer>
+                <disclaimer lang="de">Das Repository wird durch die Kodi Community gepflegt und durch unseren Generator aus mehreren Quellen zusammengestellt. Daher übernimmt SuperRepo keinerlei Verantwortung für die enthaltenen Addons.[CR]</disclaimer>
+
+<platform>all</platform>
+<website>https://superrepo.org/</website>
+</extension>
+
+</addon>
