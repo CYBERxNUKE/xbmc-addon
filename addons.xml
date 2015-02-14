@@ -93,17 +93,8 @@ https://xbmc-addon.googlecode.com/svn/addons.xml.md5
 <extension point="xbmc.addon.metadata">
 
 <summary>A list of SuperRepo.org Repositories</summary>
-<summary lang="nl">Een lijst met SuperRepo.org Repositories</summary>
-
-<summary lang="cz">Zoznam SuperRepo.org RepozitÃ¡rov</summary>
-
-<summary lang="de">Eine Liste der SuperRepo.org Repositories</summary>
-
 <description>Install repositories with ease using the SuperRepo Repositories List. Go to Settings >> Addons >> SuperRepo Repositories List >> Addon Repositories.</description>
 <disclaimer>The repository is maintained by the Kodi community and our generator fetches addons from multiple sources. Therefore SuperRepo accepts no responsibility for included addons.[CR]</disclaimer>
-                <disclaimer lang="nl">De repository wordt onderhouden door de Kodi gemeenschap en de generator verzamelt addons van verschillende bronnen. Daarom accepteert SuperRepo geen enkele verantwoordelijkheid voor de ingevoegde addons.[CR]</disclaimer>
-                <disclaimer lang="cz">RepozitÃ¡r je udrÅ¾iavanÃ½ komunitou Kodi a generÃ¡tor preberÃ¡ addons z rÃ´znych zdrojov. VzhÄ¾adom na to, SuperRepo nenesie Å¾iadnu zodpovednosÅ¥ za sluÅ¾by poskytovanÃ© tÃ½mito addons.[CR]</disclaimer>
-                <disclaimer lang="de">Das Repository wird durch die Kodi Community gepflegt und durch unseren Generator aus mehreren Quellen zusammengestellt. Daher Ã¼bernimmt SuperRepo keinerlei Verantwortung fÃ¼r die enthaltenen Addons.[CR]</disclaimer>
 
 <platform>all</platform>
 <website>https://superrepo.org/</website>
