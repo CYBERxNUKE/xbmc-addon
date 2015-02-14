@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<addon id="repository.superrepo.org.gotham.repositories" name="SuperRepo Repositories " version="0.5.207" provider-name="Bart Otten">
+<requires>
+    <import addon="xbmc.addon" version="12.0.0" />
+</requires>
+        <extension point="xbmc.addon.repository" name="SuperRepo Repositories ">
+                <info compressed="false">http://xml.superrepo.org/v5/.xml/gotham/repositories/addons.xml</info>
+                <checksum>http://md5.superrepo.org/v5/.md5/gotham/repositories/addons.xml.md5</checksum>
+                <datadir zip="true">http://redirect.superrepo.org/v5/addons/</datadir>
+                <hashes>true</hashes>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+                <summary>A list of SuperRepo.org Repositories</summary>
+                <summary lang="nl">Een lijst met SuperRepo.org Repositories</summary>
+                <summary lang="cz">Zoznam SuperRepo.org Repozitárov</summary>
+                <summary lang="de">Eine Liste der SuperRepo.org Repositories</summary>
+                <description>Install repositories with ease using the SuperRepo Repositories List. Go to Settings >> Addons >> SuperRepo Repositories List >> Addon Repositories.[CR][CR]If you find a broken or not working addon or you would like to include another one, please have a look at https://superrepo.org/[CR][CR]The repository is maintained by the Kodi community using the SuperRepo Wiki and our generator fetches addons from multiple sources. Therefore SuperRepo accepts no responsibility for this service.[CR][CR]The "eXtended Repository Generator" is created by Bart Otten[CR][CR]</description>
+                <description lang="nl">Installeeer gemakkelijk repositories met de SuperRepo Repositories List. Ga naar Instellingen >> Addons >> SuperRepo Repositories List >> Add-on opslagplaats[CR][CR]Als u een niet werkende addon vindt of u wilt een extra addon toevoegen, kijk dan op https://superrepo.org/[CR][CR]De repository wordt via de SuperRepo Wiki onderhouden door de Kodi gemeenschap en de generator verzamelt addons van verschillende bronnen. Daarom accepteert SuperRepo geen enkele verantwoordelijkheid voor de ingevoegde addons.[CR][CR]De "eXtended Reposity Generator" is ontwikkeld door Bart Otten[CR][CR]</description>
+                <description lang="cz">Inštaluj repozitáre za pomoci jednoduchého zoznamu SuperRepo Repozitárov. Choď do nadstavení >> Addons >> Zoznam SuperRepo Repozitárov >> Addon Repozitáre.[CR][CR]Ešte jednoduchšia cesta ako pridávať repozitáre sa nachádza na http://www.superrepo.org/get-started/.[CR][CR]Ak si našiel add-on ktorý je poškodený alebo nefunkčný, alebo chceš pridať nový addon, potom prosím pozri na https://superrepo.org/[CR][CR]Repozitár je udržiavaný komunitou Kodi a za pomoci SuperRepo Wiki, a tento preberá addons z rôznych zdrojov. Vzhľadom na to, SuperRepo nenesie žiadnu zodpovednosť za služby poskytované týmito addons.[CR][CR]Generátor vyvinul Bart Otten[CR][CR]</description>
+                <description lang="de">Repositories können einfach mittels der "SuperRepo Repositories List" installiert werden. Öffne dazu bitte Einstellungen >> Addons >> SuperRepo Repositories List >> Addon Repositories.[CR][CR]Möchtest du ein fehlerhaftes Addon melden oder ein neues Addon vorschlagen, kannst du dies über unsere Webseite http://superrepo.org tun.[CR][CR]Das Repository wird mit Hilfe des SuperRepo Wiki durch die Kodi Community gepflegt und durch unseren Generator aus mehreren Quellen zusammengestellt. Daher übernimmt SuperRepo keinerlei Verantwortung für diesen Service.[CR][CR]Der "eXtended Reposity Generator" wird durch Bart Otten entwickelt.[CR][CR]</description>
+                <disclaimer>The repository is maintained by the Kodi community and our generator fetches addons from multiple sources. Therefore SuperRepo accepts no responsibility for included addons.[CR]</disclaimer>
+                <disclaimer lang="nl">De repository wordt onderhouden door de Kodi gemeenschap en de generator verzamelt addons van verschillende bronnen. Daarom accepteert SuperRepo geen enkele verantwoordelijkheid voor de ingevoegde addons.[CR]</disclaimer>
+                <disclaimer lang="cz">Repozitár je udržiavaný komunitou Kodi a generátor preberá addons z rôznych zdrojov. Vzhľadom na to, SuperRepo nenesie žiadnu zodpovednosť za služby poskytované týmito addons.[CR]</disclaimer>
+                <disclaimer lang="de">Das Repository wird durch die Kodi Community gepflegt und durch unseren Generator aus mehreren Quellen zusammengestellt. Daher übernimmt SuperRepo keinerlei Verantwortung für die enthaltenen Addons.[CR]</disclaimer>
+                <platform>all</platform>
+                <website>https://superrepo.org/</website>
+        </extension>
+</addon>
