@@ -1,7 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-
-<addon id="repository.superrepo.org.gotham.repositories" name="SuperRepo Repositories "version="0.5.207" provider-name="Bart Otten">
-
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.superrepo.org.gotham.repositories" name="SuperRepo Repositories" version="0.5.207" provider-name="Bart Otten">
 <requires>
 
 <import addon="xbmc.addon" version="12.0.0" />
@@ -19,7 +17,7 @@
 <extension point="xbmc.addon.metadata">
 
 <summary>A list of SuperRepo.org Repositories</summary>
-<description>Install repositories with ease using the SuperRepo Repositories List. Go to Settings >> Addons >> SuperRepo Repositories List >> Addon Repositories.</description>
+<description></description>
 <disclaimer>The repository is maintained by the Kodi community and our generator fetches addons from multiple sources. Therefore SuperRepo accepts no responsibility for included addons.[CR]</disclaimer>
 
 <platform>all</platform>
@@ -27,3 +25,5 @@
 </extension>
 
 </addon>
+
+
