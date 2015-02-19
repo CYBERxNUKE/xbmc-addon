@@ -1,12 +1,12 @@
-<addon id="repository.beerkeeper" name="Beerkeeper's Repository" version="1.0" provider-name="Beerkeeper">
-<extension point="xbmc.addon.repository" name="Beerkeeper Addon Repository">
-<info compressed="true">http://xbmc-addon.googlecode.com/svn/Other/addons.xml</info>
-<checksum>http://xbmc-addon.googlecode.com/svn/Other/addons.xml.md5</checksum>
-<datadir zip="true">http://xbmc-addon.googlecode.com/svn/Other/</datadir>
+<addon id="repository.beerkeeper" name="beerkeeper's Repository" version="1.0" provider-name="beerkeeper">
+<extension point="xbmc.addon.repository" name="beerkeeper Addon Repository">
+<info compressed="true">https://raw.githubusercontent.com/beerkeeper/xbmc-repo/master/addons.xml</info>
+<checksum>https://raw.githubusercontent.com/beerkeeper/xbmc-repo/master/addons.xml.md5</checksum>
+<datadir zip="true">https://raw.githubusercontent.com/beerkeeper/xbmc-repo/master/</datadir>
 </extension>
 <extension point="xbmc.addon.metadata">
-<summary>Beerkeeper's Repository</summary>
-<description>Beerkeeper's Repository</description>
+<summary>beerkeeper's Repository</summary>
+<description>beerkeeper's Repository</description>
 <platform>all</platform>
 </extension>
 </addon>
