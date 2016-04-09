@@ -1,0 +1,1 @@
+A list of add-ons for Xbmc by me and others that don't have a repository.
