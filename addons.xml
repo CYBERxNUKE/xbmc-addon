@@ -1,120 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.gta" name="LiveStreaming4U" version="1.0" provider-name="InternetTvGuru">
-  <requires>
-    <import addon="xbmc.python" version="2.0"/>
-    <import addon="script.module.t0mm0.common" version="1.1.0"/>
-  </requires>
-  <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">LiveStreaming4U</summary>
-    <description lang="en">Official LiveStreaming4U Streams plug-in.</description>
-    <platform>all</platform>
-  </extension>
-  <extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
-<info compressed="true">https://xbmc-addon.googlecode.com/svn/addons.xml</info>
-<checksum>
-https://xbmc-addon.googlecode.com/svn/addons.xml.md5
-</checksum>
-<datadir zip="true">http://xbmc-addon.googlecode.com/svn/</datadir>
-</extension>
+<addon id="plugin.video.nukewizard" version="1.0.0" name="Computertechs Installer" provider-name="computertechs.org">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>executable</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>The Computertechs Installer</summary>
+		<description>Configure your XBMC</description>
+		<website>http://www.computertechs.org/</website>
+		<platform>all</platform>
+	</extension>
+	<extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
+		 <info compressed="true">https://github.com/CYBERxNUKE/xbmc-addon/blob/master/addons.xml</info>
+		 <checksum>https://github.com/CYBERxNUKE/xbmc-addon/blob/master/addons.xml.md5</checksum>
+		 <datadir zip="true">https://github.com/CYBERxNUKE/xbmc-addon/blob/master/</datadir>
+	</extension>
 </addon>
 
-<addon id="plugin.video.NUKE" name="NUKE Streams" version="2.0.8" provider-name="CYBERxNUKE">
-  <requires>
-    <import addon="xbmc.python" version="2.0"/>
-    <import addon="script.module.t0mm0.common" version="1.1.0"/>
-  </requires>
-  <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">NUKE Streams</summary>
-    <description lang="en">Official NUKE Streams plug-in. www.computertechs.org</description>
-    <platform>all</platform>
-  </extension>
-  <extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
-    <info compressed="true">https://xbmc-addon.googlecode.com/svn/addons.xml</info>
-    <checksum>https://xbmc-addon.googlecode.com/svn/addons.xml.md5</checksum>
-    <datadir zip="true">http://xbmc-addon.googlecode.com/svn/</datadir>
-  </extension>
-</addon>
-
-<addon id="repository.cyberxnuke" name="CYBERxNUKE Repository" version="1.0" provider-name="CYBERxNUKE">
+<addon id="repository.cyberxnuke" name="CYBERxNUKE Repository" version="1.1" provider-name="CYBERxNUKE">
 <extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
-<info compressed="true">https://xbmc-addon.googlecode.com/svn/addons.xml</info>
-<checksum>https://xbmc-addon.googlecode.com/svn/addons.xml.md5</checksum>
-<datadir zip="true">http://xbmc-addon.googlecode.com/svn/</datadir>
+<info compressed="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</info>
+<checksum>https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</checksum>
+<datadir zip="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/</datadir>
 </extension>
 <extension point="xbmc.addon.metadata">
 <summary>CYBERxNUKE Repository</summary>
 <description>CYBERxNUKE Repository</description>
 <platform>all</platform>
 </extension>
-</addon>
-
-<addon id="repository.spoyser"
-        name="spoysers XBMC Add-ons"
-        version="1.0.6"
-        provider-name="spoyser">
-    <extension point="xbmc.addon.repository"
-        name="spoysers XBMC Add-ons">
-        <info compressed="false">https://raw.github.com/spoyser/spoyser-repo/master/addons.xml</info>
-        <checksum>https://raw.github.com/spoyser/spoyser-repo/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.github.com/spoyser/spoyser-repo/master/zips/</datadir>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <summary>Install XBMC add-ons from the official spoyser repository</summary>
-        <description>Install XBMC add-ons from spoysers official repository</description>
-        <disclaimer></disclaimer>
-        <platform>all</platform>
-    </extension>
-</addon>
-
-<addon id="repository.superrepo.org.gotham.repositories" name="SuperRepo Repositories" version="0.5.207" provider-name="Bart Otten">
-<requires>
-
-<import addon="xbmc.addon" version="12.0.0" />
-
-</requires>
-<extension point="xbmc.addon.repository" name="SuperRepo Repositories">
-<info compressed="false">http://xml.superrepo.org/v5/.xml/gotham/repositories/addons.xml</info>
-
-<checksum>http://md5.superrepo.org/v5/.md5/gotham/repositories/addons.xml.md5</checksum>
-<datadir zip="true">http://redirect.superrepo.org/v5/addons/</datadir>
-<hashes>true</hashes>
-
-</extension>
-
-<extension point="xbmc.addon.metadata">
-
-<summary>A list of SuperRepo.org Repositories</summary>
-<description></description>
-<disclaimer>The repository is maintained by the Kodi community and our generator fetches addons from multiple sources. Therefore SuperRepo accepts no responsibility for included addons.[CR]</disclaimer>
-
-<platform>all</platform>
-<website>https://superrepo.org/</website>
-</extension>
-
-</addon>
-
-<addon id="script.tvgnuke" name="NUKE TV GUIDE" version="2.0.4" provider-name="CYBERxNUKE">
-    <requires>
-        <import addon="xbmc.python" version="2.1.0"/>
-        <import addon="script.module.simplejson" version="2.0.10"/>
-        <import addon="script.module.elementtree" version="1.2.7"/>
-        <import addon="script.module.buggalo" version="1.1.2"/>
-    </requires>
-    <extension point="xbmc.python.script" library="addon.py"><provides>video</provides></extension>
-    <extension point="xbmc.python.script" library="addon.py"/>
-    <extension point="xbmc.service" library="service.py" start="login" />
-    <extension point="xbmc.addon.metadata">
-        <summary lang="en">NUKE TV Guide with XMLTV and streaming support</summary>
-        <platform>all</platform>
-        <language></language>
-        <license>GPLv2</license>
-    </extension>
 </addon>
 </addons>

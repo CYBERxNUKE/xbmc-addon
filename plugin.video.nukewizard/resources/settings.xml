@@ -1,0 +1,7 @@
+<settings>
+	<category label="Auto-View">
+		<setting id="auto-view" type="bool" label="Enable Auto View" default="true"/>
+		<setting id="movies-view" type="number" label="Movie View" default="500" enable="!eq(-1,false)"/>
+		<setting id="default-view" type="number" label="Default View" default="50" enable="!eq(-5,false)"/>
+	</category>
+</settings>
