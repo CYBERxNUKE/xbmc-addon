@@ -1,2 +1,0 @@
-# xbmc-repo
-XBMC Repo
