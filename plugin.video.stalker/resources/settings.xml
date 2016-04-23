@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+
+ 
+    <category label="33001">
+		<setting label="30000" type="text" id="portal_name_1" default="Alpha" />
+
+   	 	<setting label="30001" type="enum" id="portal_server_1" values="NFPS1|NFPS2|NFPS3|NFPS4|NFPS5|Rocket|IPTV66" default="0" />
+   	 	<setting label="30002" type="text" id="portal_mac_1" default="00:00:00"  />
+   	 	<setting type="sep"/>		
+		<setting label="30003" type="text" id="login_1" default="x" />
+		<setting label="30004" type="text" id="password_1" default="x" />
+   	 	<setting type="sep"/>   	 	
+   	 	<setting label="30009" type="bool" id="send_serial_1" default="false" />
+   	 	<setting label="30014" type="bool" id="custom_serial_1" default="false" visible="eq(-1,true)" />
+   	 	<setting type="sep"/>
+   	 	<setting label="30010" type="text" id="serial_number_1" default="" visible="eq(-2,true) + eq(-3,true)" />
+   	 	<setting label="30011" type="text" id="device_id_1" default="" visible="eq(-3,true) + eq(-4,true)" />
+   	 	<setting label="30012" type="text" id="device_id2_1" default="" visible="eq(-4,true) + eq(-5,true)" />
+   	 	<setting label="30013" type="text" id="signature_1" default="" visible="eq(-5,true) + eq(-6,true)" />
+        <setting type="sep"/>
+        <setting label="30020" type="number" id="vodpages_1" default="10" />		
+    </category>
+    
+    <category label="33002">
+		<setting label="30000" type="text" id="portal_name_2" default="Beta" />
+   	 	<setting label="30001" type="enum" id="portal_server_2" values="NFPS1|NFPS2|NFPS3|NFPS4|NFPS5|Rocket|IPTV66|None" default="7" />
+
+   	 	<setting label="30002" type="text" id="portal_mac_2" default="00:00:00" />
+    	<setting type="sep"/>		
+		<setting label="30003" type="text" id="login_2" default="x" />
+		<setting label="30004" type="text" id="password_2" default="x" />
+    	<setting type="sep"/>    	 	
+   	 	<setting label="30009" type="bool" id="send_serial_2" default="false" />
+   	 	<setting label="30014" type="bool" id="custom_serial_2" default="false" visible="eq(-1,true)" />
+   	 	<setting type="sep"/>
+   	 	<setting label="30010" type="text" id="serial_number_2" default="" visible="eq(-2,true) + eq(-3,true)" />
+   	 	<setting label="30011" type="text" id="device_id_2" default="" visible="eq(-3,true) + eq(-4,true)" />
+   	 	<setting label="30012" type="text" id="device_id2_2" default="" visible="eq(-4,true) + eq(-5,true)" />
+   	 	<setting label="30013" type="text" id="signature_2" default="" visible="eq(-5,true) + eq(-6,true)" />
+        <setting type="sep"/>
+        <setting label="30020" type="number" id="vodpages_2" default="10" />		
+	</category>
+    
+    <category label="33003">
+		<setting label="30000" type="text" id="portal_name_3" default="Zeta" />
+   	 	<setting label="30001" type="enum" id="portal_server_3" values="NFPS1|NFPS2|NFPS3|NFPS4|NFPS5|Rocket|IPTV66|None" default="7" />
+
+   	 	<setting label="30002" type="text" id="portal_mac_3" default="00:00:00" />
+    	<setting type="sep"/>		
+		<setting label="30003" type="text" id="login_3" default="x" />
+		<setting label="30004" type="text" id="password_3" default="x" />
+   	 	<setting type="sep"/>     	 	
+   	 	<setting label="30009" type="bool" id="send_serial_3" default="false" />
+   	 	<setting label="30014" type="bool" id="custom_serial_3" default="false" visible="eq(-1,true)" />
+   	 	<setting type="sep"/>
+   	 	<setting label="30010" type="text" id="serial_number_3" default="" visible="eq(-2,true) + eq(-3,true)" />
+   	 	<setting label="30011" type="text" id="device_id_3" default="" visible="eq(-3,true) + eq(-4,true)" />
+   	 	<setting label="30012" type="text" id="device_id2_3" default="" visible="eq(-4,true) + eq(-5,true)" />
+   	 	<setting label="30013" type="text" id="signature_3" default="" visible="eq(-5,true) + eq(-6,true)" />
+        <setting type="sep"/>
+        <setting label="30020" type="number" id="vodpages_3" default="10" />		
+    </category>
+    
+    
+    <category label="32002">
+    	<setting label="30007" type="bool" id="parental" default="false"/>
+    	<setting label="30006" type="text" id="ppassword" option="hidden" default="0000"/>
+    </category>
+    
+    <category label="33004">
+    	<setting label="30015" type="bool" id="server_enable" default="false"/>
+    	<setting label="30017" type="number" id="server_port" default="8899" visible="eq(-1,true)"/>
+    	<setting type="sep"/>
+    	<setting label="30016" type="action" visible="eq(-3,true)" action="XBMC.RunPlugin(plugin://plugin.video.stalker/?mode=server&action=start)"/>
+    	<setting label="30018" type="action" visible="eq(-4,true)" action="XBMC.RunPlugin(plugin://plugin.video.stalker/?mode=server&action=stop)"/>
+    </category>
+	
+</settings>
