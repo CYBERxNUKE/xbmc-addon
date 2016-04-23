@@ -1,0 +1,12 @@
++TvUltimate 4.0.0
+Nuevas funciones en cuanto streaming, mas categorias y canales agregados
+velocidad de carga en secciones.
+
++TvUltimate 3.0.0
+Orden y secciones nuevas en el addon :D
+
++TvUltimate 2.0.0 Mejoras en el orden de los canales nuevas secciones y categorias 
+agregadas, slots vacios para listas amigas.  Esperamos tener el mejor contenido..
+
++TvUltimate Beta 1.0.0  Estamos de regreso... Cualquier error reportar directo al grupo!
+http://facebook.com/groups/TvUltimate
