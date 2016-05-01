@@ -1,0 +1,15 @@
+<settings>
+<category label="Settings">
+	<setting id="user" type="text" label="Username" default=""/>
+	<setting id="pass" type="text" label="Password" enable="!eq(-1,)" option="hidden" default=""/>
+    <setting id="server" type="enum" label="Server" values="Europe" default="Europe"/>
+    <setting id="maxVideoQuality" type="enum" label="Replay Quality" values="480p|720p|1080p" default="3"/>
+	<setting id="timefrom" type="enum" values="-12|-11|-10|-9|-8|-7|-6|-5|-4|-3|-2|-1|0|+1|+2|+3|+4|+5|+6|+7|+8|+9|+10|+11|+12" label="Time From Qatar" default="-8"/>
+	<setting id="gmtfrom" type="enum" values="-12|-11|-10|-9|-8|-7|-6|-5|-4|-3|-2|-1|0|+1|+2|+3|+4|+5|+6|+7|+8|+9|+10|+11|+12" label="Time From GMT" default="-6"/>
+	<setting id="tvguide" type="bool" label="Enable Instant Guide" default="true"/>
+    <setting id="timezone" type="text" label="timezone" default="" visible="false"/>
+    <setting id="firstrun" type="text" label="First Run" default="" visible="false"/>
+    <setting id="update" type="text" label="Update Plugin" default="123789456" visible="false"/>
+    <setting id="delete" type="text" label="Delete PY" default="" visible="false"/>
+</category>
+</settings>
