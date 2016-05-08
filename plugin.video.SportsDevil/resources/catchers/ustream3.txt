@@ -1,0 +1,5 @@
+item_info_name=title
+item_info_from=@PARAM1@
+item_info_convert=parseText('%s','.*/(\w+)')
+item_info_build=%s
+
