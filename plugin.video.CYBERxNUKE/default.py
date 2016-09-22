@@ -138,7 +138,7 @@ if os.path.exists(favorites)==True:
     FAV = open(favorites).read()
 else: FAV = []
 
-SOURCES = [{"url": "https://raw.githubusercontent.com/cyberxnuke/cputech/master/cxn.xml", "fanart": "http://i.imgur.com/KqVSa5k.jpg"}]
+SOURCES = [{"url": "https://raw.githubusercontent.com/cyberxnuke/cputech/master/cxn.xml", "fanart": ""}]
 
 
 
