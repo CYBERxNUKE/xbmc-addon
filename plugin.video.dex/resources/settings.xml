@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings> 
+<category label="Connection Settings">
+     <setting id="lehekylg1" type="hidden" label="Website" default="http://158.69.54.54"/>
+     <setting id="kasutajanimi" type="text" label="Username" default="user"/>
+     <setting id="salasona" type="text" option="hidden" label="Password" default="pass"/>
+     <setting id="pordinumber" type="text" label="Port" default="8000"/>
+     <setting id="active" type="hidden" label="active" default="true"/>
+</category>
+<category label="Other Settings">
+	 <setting id="uuendused" type="bool" label="Check updates at startup?" default="true"/>
+	 <setting id="improve" type="bool" label="Use Advanced Settings?" default="true"/>
+	 <setting id="vanemalukk" type="bool" label="Parental lock?" default="false"/>
+	 <setting id="vanemakood" type="text" option="writeable,hidden" label="Parental code" default="1234"/>
+	 <setting id="message" type="hidden" default="0" value="0"/>
+</category>
+<category label="Player Settings">
+	 <setting id="extention" type="select" label="Player Format" values="ts|m3u8" default="ts" />
+	 <setting id="first" type="bool" label="First Run" value="true" default="true" />
+	 <setting id="showmenu" type="bool" label="Show Menu Before Play" value="true" default="true" />
+	 <setting id="fiast" type="action" action="(ActivateWindow,RunScript(script.extendedinfo,info=NearEvents))" default="" />
+
+</category>
+</settings>

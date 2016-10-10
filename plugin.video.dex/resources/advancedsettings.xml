@@ -1,0 +1,35 @@
+<!-- Created using Easy Advanced Settings addon -->
+<advancedsettings>
+<network>
+<buffermode>1</buffermode>
+<cachemembuffersize>157286400</cachemembuffersize>
+<curllowspeedtime>1</curllowspeedtime>
+<curlclienttimeout>1</curlclienttimeout>
+<readbufferfactor>20</readbufferfactor>
+<autodetectpingtime>30</autodetectpingtime>
+<curlretries>1</curlretries>
+<disableipv6>true</disableipv6>
+</network>
+<video>
+<usetimeseeking>true</usetimeseeking>
+<timeseekforward>30</timeseekforward>
+<timeseekbackward>-30</timeseekbackward>
+<timeseekforwardbig>600</timeseekforwardbig>
+<timeseekbackwardbig>-600</timeseekbackwardbig>
+<percentseekforward>2</percentseekforward>
+<percentseekbackward>-2</percentseekbackward>
+<percentseekforwardbig>10</percentseekforwardbig>
+<percentseekbackwardbig>-10</percentseekbackwardbig>
+</video>
+<pvr>
+<maxvideocachelevel>10</maxvideocachelevel>
+<cacheindvdplayer>true</cacheindvdplayer>
+</pvr>
+<videoscanner>
+<ignoreerrors>true</ignoreerrors>
+</videoscanner>
+<tuxbox>
+<pictureicon>true</pictureicon>
+</tuxbox>
+<seeksteps>7, 15, 30, 60, 180, 300, 600, 900, 1800</seeksteps>
+</advancedsettings>
