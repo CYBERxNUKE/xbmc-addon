@@ -96,7 +96,7 @@ else: FAV = []
 
 
 
-SOURCES = [{"url": "http://tvultimate.mx/addontv/master.php", "fanart": "http://tvultimate.mx/addontv/fanart.jpg"}]
+SOURCES = [{"url": "http://tvultimate.mx/addon/master.php", "fanart": "http://tvultimate.mx/addon/fanart.jpg"}]
 
 
 

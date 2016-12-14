@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.tvultimate"
        name="Tvultimate"
-       version="4.0.0"
+       version="4.5.0"
        provider-name="Team-Ultimate">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -20,7 +20,7 @@
     <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary>Tvultimate la Tv GRATIS!  Version 4.0</summary>
+    <summary>Tvultimate la Tv GRATIS!  Version 4.5</summary>
     <description>
 Disfruta de los mejores canales...
  completamente gratis!... 
