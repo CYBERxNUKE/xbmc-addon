@@ -239,6 +239,20 @@ Disfruta de los mejores canales...
 	</extension>
 </addon>
 
+<addon id="xbmc.repo.ivueguide" name="iVue2 TV Guide Repo" version="0.0.1" provider-name="iVue">
+	<extension point="xbmc.addon.repository" name="iVue2 TV Guide Add-ons Repository">
+		<info compressed="false">https://raw.githubusercontent.com/totaltec2014/ivue2/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/totaltec2014/ivue2/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/totaltec2014/ivue2/master/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Install iVue2 TV Guide </summary>
+		<description>Download and install for iVue2 Tv guide addons </description>
+		<disclaimer> Repo for iVue2 Tv guide addon </disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>
+
 <addon id="repository.tknorris.beta" name="tknorris Beta Testing Repository" version="1.0.5" provider-name="tknorris">
     <extension point="xbmc.addon.repository" name="tknorris beta testing repository">
 	    <dir>
@@ -293,19 +307,5 @@ Addons Included
     <email></email>
     <source></source>
   </extension>
-</addon>
-
-<addon id="xbmc.repo.ivueguide" name="iVue2 TV Guide Repo" version="0.0.1" provider-name="iVue">
-	<extension point="xbmc.addon.repository" name="iVue2 TV Guide Add-ons Repository">
-		<info compressed="false">https://raw.githubusercontent.com/totaltec2014/ivue2/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/totaltec2014/ivue2/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/totaltec2014/ivue2/master/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary>Install iVue2 TV Guide </summary>
-		<description>Download and install for iVue2 Tv guide addons </description>
-		<disclaimer> Repo for iVue2 Tv guide addon </disclaimer>
-		<platform>all</platform>
-	</extension>
 </addon>
 </addons>
