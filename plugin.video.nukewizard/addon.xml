@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.nukewizard" version="1.0.0" name="Computertechs Installer" provider-name="computertechs.org">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>executable</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>The Computertechs Installer</summary>
+		<description>Configure your XBMC</description>
+		<website>http://www.computertechs.org/</website>
+		<platform>all</platform>
+	</extension>
+</addon>
