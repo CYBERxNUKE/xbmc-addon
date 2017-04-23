@@ -1,4 +1,4 @@
-# Config Wizard By: Blazetamer 2013-2016
+# Config Wizard By: CYBERxNUKE 2017
 import downloader
 import extract
 import os
@@ -14,10 +14,10 @@ from libs import addon_able
 from libs import kodi
 
 AddonTitle = kodi.addon.getAddonInfo('name')
-SiteDomain = 'TVADDONS.AG'
-TeamName = 'Indigo'
-wizlink = "http://indigo.tvaddons.ag/wizard/updates.txt"
-cutslink = "http://indigo.tvaddons.ag/wizard/shortcuts.txt"
+SiteDomain = 'CYBERxNUKE.com'
+TeamName = 'CYBERxNUKE'
+wizlink = "https://raw.githubusercontent.com/CYBERxNUKE/cputech/master/updates.txt"
+cutslink = "https://raw.githubusercontent.com/CYBERxNUKE/cputech/master/homeshort.txt"
 
 
 # ==========================Help WIZARD=====================================================================================================

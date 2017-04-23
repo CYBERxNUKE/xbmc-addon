@@ -1,13 +1,8 @@
-Official Indigo addon For Kodi
-
-V 1.0.4
-Echo Additions
-
-V 1.0.3
-Code and art optimization (Twilight)
-
-V1.0.2
-Fixed broken Next Page function in installer
+V2.0.0
+packaged imports
+spacing cleanup
+fixes to addon.xml
 
 V1.0.0
-Initial Official Release
+Initial Release
+
