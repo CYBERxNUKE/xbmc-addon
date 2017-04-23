@@ -194,7 +194,7 @@ def wipe_addons():
             for root, dirs, files in os.walk(addonpath,topdown=False):
                 print root
                 if root != addonpath :
-                    if 'plugin.program.indigo' not in root:
+                    if 'plugin.video.nukewizard' not in root:
                         if 'metadata.album.universal' not in root:
                             if 'metadata.artists.universal' not in root:
                                 if 'metadata.common.musicbrainz.org' not in root:
@@ -1415,7 +1415,7 @@ def AUTO_CLEAN_ON_OFF():
             NEW     = '    <setting id="acstartup" value="true" />'
         else: quit()
 
-    HOME         =  xbmc.translatePath('special://userdata/addon_data/plugin.program.indigo')
+    HOME         =  xbmc.translatePath('special://userdata/addon_data/plugin.video.nukewizard')
     for root, dirs, files in os.walk(HOME):  #Search all xml files and replace physical with special
         for file in files:
             if file == "settings.xml":
@@ -1468,7 +1468,7 @@ def AUTO_WEEKLY_CLEAN_ON_OFF():
         else: quit()
 
 
-    HOME         =  xbmc.translatePath('special://userdata/addon_data/plugin.program.indigo')
+    HOME         =  xbmc.translatePath('special://userdata/addon_data/plugin.video.nukewizard')
     for root, dirs, files in os.walk(HOME):  #Search all xml files and replace physical with special
         for file in files:
             if file == "settings.xml":

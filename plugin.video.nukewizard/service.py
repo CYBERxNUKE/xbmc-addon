@@ -20,7 +20,7 @@ addonpath = xbmcPath+'/addons/'
 mediapath = xbmcPath+'/media/'
 systempath = xbmcPath+'/system/'
 userdatapath = xbmcPath+'/userdata/'
-indisettingspath = xbmcPath+'/userdata/addon_data/plugin.program.indigo/settings.xml'
+indisettingspath = xbmcPath+'/userdata/addon_data/plugin.video.nukewizard/settings.xml'
 packagepath = xbmcPath+ '/addons/packages/'
 ##############################
 ##############################

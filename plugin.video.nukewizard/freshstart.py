@@ -34,7 +34,7 @@ def startup_freshstart():
                                        "Do you wish to keep Indigo installed for convenience after the factory restore?",
                                        " ")
         if keep_indigo:
-            sub_dir_exclude = sub_dir_exclude + ('plugin.program.indigo',)
+            sub_dir_exclude = sub_dir_exclude + ('plugin.video.nukewizard',)
         # Files to ignore and not to be removed
         file_exclude = ('Addons26.db', 'kodi.log', 'Textures13.db', 'commoncache.db, Addons27.db')
         try:

@@ -1,5 +1,5 @@
 
-AddonID='plugin.program.indigo'
+AddonID='plugin.video.nukewizard'
 AddonTitle="Rejuvinate Kodi"
 import os,xbmcaddon,xbmc
 import rejuv_run
@@ -19,7 +19,7 @@ def startup_rejuv():
 		#  Directories and sub directories Directories to ignore and leave intact
 		sub_dir_exclude = ('metadata.album.universal', 'metadata.artists.universal',
 						 'service.xbmc.versioncheck','metadata.common.musicbrainz.org',
-						 'metadata.common.imdb.com', 'plugin.program.indigo')
+						 'metadata.common.imdb.com', 'plugin.video.nukewizard')
 		#  Files to ignore and not to be removed
 		file_exclude = ('Addons26.db', 'kodi.log', 'Textures13.db, Addons27.db')
 		try:

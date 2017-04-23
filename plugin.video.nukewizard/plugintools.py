@@ -262,7 +262,7 @@ def set_view(view_mode, view_code=0):
     except:
         _log("Unable to find view code for view mode "+str(view_mode)+" and skin "+skin_name)
 
-ADDON_FOLDER = xbmc.translatePath('special://home/addons/plugin.program.indigo')
+ADDON_FOLDER = xbmc.translatePath('special://home/addons/plugin.video.nukewizard')
 f=open(os.path.join(ADDON_FOLDER,"addon.xml")); data=f.read(); f.close()
 addon_id=find_single_match(data,'id="([^"]+)"')
 if addon_id=="": addon_id=find_single_match(data,"id='([^']+)'")

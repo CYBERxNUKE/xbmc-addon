@@ -1,5 +1,5 @@
 # Addon Name: TVAddons Log Uploader for Kodi
-# Addon id: plugin.program.indigo
+# Addon id: plugin.video.nukewizard
 # Addon Provider: TV Addons
 msgid ""
 msgstr ""
