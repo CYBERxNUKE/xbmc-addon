@@ -19,7 +19,7 @@ import re
 import urlparse
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import VIDEO_TYPES
@@ -28,7 +28,7 @@ from salts_lib.constants import Q_ORDER
 import scraper
 
 
-BASE_URL = 'http://www.seehd.club'
+BASE_URL = 'http://www.seehd.ws'
 
 class Scraper(scraper.Scraper):
     base_url = BASE_URL
@@ -49,38 +49,37 @@ class Scraper(scraper.Scraper):
         source_url = self.get_url(video)
         hosters = []
         sources = {}
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
-            for div in dom_parser.parse_dom(html, 'div', {'class': 'tabcontent'}):
-                for source in dom_parser.parse_dom(div, 'source', ret='src'):
-                    source += '|User-Agent=%s' % (scraper_utils.get_ua())
-                    sources[source] = {'quality': None, 'direct': True}
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        page_url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(page_url, cache_limit=.5)
+        for _attrs, div in dom_parser2.parse_dom(html, 'div', {'class': 'tabcontent'}):
+            for attrs, _content in dom_parser2.parse_dom(div, 'source', req='src'):
+                source = attrs['src'] + scraper_utils.append_headers({'User-Agent': scraper_utils.get_ua(), 'Referer': page_url})
+                sources[source] = {'quality': None, 'direct': True}
+            
+            iframe_url = dom_parser2.parse_dom(div, 'iframe', req='src')
+            if iframe_url:
+                iframe_url = iframe_url[0].attrs['src']
+                if 'songs2dl' in iframe_url:
+                    headers = {'Referer': page_url}
+                    iframe_html = self._http_get(iframe_url, headers=headers, cache_limit=1)
+                    sources.update(scraper_utils.parse_sources_list(self, iframe_html))
+                else:
+                    sources[iframe_url] = {'quality': None, 'direct': False}
                 
-                iframe_url = dom_parser.parse_dom(div, 'iframe', ret='src')
-                if iframe_url:
-                    iframe_url = iframe_url[0]
-                    if 'songs2dl' in iframe_url:
-                        headers = {'Referer': url}
-                        iframe_html = self._http_get(iframe_url, headers=headers, cache_limit=1)
-                        sources.update(self._parse_sources_list(iframe_html))
-                    else:
-                        sources[iframe_url] = {'quality': None, 'direct': False}
-                    
-            page_quality = self.__get_best_quality(sources)
-            for source in sources:
-                if sources[source]['quality'] is None:
-                    sources[source]['quality'] = page_quality
-                    
-            sources.update(self.__get_mirror_links(html, page_quality, video))
-        for source in sources:
-            direct = sources[source]['direct']
+        sources.update(self.__get_mirror_links(html, video))
+        page_quality = self.__get_best_quality(sources)
+        for source, values in sources.iteritems():
+            direct = values['direct']
             if direct:
-                host = self._get_direct_hostname(source)
+                host = scraper_utils.get_direct_hostname(self, source)
             else:
                 host = urlparse.urlparse(source).hostname
+            
+            if values['quality'] is None:
+                values['quality'] = page_quality
                 
-            hoster = {'multi-part': False, 'host': host, 'class': self, 'views': None, 'url': source, 'rating': None, 'quality': sources[source]['quality'], 'direct': direct}
+            hoster = {'multi-part': False, 'host': host, 'class': self, 'views': None, 'url': source, 'rating': None, 'quality': values['quality'], 'direct': direct}
             hosters.append(hoster)
 
         return hosters
@@ -88,23 +87,27 @@ class Scraper(scraper.Scraper):
     def __get_best_quality(self, sources):
         best = QUALITIES.HIGH
         best_order = 3
-        for source in sources:
-            quality = sources[source]['quality']
+        for values in sources.itervalues():
+            quality = values['quality']
             if quality is not None:
                 if Q_ORDER[quality] > best_order:
                     best = quality
                     best_order = Q_ORDER[quality]
         return best
             
-    def __get_mirror_links(self, html, page_quality, video):
+    def __get_mirror_links(self, html, video):
         sources = {}
-        for image in dom_parser.parse_dom(html, 'img', ret='src'):
+        for attrs, _content in dom_parser2.parse_dom(html, 'img', req='src'):
+            image = attrs['src']
             if image.endswith('/mirrors.png'):
                 match = re.search('%s.*?<p>(.*?)</p>' % (image), html, re.DOTALL)
                 if match:
-                    for link in dom_parser.parse_dom(match.group(1), 'a', ret='href'):
-                        host = urlparse.urlparse(link).hostname
-                        sources[link] = {'quality': scraper_utils.get_quality(video, host, page_quality), 'direct': False}
+                    for attrs, _content in dom_parser2.parse_dom(match.group(1), 'a', req='href'):
+                        stream_url = attrs['href']
+                        host = urlparse.urlparse(stream_url).hostname
+                        meta = scraper_utils.parse_episode_link(stream_url)
+                        base_quality = scraper_utils.height_get_quality(meta['height'])
+                        sources[stream_url] = {'quality': scraper_utils.get_quality(video, host, base_quality), 'direct': False}
         return sources
     
     def get_url(self, video):

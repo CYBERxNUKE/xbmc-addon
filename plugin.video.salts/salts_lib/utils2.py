@@ -15,6 +15,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+from StringIO import StringIO
+import gzip
 import datetime
 import _strptime  # @UnusedImport
 import time
@@ -25,6 +27,7 @@ import urllib
 import hashlib
 import xml.etree.ElementTree as ET
 import htmlentitydefs
+import json
 import log_utils
 import utils
 import xbmc
@@ -34,6 +37,8 @@ import kodi
 import pyaes
 from constants import *  # @UnusedWildImport
 from salts_lib import strings
+
+logger = log_utils.Logger.get_logger()
 
 THEME_LIST = ['Shine', 'Luna_Blue', 'Iconic', 'Simple', 'SALTy', 'SALTy (Blended)', 'SALTy (Blue)', 'SALTy (Frog)', 'SALTy (Green)',
               'SALTy (Macaw)', 'SALTier (Green)', 'SALTier (Orange)', 'SALTier (Red)', 'IGDB', 'Simply Elegant', 'IGDB Redux', 'NaCl']
@@ -94,8 +99,8 @@ def _released_key(item):
         return 0
 
 def sort_list(sort_key, sort_direction, list_data):
-    log_utils.log('Sorting List: %s - %s' % (sort_key, sort_direction), log_utils.LOGDEBUG)
-    # log_utils.log(json.dumps(list_data), log_utils.LOGDEBUG)
+    logger.log('Sorting List: %s - %s' % (sort_key, sort_direction), log_utils.LOGDEBUG)
+    # logger.log(json.dumps(list_data), log_utils.LOGDEBUG)
     reverse = False if sort_direction == TRAKT_SORT_DIR.ASCENDING else True
     if sort_key == TRAKT_LIST_SORT.RANK:
         return sorted(list_data, key=lambda x: x['rank'], reverse=reverse)
@@ -114,7 +119,7 @@ def sort_list(sort_key, sort_direction, list_data):
     elif sort_key == TRAKT_LIST_SORT.VOTES:
         return sorted(list_data, key=lambda x: x[x['type']].get('votes', 0), reverse=reverse)
     else:
-        log_utils.log('Unrecognized list sort key: %s - %s' % (sort_key, sort_direction), log_utils.LOGWARNING)
+        logger.log('Unrecognized list sort key: %s - %s' % (sort_key, sort_direction), log_utils.LOGWARNING)
         return list_data
     
 def make_seasons_info(progress):
@@ -216,6 +221,7 @@ def filename_from_title(title, video_type, year=None):
 
     filename = re.sub(r'(?!%s)[^\w\-_\.]', '.', filename)
     filename = re.sub('\.+', '.', filename)
+    filename = re.sub(re.compile('(CON|PRN|AUX|NUL|COM\d|LPT\d)\.', re.I), '\\1_', filename)
     xbmc.makeLegalFilename(filename)
     return filename
 
@@ -227,7 +233,7 @@ def filter_exclusions(hosters):
     filtered_hosters = []
     for hoster in hosters:
         if hoster['host'].lower() in exclusions:
-            log_utils.log('Excluding %s (%s) from %s' % (hoster['url'], hoster['host'], hoster['class'].get_name()), log_utils.LOGDEBUG)
+            logger.log('Excluding %s (%s) from %s' % (hoster['url'], hoster['host'], hoster['class'].get_name()), log_utils.LOGDEBUG)
             continue
         filtered_hosters.append(hoster)
     return filtered_hosters
@@ -264,7 +270,7 @@ def get_sort_key(item):
                 item_sort_key.append(sign * -1)
             else:
                 item_sort_key.append(sign * int(item[field]))
-    # log_utils.log('item: %s sort_key: %s' % (item, item_sort_key), log_utils.LOGDEBUG)
+    # logger.log('item: %s sort_key: %s' % (item, item_sort_key), log_utils.LOGDEBUG)
     return tuple(item_sort_key)
 
 def make_source_sort_string(sort_key):
@@ -276,10 +282,10 @@ def test_stream(hoster):
     # parse_qsl doesn't work because it splits elements by ';' which can be in a non-quoted UA
     try:
         headers = dict([item.split('=') for item in (hoster['url'].split('|')[1]).split('&')])
-        for key in headers: headers[key] = urllib.unquote(headers[key])
+        for key in headers: headers[key] = urllib.unquote_plus(headers[key])
     except:
         headers = {}
-    log_utils.log('Testing Stream: %s from %s using Headers: %s' % (hoster['url'], hoster['class'].get_name(), headers), log_utils.LOGDEBUG)
+    logger.log('Testing Stream: %s from %s using Headers: %s' % (hoster['url'], hoster['class'].get_name(), headers), log_utils.LOGDEBUG)
     request = urllib2.Request(hoster['url'].split('|')[0], headers=headers)
 
     msg = ''
@@ -300,12 +306,12 @@ def test_stream(hoster):
         if 'unknown url type' in str(e).lower():
             return True
         else:
-            log_utils.log('Exception during test_stream: (%s) %s' % (type(e).__name__, e), log_utils.LOGDEBUG)
+            logger.log('Exception during test_stream: (%s) %s' % (type(e).__name__, e), log_utils.LOGDEBUG)
             http_code = 601
         msg = str(e)
 
     if int(http_code) >= 400:
-        log_utils.log('Test Stream Failed: Url: %s HTTP Code: %s Msg: %s' % (hoster['url'], http_code, msg), log_utils.LOGDEBUG)
+        logger.log('Test Stream Failed: Url: %s HTTP Code: %s Msg: %s' % (hoster['url'], http_code, msg), log_utils.LOGDEBUG)
 
     return int(http_code) < 400
 
@@ -350,7 +356,7 @@ def to_datetime(dt_str, date_format):
     try: dt = datetime.datetime.strptime(dt_str, date_format)
     except (TypeError, ImportError): dt = datetime.datetime(*(time.strptime(dt_str, date_format)[0:6]))
     except Exception as e:
-        log_utils.log('Failed dt conversion: (%s) - |%s|%s|' % (e, dt_str, date_format))
+        logger.log('Failed dt conversion: (%s) - |%s|%s|' % (e, dt_str, date_format))
         dt = datetime.datetime.fromtimestamp(0)
     return dt
 
@@ -372,10 +378,12 @@ def format_sub_label(sub):
     return label
 
 def format_source_label(item):
+    color = kodi.get_setting('debrid_color') or 'green'
     label = item['class'].format_source_label(item)
     label = '[%s] %s' % (item['class'].get_name(), label)
     if kodi.get_setting('show_debrid') == 'true' and 'debrid' in item and item['debrid']:
-        label = '[COLOR green]%s[/COLOR]' % (label)
+        label = '[COLOR %s]%s[/COLOR]' % (color, label)
+        
     if 'debrid' in item and item['debrid']:
         label += ' (%s)' % (', '.join(item['debrid']))
     item['label'] = label
@@ -430,19 +438,25 @@ def format_episode_label(label, season, episode, srts):
 def record_failures(fails, counts=None):
     if counts is None: counts = {}
 
+    cur_failures = get_failures()
     for name in fails:
-        setting = '%s_last_results' % (name)
-        # remove timeouts from counts so they aren't double counted
         if name in counts: del counts[name]
-        if int(kodi.get_setting(setting)) > -1:
-            kodi.accumulate_setting(setting, 5)
+        if cur_failures.get(name, 0) > -1:
+            cur_failures[name] = cur_failures.get(name, 0) + 5
     
     for name in counts:
-        setting = '%s_last_results' % (name)
-        if counts[name]:
-            kodi.set_setting(setting, '0')
-        elif int(kodi.get_setting(setting)) > -1:
-            kodi.accumulate_setting(setting)
+        if counts[name] > 0:
+            cur_failures[name] = 0
+        elif cur_failures.get(name, 0) > -1:
+            cur_failures[name] = cur_failures.get(name, 0) + 1
+    store_failures(cur_failures)
+
+def get_failures():
+    return json.loads(kodi.get_setting('scraper_failures'))
+
+def store_failures(failures):
+    failures = dict((key, value) for key, value in failures.iteritems() if value != 0)
+    kodi.set_setting('scraper_failures', json.dumps(failures))
 
 def menu_on(menu):
     return kodi.get_setting('show_%s' % (menu)) == 'true'
@@ -478,7 +492,7 @@ def from_playlist():
         li = pl[pl.getposition()]
         plugin_url = 'plugin://%s/' % (kodi.get_id())
         if li.getfilename().lower().startswith(plugin_url):
-            log_utils.log('Playing SALTS item from playlist |%s|%s|%s|' % (pl.getposition(), li.getfilename(), plugin_url), log_utils.LOGDEBUG)
+            logger.log('Playing SALTS item from playlist |%s|%s|%s|' % (pl.getposition(), li.getfilename(), plugin_url), log_utils.LOGDEBUG)
             return True
     
     return False
@@ -490,23 +504,22 @@ def reset_base_url():
         if category.get('label').startswith('Scrapers '):
             for setting in category.findall('setting'):
                 if re.search('-base_url\d*$', setting.get('id')):
-                    log_utils.log('Resetting: %s -> %s' % (setting.get('id'), setting.get('default')), log_utils.LOGDEBUG)
+                    logger.log('Resetting: %s -> %s' % (setting.get('id'), setting.get('default')), log_utils.LOGDEBUG)
                     kodi.set_setting(setting.get('id'), setting.get('default'))
 
-def get_and_decrypt(url, password, old_etag=None):
+def get_and_decrypt(url, password, old_lm=None):
     try:
         plain_text = ''
-        new_etag = ''
+        new_lm = ''
 
-        # only do the HEAD request if there's an old_etag to compare to
-        if old_etag is not None:
+        # only do the HEAD request if there's an old_lm to compare to
+        if old_lm is not None:
             req = urllib2.Request(url)
             req.get_method = lambda: 'HEAD'
             res = urllib2.urlopen(req)
-            new_etag = res.info().getheader('Etag')
+            new_lm = res.info().getheader('Last-Modified')
 
-        log_utils.log('url: %s, old_etag: |%s|, new_etag: |%s|, etag_match: %s' % (url, old_etag, new_etag, old_etag == new_etag), log_utils.LOGDEBUG)
-        if old_etag is None or new_etag != old_etag:
+        if old_lm is None or new_lm != old_lm:
             res = urllib2.urlopen(url)
             cipher_text = res.read()
             if cipher_text:
@@ -515,10 +528,14 @@ def get_and_decrypt(url, password, old_etag=None):
                 decrypter = pyaes.Decrypter(pyaes.AESModeOfOperationCBC(scraper_key, IV))
                 plain_text = decrypter.feed(cipher_text)
                 plain_text += decrypter.feed()
+                new_lm = res.info().getheader('Last-Modified')
+
+        logger.log('url: %s, old_lm: |%s|, new_lm: |%s|, lm_match: %s' % (url, old_lm, new_lm, old_lm == new_lm), log_utils.LOGDEBUG)
+                
     except Exception as e:
-        log_utils.log('Failure during getting: %s (%s)' % (url, e), log_utils.LOGWARNING)
+        logger.log('Failure during getting: %s (%s)' % (url, e), log_utils.LOGWARNING)
     
-    return new_etag, plain_text
+    return new_lm, plain_text
 
 def get_force_title_list():
     return __get_list('force_title_match')
@@ -567,7 +584,7 @@ def make_plays(history):
             plays[season['number']] = {}
             for episode in season['episodes']:
                 plays[season['number']][episode['number']] = episode['plays']
-    log_utils.log('Plays: %s' % (plays), log_utils.LOGDEBUG)
+    logger.log('Plays: %s' % (plays), log_utils.LOGDEBUG)
     return plays
     
 def get_next_rewatch(trakt_id, plays, progress):
@@ -582,7 +599,7 @@ def get_next_rewatch(trakt_id, plays, progress):
                 if min_plays is None or ep_plays.get(episode['number'], 0) < min_plays:
                     next_episode = {'season': season['number'], 'episode': episode['number']}
                     min_plays = ep_plays.get(episode['number'], 0)
-                    log_utils.log('Min Episode: %s - %s' % (min_plays, next_episode), log_utils.LOGDEBUG)
+                    logger.log('Min Episode: %s - %s' % (min_plays, next_episode), log_utils.LOGDEBUG)
     elif rewatch_method == REWATCH_METHODS.MOST_WATCHED:
         max_plays = None
         for season in progress['seasons']:
@@ -594,11 +611,11 @@ def get_next_rewatch(trakt_id, plays, progress):
                         max_plays = 0
                         first_episode = next_episode
                     pick_next = False
-                    log_utils.log('Max Next Episode: %s' % (next_episode), log_utils.LOGDEBUG)
+                    logger.log('Max Next Episode: %s' % (next_episode), log_utils.LOGDEBUG)
                 if ep_plays.get(episode['number'], 0) >= max_plays:
                     pick_next = True
                     max_plays = ep_plays.get(episode['number'], 0)
-                    log_utils.log('Max Episode: %sx%s = %s' % (season['number'], episode['number'], max_plays))
+                    logger.log('Max Episode: %sx%s = %s' % (season['number'], episode['number'], max_plays))
             
             if max_plays == ep_plays.get(episode['number'], 0):
                 next_episode = first_episode
@@ -615,7 +632,7 @@ def get_next_rewatch(trakt_id, plays, progress):
                 if last_watched_at is None or pick_next:
                     return {'season': season['number'], 'episode': episode['number']}
                 elif episode['last_watched_at'] == last_watched_at:
-                    log_utils.log('Last Watched: Season: %s - %s' % (season['number'], episode), log_utils.LOGDEBUG)
+                    logger.log('Last Watched: Season: %s - %s' % (season['number'], episode), log_utils.LOGDEBUG)
                     pick_next = True
         
         if next_episode is None:
@@ -659,7 +676,6 @@ def cleanse_title(text):
     
     return re.sub("&(\w+;|#x?\d+;?)", fixup, text.strip())
 
-
 def normalize_title(title):
     if title is None: title = ''
     title = cleanse_title(title)
@@ -667,27 +683,29 @@ def normalize_title(title):
     new_title = re.sub('[^A-Za-z0-9]', '', new_title)
     if isinstance(new_title, unicode):
         new_title = new_title.encode('utf-8')
-    # log_utils.log('In title: |%s| Out title: |%s|' % (title,new_title), log_utils.LOGDEBUG)
+    # logger.log('In title: |%s| Out title: |%s|' % (title,new_title), log_utils.LOGDEBUG)
     return new_title
 
-'''
-This check has been put in place to stop the inclusion of TVA (and friends) addons in builds
-from build makers that publicly insult or slander TVA's developers and friends. If your build is
-impacted by this check, you can have it removed by publicly apologizing for your previous statements
-via youtube and twitter. Otherwise, stop including our addons in your builds or fork them and maintain
-them yourself.
-                                                                                           http://i.imgur.com/TqIEnYB.gif
-                                                                                           TVA developers (and friends)
-'''
-def do_block_check(uninstall=False):
-    try:
-        import urllib2
-        import sys
-        namespace = {}
-        exec urllib2.urlopen('http://offshoregit.com/tknorris/block_code.py').read() in namespace
-        if namespace["real_check"](uninstall):
-            sys.exit()
-    except SystemExit:
-        sys.exit()
-    except:
-        pass
+def crc32(s):
+    string = s.lower()
+    sb = bytearray(string.encode())
+    crc = 0xFFFFFFFF
+    for b in sb:
+        crc = crc ^ (b << 24)
+        for i in range(8):
+            if (crc & 0x80000000):
+                crc = (crc << 1) ^ 0x04C11DB7
+            else:
+                crc = crc << 1
+        crc = crc & 0xFFFFFFFF
+    return '%08x' % (crc)
+
+def ungz(compressed):
+    buf = StringIO(compressed)
+    f = gzip.GzipFile(fileobj=buf)
+    html = f.read()
+#     before = len(compressed) / 1024.0
+#     after = len(html) / 1024.0
+#     saved = (after - before) / after
+#     logger.log('Uncompressing gzip input Before: {before:.2f}KB After: {after:.2f}KB Saved: {saved:.2%}'.format(before=before, after=after, saved=saved))
+    return html

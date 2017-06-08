@@ -20,13 +20,13 @@ import urlparse
 import re
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import VIDEO_TYPES
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import QUALITIES
 
-BASE_URL = 'https://hevcbluray.com'
+BASE_URL = 'http://www.300mbmoviesdl.com'
 QUALITY_MAP = {'HD 720P': QUALITIES.HD720, 'HD 1080P': QUALITIES.HD1080, '1080P BLURAY': QUALITIES.HD1080}
 
 class Scraper(scraper.Scraper):
@@ -47,30 +47,27 @@ class Scraper(scraper.Scraper):
     def get_sources(self, video):
         source_url = self.get_url(video)
         sources = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
-            is_3d = False
-            page_quality = QUALITIES.HD720
-            title = dom_parser.parse_dom(html, 'title')
-            if title:
-                title = title[0]
-                match = re.search('(\d{3,})p', title)
-                if match:
-                    page_quality = scraper_utils.height_get_quality(match.group(1))
-                
-                is_3d = True if re.search('\s+3D\s+', title) else False
+        if not source_url or source_url == FORCE_NO_MATCH: return sources
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, cache_limit=.5)
+        is_3d = False
+        page_quality = QUALITIES.HD720
+        title = dom_parser2.parse_dom(html, 'title')
+        if title:
+            title = title[0].content
+            match = re.search('(\d{3,})p', title)
+            if match:
+                page_quality = scraper_utils.height_get_quality(match.group(1))
             
-            fragments = dom_parser.parse_dom(html, 'div', {'class': 'txt-block'}) + dom_parser.parse_dom(html, 'li', {'class': 'elemento'})
-            for fragment in fragments:
-                for match in re.finditer('href="([^"]+)', fragment):
-                    stream_url = match.group(1)
+            is_3d = True if re.search('\s+3D\s+', title) else False
+        
+        fragment = dom_parser2.parse_dom(html, 'div', {'class': 'entry'})
+        if fragment:
+            for _attrs, item in dom_parser2.parse_dom(fragment[0].content, 'h3'):
+                for attrs, _content in dom_parser2.parse_dom(item, 'a', req='href'):
+                    stream_url = attrs['href']
                     host = urlparse.urlparse(stream_url).hostname
-                    q_str = dom_parser.parse_dom(fragment, 'span', {'class': 'd'})
-                    q_str = q_str[0].upper() if q_str else ''
-                    base_quality = QUALITY_MAP.get(q_str, page_quality)
-                    quality = scraper_utils.get_quality(video, host, base_quality)
-                    source = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'direct': False}
+                    source = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': page_quality, 'views': None, 'rating': None, 'direct': False}
                     source['format'] = 'x265'
                     source['3D'] = is_3d
                     sources.append(source)
@@ -80,28 +77,20 @@ class Scraper(scraper.Scraper):
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
         html = self._http_get(self.base_url, params={'s': title}, cache_limit=8)
-        for item in dom_parser.parse_dom(html, 'div', {'class': 'item'}):
-            match = re.search('href="([^"]+)', item)
-            match_title = dom_parser.parse_dom(item, 'span', {'class': 'tt'})
-            year_frag = dom_parser.parse_dom(item, 'span', {'class': 'year'})
-            if match and match_title:
-                url = match.group(1)
-                match_title = match_title[0]
-                if re.search('\d+\s*x\s*\d+', match_title): continue  # exclude episodes
-                match_title, match_year = scraper_utils.extra_year(match_title)
-                if not match_year and year_frag:
-                    match_year = year_frag[0]
-
-                match = re.search('(.*?)\s+\d{3,}p', match_title)
+        for _attrs, item in dom_parser2.parse_dom(html, 'div', {'class': 'cover'}):
+            match = dom_parser2.parse_dom(item, 'a', req=['href', 'title'])
+            if not match: continue
+            
+            match_url, match_title_year = match[0].attrs['href'], match[0].attrs['title']
+            if re.search('S\d+E\d+', match_title_year, re.I): continue
+            match_title, match_year = scraper_utils.extra_year(match_title_year)
+            if not match_year:
+                match = re.search('-(\d{4})-', match_url)
                 if match:
-                    match_title = match.group(1)
-                
-                extra = dom_parser.parse_dom(item, 'span', {'class': 'calidad2'})
-                if extra:
-                    match_title += ' [%s]' % (extra[0])
+                    match_year = match.group(1)
                     
-                if not year or not match_year or year == match_year:
-                    result = {'title': scraper_utils.cleanse_title(match_title), 'year': match_year, 'url': scraper_utils.pathify_url(url)}
-                    results.append(result)
+            if not year or not match_year or year == match_year:
+                result = {'title': scraper_utils.cleanse_title(match_title), 'year': match_year, 'url': scraper_utils.pathify_url(match_url)}
+                results.append(result)
 
         return results

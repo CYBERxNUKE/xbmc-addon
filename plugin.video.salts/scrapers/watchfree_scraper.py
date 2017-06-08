@@ -18,6 +18,7 @@
 import re
 import urlparse
 import kodi
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import QUALITIES
@@ -43,27 +44,27 @@ class Scraper(scraper.Scraper):
         return 'WatchFree.to'
 
     def get_sources(self, video):
+        hosters = []
         source_url = self.get_url(video)
-        sources = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, cache_limit=.5)
 
-            pattern = 'href="[^"]+gtfo=([^&"]+)[^>]+>([^<]+)'
-            for match in re.finditer(pattern, html, re.DOTALL | re.I):
-                url, link_name = match.groups()
-                url = url.decode('base-64')
-                host = urlparse.urlsplit(url).hostname
-                match = re.search('Part\s+(\d+)', link_name)
-                if match:
-                    if match.group(1) == '2':
-                        del sources[-1]  # remove Part 1 previous link added
-                    continue
-                
-                source = {'multi-part': False, 'url': url, 'host': host, 'class': self, 'quality': scraper_utils.get_quality(video, host, QUALITIES.HIGH), 'views': None, 'rating': None, 'direct': False}
-                sources.append(source)
+        pattern = 'href="[^"]+gtfo=([^&"]+)[^>]+>([^<]+)'
+        for match in re.finditer(pattern, html, re.DOTALL | re.I):
+            url, link_name = match.groups()
+            url = url.decode('base-64')
+            host = urlparse.urlsplit(url).hostname
+            match = re.search('Part\s+(\d+)', link_name)
+            if match:
+                if match.group(1) == '2':
+                    del hosters[-1]  # remove Part 1 previous link added
+                continue
+            
+            source = {'multi-part': False, 'url': url, 'host': host, 'class': self, 'quality': scraper_utils.get_quality(video, host, QUALITIES.HIGH), 'views': None, 'rating': None, 'direct': False}
+            hosters.append(source)
 
-        return sources
+        return hosters
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
@@ -84,7 +85,10 @@ class Scraper(scraper.Scraper):
         return results
 
     def _get_episode_url(self, show_url, video):
-        episode_pattern = '"tv_episode_item">[^>]+href="([^"]+/season-%s-episode-%s)">' % (video.season, video.episode)
-        title_pattern = 'class="tv_episode_item".*?href="(?P<url>[^"]+).*?class="tv_episode_name">\s+(?P<title>[^<]+)'
-        airdate_pattern = 'class="tv_episode_item">\s*<a\s+href="([^"]+)(?:[^<]+<){5}span\s+class="tv_num_versions">{month_name} {day} {year}'
-        return self._default_get_episode_url(show_url, video, episode_pattern, title_pattern, airdate_pattern)
+        episode_pattern = '"href="([^"]+/season-%s-episode-%s(?!\d))' % (video.season, video.episode)
+        title_pattern = 'href="(?P<url>[^"]+).*?class="tv_episode_name">\s+-\s+(?P<title>[^<]+)'
+        airdate_pattern = 'href="([^"]+)(?:[^<]+<){5}span\s+class="tv_num_versions">{month_name} {day} {year}'
+        show_url = scraper_utils.urljoin(self.base_url, show_url)
+        html = self._http_get(show_url, cache_limit=2)
+        fragment = dom_parser2.parse_dom(html, 'div', {'data-id': video.season, 'class': 'show_season'})
+        return self._default_get_episode_url(fragment, video, episode_pattern, title_pattern, airdate_pattern)

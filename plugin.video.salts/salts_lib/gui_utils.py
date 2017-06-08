@@ -24,7 +24,7 @@ import log_utils
 from utils2 import reset_base_url, i18n
 
 INTERVALS = 5
-COMPONENT = __name__
+logger = log_utils.Logger.get_logger()
 
 def perform_auto_conf(responses):
     with kodi.WorkingDialog():
@@ -52,19 +52,19 @@ def perform_auto_conf(responses):
             kodi.set_setting('sort6_field', '4')
     
         if responses[10]:
-            tiers = ['Local', 'Premiumize.V2', 'Premiumize.me', 'Furk.net', 'EasyNews', 'DD.tv', 'NoobRoom',
-                     ['yify.tv', 'torba.se', 'MoviesPlanet', '123Movies', '9Movies', 'DayT.se', 'niter.tv', 'YesMovies', 'HDMovie14', 'ororo.tv'],
-                     ['StreamLord', 'MovieFlix', 'CyberReel', 'm4ufree', 'tunemovie', 'fmovie.co', 'afdah.org', 'xmovies8', 'xmovies8.v2', 'KiwiHD', 'HDMovieFree'],
-                     ['OLMovies', 'MovieGo', 'MovieXK', 'PelisPedia', 'FardaDownload', 'PutMV', 'PirateJunkies', 'SeriesWatch', 'VidNow4K', 'VeoCube', 'Quikr'],
-                     ['HeyDL', 'HEVCBluRay', 'MovieZone', 'SezonLukDizi', 'Dizimag', 'Dizilab', 'Dizigold', 'Dizibox', 'Diziay', 'Dizipas', 'OnlineDizi'],
-                     ['Dizist', 'DownloadTube', 'scene-rls', 'DDLValley', '2DDL', 'DDLSeries', 'SceneDown', 'CinemaMKV', 'TVShow.me'],
-                     ['TVHD', 'RLSHD', 'DailyReleases', 'rls-movies', 'ReleaseBB', 'MyVideoLinks.eu', 'OCW', 'RLSSource.net', 'WatchInHD', 'SeeHD'],
-                     ['vivo.to', 'IceFilms', 'Flixanity', 'Watch5s', 'WatchEpisodes', 'WatchItVideos', 'PrimeWire', 'alluc.com', 'tvonline', 'SolarMovie', 'SantaSeries'],
-                     ['MoviePool', 'WatchSeries', 'RLSeries', 'Putlocker', 'MovieWatcher', 'VKFlix', 'WatchFree.to', 'pftv', 'streamallthis.is', 'Movie4K'],
-                     ['MovieZone', 'MovieHubs', 'tvrush', 'afdah', 'MiraDeTodo', 'Filmovizija', 'wso.ch', 'MovieSub', 'MovieHut', 'CouchTunerV1', 'Watch8Now', 'SnagFilms'],
-                     ['MoviePool', 'Ventures', 'yshows', 'iWatchOnline', 'vidics.ch', 'pubfilm', 'eMovies.Pro', 'OnlineMoviesPro', 'movie25', 'viooz.ac'],
+            tiers = ['Local', 'Premiumize.V2', 'Premiumize.me', 'Furk.net', 'EasyNews', 'DD.tv', 'NoobRoom', 'Sit2Play',
+                     ['yify.tv', 'MoviesPlanet', 'goojara', '123Movies', '9Movies', 'DayT.se', 'mvgee', 'niter.tv', 'YesMovies', 'ororo.tv', 'MovieOcean'],
+                     ['StreamLord', 'MovieFlix', 'CyberReel', 'm4ufree', 'tunemovie', 'fmovie.co', 'xmovies8', 'xmovies8.v2', 'KiwiHD', 'HDMovieFree', 'Mehliz'],
+                     ['OLMovies', 'MovieGo', 'MovieXK', 'PelisPedia', 'PutMV', 'PirateJunkies', 'SeriesWatch', 'VidNow4K', 'VeoCube', 'Quikr', 'MovieBlast', 'Pubfilm.to'],
+                     ['IOMovies', 'RealMovies', 'HeyDL', 'HEVCBluRay', 'SezonLukDizi', 'Dizimag', 'Dizilab', 'Dizigold', 'Dizibox', 'Diziay', 'Dizipas', 'OnlineDizi'],
+                     ['SeriesOnline', 'MovyTvy', 'Dizist', 'DownloadTube', 'scene-rls', 'DDLValley', '2DDL', 'MyDDL', 'DDLSeries', 'SceneDown', 'CinemaMKV'],
+                     ['RMZ', 'BestMoviez', 'SceneHDTV', 'Vumoo', 'TVHD', 'RLSHD', 'rls-movies', 'ReleaseBB', 'MyVideoLinks.eu', 'RLSSource.net', 'SeeHD'],
+                     ['TVShow.me', 'vivo.to', 'IceFilms', 'Flixanity', 'Watch5s', 'WatchEpisodes', 'WatchItVideos', 'PrimeWire', 'alluc.com', 'tvonline', 'SantaSeries'],
+                     ['WatchOnline', 'StreamDor', 'Vebup', 'WatchSeries', 'Putlocker', 'MovieWatcher', 'VKFlix', 'WatchFree.to', 'pftv', 'Movie4K', 'MovieZone'],
+                     ['MovieHubs', 'tvrush', 'afdah', 'MiraDeTodo', 'Filmovizija', 'wso.ch', 'MovieSub', 'MovieHut', 'CouchTunerV1', 'Watch8Now', 'SnagFilms'],
+                     ['treasureen', 'MoviePool', 'iWatchOnline', 'vidics.ch', 'pubfilm', 'eMovies.Pro', 'OnlineMoviesPro', 'movie25', 'viooz.ac'],
                      ['SpaceMov', 'LosMovies', 'wmo.ch', 'stream-tv.co', 'MintMovies', 'MovieNight', 'cmz', 'SeriesCoco', 'filmikz.ch', 'clickplay.to'],
-                     ['MovieTube', 'FilmStreaming.in', 'IFlix']]
+                     ['MovieTube']]
         
             sso = []
             random_sso = kodi.get_setting('random_sso') == 'true'
@@ -96,7 +96,7 @@ def do_ip_auth(scraper, visit_url, qr_code):
     
     class IpAuthDialog(xbmcgui.WindowXMLDialog):
         def onInit(self):
-            # log_utils.log('onInit:', log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('onInit:', log_utils.LOGDEBUG)
             self.cancel = False
             self.getControl(INSTR_LABEL).setLabel(i18n('ip_auth_line1') + visit_url + i18n('ip_auth_line2'))
             self.progress = self.getControl(PROGRESS_CTRL)
@@ -106,21 +106,21 @@ def do_ip_auth(scraper, visit_url, qr_code):
                 img.setImage(qr_code)
             
         def onAction(self, action):
-            # log_utils.log('Action: %s' % (action.getId()), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('Action: %s' % (action.getId()), log_utils.LOGDEBUG)
             if action == ACTION_PREVIOUS_MENU or action == ACTION_BACK:
                 self.cancel = True
                 self.close()
 
         def onControl(self, control):
-            # log_utils.log('onControl: %s' % (control), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('onControl: %s' % (control), log_utils.LOGDEBUG)
             pass
 
         def onFocus(self, control):
-            # log_utils.log('onFocus: %s' % (control), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('onFocus: %s' % (control), log_utils.LOGDEBUG)
             pass
 
         def onClick(self, control):
-            # log_utils.log('onClick: %s' % (control), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('onClick: %s' % (control), log_utils.LOGDEBUG)
             if control == CANCEL_BUTTON:
                 self.cancel = True
                 self.close()
@@ -156,7 +156,7 @@ def do_auto_config():
 
     class AutoConfDialog(xbmcgui.WindowXMLDialog):
         def onInit(self):
-            log_utils.log('onInit:', log_utils.LOGDEBUG, COMPONENT)
+            logger.log('onInit:', log_utils.LOGDEBUG)
             self.OK = False
             
             try: responses = json.loads(kodi.get_setting('prev_responses'))
@@ -168,20 +168,20 @@ def do_auto_config():
                 self.getControl(button).setSelected(response)
             
         def onAction(self, action):
-            # log_utils.log('Action: %s' % (action.getId()), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('Action: %s' % (action.getId()), log_utils.LOGDEBUG)
             if action == ACTION_PREVIOUS_MENU or action == ACTION_BACK:
                 self.close()
 
         def onControl(self, control):
-            # log_utils.log('onControl: %s' % (control), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('onControl: %s' % (control), log_utils.LOGDEBUG)
             pass
 
         def onFocus(self, control):
-            # log_utils.log('onFocus: %s' % (control), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('onFocus: %s' % (control), log_utils.LOGDEBUG)
             pass
 
         def onClick(self, control):
-            # log_utils.log('onClick: %s' % (control), log_utils.LOGDEBUG, COMPONENT)
+            # logger.log('onClick: %s' % (control), log_utils.LOGDEBUG)
             focus_button = self.getControl(control)
             if focus_button.getId() == RADIO_BUTTONS[-1]:
                 all_status = focus_button.isSelected()

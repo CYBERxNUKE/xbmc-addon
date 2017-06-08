@@ -2,17 +2,17 @@
 # Addon id: plugin.video.salts
 # Addon Provider: TV Addons
 # Translators:
-# Maiko77 <maiko77@pathfinder.gr>, 2016
-# Maiko77 <maiko77@pathfinder.gr>, 2016
-# Maiko77 <maiko77@pathfinder.gr>, 2016
-# Maiko77 <maiko77@pathfinder.gr>, 2016
-# Maiko77 <maiko77@pathfinder.gr>, 2016
-# Spiros Moshopoulos <spirosmoshopoulos@gmail.com>, 2016
+# Maiko77, 2016
+# Maiko77, 2016
+# Maiko77, 2016
+# Maiko77, 2016
+# Maiko77, 2016
+# Spiros Moshopoulos, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SALTS\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-10-12 02:21+0000\n"
+"PO-Revision-Date: 2017-03-28 19:56+0000\n"
 "Last-Translator: tknorris\n"
 "Language-Team: Greek (http://www.transifex.com/tv-addons/salts/language/el/)\n"
 "MIME-Version: 1.0\n"

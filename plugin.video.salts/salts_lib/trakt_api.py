@@ -31,7 +31,8 @@ from constants import TRAKT_SECTIONS
 from constants import TEMP_ERRORS
 from constants import SECTIONS
 
-COMPONENT = __name__
+logger = log_utils.Logger.get_logger(__name__)
+logger.disable()
 
 class TraktError(Exception):
     pass
@@ -45,7 +46,7 @@ class TraktNotFoundError(Exception):
 class TransientTraktError(Exception):
     pass
 
-BASE_URL = 'api-v2launch.trakt.tv'
+BASE_URL = 'api.trakt.tv'
 V2_API_KEY = 'eb41e95243d8c95152ed72a1fc0394c93cb785cb33aed609fdde1a07454584b4'
 CLIENT_SECRET = '96611f3e712a37bd8d3cac9316c4643e0e5fd0a0c02b4eaf4bba8fd57024c72e'
 REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
@@ -95,10 +96,10 @@ class Trakt_API():
         list_data = self.__call_trakt(url, params=params, auth=auth, cache_limit=cache_limit, cached=cached)
         return [item[item['type']] for item in list_data if item['type'] == TRAKT_SECTIONS[section][:-1]]
 
-    def show_watchlist(self, section):
+    def show_watchlist(self, section, cached=True):
         url = '/users/me/watchlist/%s' % (TRAKT_SECTIONS[section])
         params = {'extended': 'full'}
-        cache_limit = self.__get_cache_limit('lists', 'updated_at', cached=True)
+        cache_limit = self.__get_cache_limit('lists', 'updated_at', cached=cached)
         response = self.__call_trakt(url, params=params, cache_limit=cache_limit)
         return [item[TRAKT_SECTIONS[section][:-1]] for item in response]
 
@@ -319,7 +320,8 @@ class Trakt_API():
         length = -1
         result = []
         while length != 0 or length == HIDDEN_SIZE:
-            hidden = self.__call_trakt(url, params=params, cache_limit=7 * 24, cached=cached)
+            cache_limit = self.__get_cache_limit('shows', 'hidden_at', cached)
+            hidden = self.__call_trakt(url, params=params, cache_limit=cache_limit, cached=cached)
             length = len(hidden)
             result += hidden
             params['page'] += 1
@@ -346,7 +348,7 @@ class Trakt_API():
                 if bookmark['type'] == 'movie' and int(show_id) == bookmark['movie']['ids']['trakt']:
                     return bookmark['progress']
             else:
-                # log_utils.log('Resume: %s, %s, %s, %s' % (bookmark, show_id, season, episode), log_utils.LOGDEBUG, COMPONENT)
+                # logger.log('Resume: %s, %s, %s, %s' % (bookmark, show_id, season, episode), log_utils.LOGDEBUG)
                 if bookmark['type'] == 'episode' and int(show_id) == bookmark['show']['ids']['trakt'] and bookmark['episode']['season'] == int(season) and bookmark['episode']['number'] == int(episode):
                     return bookmark['progress']
 
@@ -386,7 +388,7 @@ class Trakt_API():
         if cached:
             activity = self.get_last_activity(media, activity)
             cache_limit = (time.time() - utils.iso_2_utc(activity))
-            log_utils.log('Now: %s Last: %s Last TS: %s Cache Limit: %.2fs (%.2fh)' % (time.time(), utils.iso_2_utc(activity), activity, cache_limit, cache_limit / 60 / 60), log_utils.LOGDEBUG, COMPONENT)
+            logger.log('Now: %s Last: %s Last TS: %s Cache Limit: %.2fs (%.2fh)' % (time.time(), utils.iso_2_utc(activity), activity, cache_limit, cache_limit / 60 / 60), log_utils.LOGDEBUG)
             cache_limit = cache_limit / 60 / 60
         else:
             cache_limit = 0
@@ -449,7 +451,7 @@ class Trakt_API():
             else:
                 db_cache_limit = 8
         json_data = json.dumps(data) if data else None
-        headers = {'Content-Type': 'application/json', 'trakt-api-key': V2_API_KEY, 'trakt-api-version': 2}
+        headers = {'Content-Type': 'application/json', 'trakt-api-key': V2_API_KEY, 'trakt-api-version': 2, 'Accept-Encoding': 'gzip'}
         url = '%s%s%s' % (self.protocol, BASE_URL, url)
         if params: url += '?' + urllib.urlencode(params)
 
@@ -458,13 +460,13 @@ class Trakt_API():
         if cached_result and (self.offline or (time.time() - created) < (60 * 60 * cache_limit)):
             result = cached_result
             res_headers = dict(cached_headers)
-            log_utils.log('***Using cached result for: %s' % (url), log_utils.LOGDEBUG, COMPONENT)
+            logger.log('***Using cached result for: %s' % (url), log_utils.LOGDEBUG)
         else:
             auth_retry = False
             while True:
                 try:
                     if auth: headers.update({'Authorization': 'Bearer %s' % (self.token)})
-                    log_utils.log('***Trakt Call: %s, header: %s, data: %s cache_limit: %s cached: %s' % (url, headers, json_data, cache_limit, cached), log_utils.LOGDEBUG, COMPONENT)
+                    logger.log('***Trakt Call: %s, header: %s, data: %s cache_limit: %s cached: %s' % (url, headers, json_data, cache_limit, cached), log_utils.LOGDEBUG)
                     request = urllib2.Request(url, data=json_data, headers=headers)
                     if method is not None: request.get_method = lambda: method.upper()
                     response = urllib2.urlopen(request, timeout=self.timeout)
@@ -473,14 +475,17 @@ class Trakt_API():
                         data = response.read()
                         if not data: break
                         result += data
+
                     res_headers = dict(response.info().items())
+                    if res_headers.get('content-encoding') == 'gzip':
+                        result = utils2.ungz(result)
 
                     db_connection.cache_url(url, result, json_data, response.info().items())
                     break
                 except (ssl.SSLError, socket.timeout) as e:
                     if cached_result:
                         result = cached_result
-                        log_utils.log('Temporary Trakt Error (%s). Using Cached Page Instead.' % (str(e)), log_utils.LOGWARNING, COMPONENT)
+                        logger.log('Temporary Trakt Error (%s). Using Cached Page Instead.' % (str(e)), log_utils.LOGWARNING)
                     else:
                         raise TransientTraktError('Temporary Trakt Error: ' + str(e))
                 except urllib2.URLError as e:
@@ -488,7 +493,7 @@ class Trakt_API():
                         if e.code in TEMP_ERRORS:
                             if cached_result:
                                 result = cached_result
-                                log_utils.log('Temporary Trakt Error (%s). Using Cached Page Instead.' % (str(e)), log_utils.LOGWARNING, COMPONENT)
+                                logger.log('Temporary Trakt Error (%s). Using Cached Page Instead.' % (str(e)), log_utils.LOGWARNING)
                                 break
                             else:
                                 raise TransientTraktError('Temporary Trakt Error: ' + str(e))
@@ -516,7 +521,7 @@ class Trakt_API():
                     elif isinstance(e.reason, socket.timeout) or isinstance(e.reason, ssl.SSLError):
                         if cached_result:
                             result = cached_result
-                            log_utils.log('Temporary Trakt Error (%s). Using Cached Page Instead' % (str(e)), log_utils.LOGWARNING, COMPONENT)
+                            logger.log('Temporary Trakt Error (%s). Using Cached Page Instead' % (str(e)), log_utils.LOGWARNING)
                             break
                         else:
                             raise TransientTraktError('Temporary Trakt Error: ' + str(e))
@@ -532,7 +537,7 @@ class Trakt_API():
         except ValueError:
             js_data = ''
             if result:
-                log_utils.log('Invalid JSON Trakt API Response: %s - |%s|' % (url, js_data), log_utils.LOGERROR, COMPONENT)
+                logger.log('Invalid JSON Trakt API Response: %s - |%s|' % (url, js_data), log_utils.LOGERROR)
 
-        # log_utils.log('Trakt Response: %s' % (response), xbmc.LOGDEBUG, COMPONENT)
+        # logger.log('Trakt Response: %s' % (response), xbmc.LOGDEBUG)
         return js_data

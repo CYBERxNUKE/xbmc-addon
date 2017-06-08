@@ -2,13 +2,15 @@
 # Addon id: plugin.video.salts
 # Addon Provider: TV Addons
 # Translators:
+# breaksrmine, 2017
+# Viper2k4, 2016-2017
 # eidermar, 2016
 # eidermar, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SALTS\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-10-12 02:21+0000\n"
+"PO-Revision-Date: 2017-03-28 19:56+0000\n"
 "Last-Translator: tknorris\n"
 "Language-Team: German (http://www.transifex.com/tv-addons/salts/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -27,11 +29,11 @@ msgstr "TV-Serien"
 
 msgctxt "#30002"
 msgid "Movie"
-msgstr "FIlme"
+msgstr "Film"
 
 msgctxt "#30003"
 msgid "TV Show"
-msgstr "TV-Serien"
+msgstr "TV-Serie"
 
 msgctxt "#30004"
 msgid "Settings"
@@ -39,7 +41,7 @@ msgstr "Einstellungen"
 
 msgctxt "#30005"
 msgid "Scraper Sort Order"
-msgstr "Sortierung Index Seiten"
+msgstr "Sortierung Indexseiten"
 
 msgctxt "#30006"
 msgid "Url Resolver Settings"
@@ -211,6 +213,8 @@ msgstr "Effektive erwiesen haben. Folgende Werte werden angepasst:"
 
 msgctxt "#30048"
 msgid ""
+"[COLOR red]Scraper Sort Order, Source Sorting, Calendar Start Day, Trakt "
+"Timeout, Scraper Timeout, Watchlist in MNE, Test Direct[/COLOR]"
 msgstr "[COLOR red]Index Seiten Sortierung, Dateianbieter Sortierung, Kalender Start Tag, Trakt Zeitlimits, Index Seiten Zeitlimits, Merkliste in MNE, Test Direkt[/COLOR]"
 
 msgctxt "#30049"
@@ -930,8 +934,8 @@ msgid "Remove Unusable Indirect sources from results"
 msgstr "Unbrauchbare indirekte Quellen von den Ergebnissen entfernen"
 
 msgctxt "#30239"
-msgid "Show Debrid sources in Green"
-msgstr "Debrid Quellen in Grün anzeigen"
+msgid "Highlight Debrid Sources in results"
+msgstr "Debrid-Quellen in Ergebnissen hervorheben"
 
 msgctxt "#30240"
 msgid "No Limit on Maximum Source Results"
@@ -963,6 +967,7 @@ msgstr "SALTS Datenbank Fehler Wiederherstellung"
 
 msgctxt "#30247"
 msgid ""
+"The SALTS DB has an issue that may be correctable by a forced DB migration."
 msgstr "Die SALTS Datenbank ist fehlerhaft. Eine Migration der DB könnte den Fehler eventuell beheben."
 
 msgctxt "#30248"
@@ -1129,6 +1134,66 @@ msgctxt "#30288"
 msgid "Working..."
 msgstr "Arbeite..."
 
+msgctxt "#30289"
+msgid "Re-Scrape All"
+msgstr "Alles erneut auslesen"
+
+msgctxt "#30290"
+msgid "Manual Search (All Unmatched Only)"
+msgstr "Manuelle Suche (nur alle nicht übereinstimmenden)"
+
+msgctxt "#30291"
+msgid "Torba Account Authorization"
+msgstr "Torba-Account berechtigt"
+
+msgctxt "#30292"
+msgid "Torba Authorization Complete"
+msgstr "Torba-Berechtigung abgeschlossen"
+
+msgctxt "#30293"
+msgid "Torba Authorization Failed"
+msgstr "Torba-Berechtigung fehlgeschlagen"
+
+msgctxt "#30294"
+msgid "Authorize SALTS to access my torba account"
+msgstr "SALTS für Zugriff auf meine Torba Konto berechtigen"
+
+msgctxt "#30295"
+msgid "and login when prompted"
+msgstr "und anmelden wenn Sie dazu aufgefordert werden"
+
+msgctxt "#30296"
+msgid "Flush Image Cache"
+msgstr "Bilder Cache löschen"
+
+msgctxt "#30297"
+msgid "Are you sure you want to clear the image metadata cache?"
+msgstr "Sind Sie sicher, dass Sie den Bilder-Metadaten Cache löschen wollen?"
+
+msgctxt "#30298"
+msgid "The addon will be significantly slower until is is re-cached."
+msgstr "Das Addon wird bedeutend langsamer sein bis der Cache wiederherstellt ist."
+
+msgctxt "#30299"
+msgid "Flush Complete"
+msgstr "Löschen abgeschlossen"
+
+msgctxt "#30300"
+msgid "Refresh Images"
+msgstr "Bilder aktualisieren"
+
+msgctxt "#30301"
+msgid "Private Scraper Updated: "
+msgstr "Private Index-Seite aktualisiert:"
+
+msgctxt "#30302"
+msgid "Reset Torba Authorization"
+msgstr "Torba-Berechtigung zurücksetzen"
+
+msgctxt "#30303"
+msgid "Torba Authorization Reset"
+msgstr "Torba-Autorisierung zurückgesetzt"
+
 msgctxt "#30500"
 msgid "Addon Theme"
 msgstr "Add-on Thema"
@@ -1200,6 +1265,10 @@ msgstr "Titel"
 msgctxt "#30517"
 msgid "Year"
 msgstr "Jahr"
+
+msgctxt "#30518"
+msgid "Recent Activity"
+msgstr "Letzte Aktivität"
 
 msgctxt "#30519"
 msgid "Title"
@@ -1722,8 +1791,8 @@ msgid "All"
 msgstr "Alles"
 
 msgctxt "#30652"
-msgid "Show Debrid Supported Sources in Green"
-msgstr "Debrid unterstützte Quellen in Grün anzeigen"
+msgid "Show Debrid Supported Sources in ..."
+msgstr "Zeige Debrid unterstützte Quellen in ..."
 
 msgctxt "#30653"
 msgid "6th Sort Key"
@@ -1936,4 +2005,96 @@ msgstr "Am häufigsten gesammelt (Monat)"
 msgctxt "#30706"
 msgid "Most Collected (All)"
 msgstr "Am häufigsten gesammelt (Immer)"
+
+msgctxt "#30707"
+msgid "Date Format"
+msgstr "Datumsformat"
+
+msgctxt "#30708"
+msgid "Past Activity"
+msgstr "bisherige Aktivitäten"
+
+msgctxt "#30709"
+msgid "Always Show Custom Progress Dialogs"
+msgstr "Immer benutzerdefinierte Progressdialoge anzeigen"
+
+msgctxt "#30710"
+msgid "Image Metadata API Keys"
+msgstr "Bilder Metadaten API-Keys"
+
+msgctxt "#30711"
+msgid "Fanart.tv API Key (Blank = Disable)"
+msgstr "Fanart.tv API Key (Leer = Deaktiviert)"
+
+msgctxt "#30712"
+msgid "TMDB API Key (Blank = Disable)"
+msgstr "TMDB API Key (Leer = Deaktiviert)"
+
+msgctxt "#30713"
+msgid "TVDB API Key (Blank = Disable)"
+msgstr "TVDB API Key (Leer = Deaktiviert)"
+
+msgctxt "#30714"
+msgid "Enable OMDB Images"
+msgstr "Aktiviere OMDB Bilder"
+
+msgctxt "#30715"
+msgid "Enable TVMaze Images"
+msgstr "Aktiviere TVMaze Bilder"
+
+msgctxt "#30716"
+msgid "Flush Image Cache..."
+msgstr "Bilder Cache löschen..."
+
+msgctxt "#30717"
+msgid "Enable Fanart.tv Images"
+msgstr "Aktiviere Fanart.tv Bilder"
+
+msgctxt "#30718"
+msgid "Fanart.tv Personal API Key"
+msgstr "Fanart.tv persönlicher API Key"
+
+msgctxt "#30719"
+msgid "Enable Backgrounds/Fanart"
+msgstr "Aktiviere Hintergrund/Fanart"
+
+msgctxt "#30720"
+msgid "Enable Posters"
+msgstr "Aktiviere Poster"
+
+msgctxt "#30721"
+msgid "Enable Banners"
+msgstr "Aktiviere Banner"
+
+msgctxt "#30722"
+msgid "Enable Clearart"
+msgstr "Clearart aktivieren"
+
+msgctxt "#30723"
+msgid "Artwork Scraping"
+msgstr "Artwork auslesen"
+
+msgctxt "#30724"
+msgid "Enable Thumbnails"
+msgstr "Aktiviere Miniaturansichten"
+
+msgctxt "#30725"
+msgid "Artwork Types"
+msgstr " Artwort Typen"
+
+msgctxt "#30726"
+msgid "    Use animated posters when available"
+msgstr "Animierte Poster benutzen, wenn verfügbar"
+
+msgctxt "#30727"
+msgid "Enable Cast Thumbnails"
+msgstr "Aktiviere Besetzung Miniaturansichten"
+
+msgctxt "#30728"
+msgid "    *** Install TMDB API Cache ***"
+msgstr "*** Installiere TMDB API Cache ***"
+
+msgctxt "#30729"
+msgid "    Debrid Highlight Color"
+msgstr "Hervorhebungsfarbe für Debrid"
 

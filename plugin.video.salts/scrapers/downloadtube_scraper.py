@@ -15,16 +15,19 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import base64
+import urllib
 import scraper
 import urlparse
 import re
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import VIDEO_TYPES
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import QUALITIES
+from salts_lib.constants import Q_ORDER
 from salts_lib.constants import XHR
 
 BASE_URL = 'http://www.mydownloadtube.com'
@@ -45,46 +48,65 @@ class Scraper(scraper.Scraper):
         return 'DownloadTube'
 
     def get_sources(self, video):
+        hosters = []
         source_url = self.get_url(video)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        
+        page_url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(page_url, cache_limit=8)
+        movie_id = dom_parser2.parse_dom(html, 'input', {'id': 'movie_id'}, req='value')
+        if not movie_id: return hosters
+        
+        data = {'movie': movie_id[0].attrs['value'], 'starttime': 'undefined', 'pageevent': 0, 'aspectration': ''}
+        xhr_url = scraper_utils.urljoin(self.base_url, '/movies/play_online')
+        headers = {'Referer': page_url}
+        headers.update(XHR)
+        html = self._http_get(xhr_url, data=data, headers=headers, cache_limit=.5)
+        best_quality, _sources = self.__get_direct(html, page_url)
+        for attrs, _content in dom_parser2.parse_dom(html, 'iframe', req='src'):
+            stream_url = attrs['src']
+            host = urlparse.urlparse(stream_url).hostname
+            quality = scraper_utils.get_quality(video, host, best_quality)
+            hoster = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'direct': False}
+            hosters.append(hoster)
+
+        return hosters
+
+    def __get_direct(self, html, page_url):
         sources = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            page_url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(page_url, cache_limit=8)
-            streams = dom_parser.parse_dom(html, 'a', {'class': 'download_item'}, ret='href')
-            labels = dom_parser.parse_dom(html, 'a', {'class': 'download_item'})
-            for stream_url, label in zip(streams, labels):
-                label = re.sub('\s+', ' ', label)
-                if 'bit.ly' in stream_url:
-                    redir_url = self._http_get(stream_url, allow_redirect=False, method='HEAD', require_debrid=True, cache_limit=8)
-                    if redir_url.startswith('http'):
-                        stream_url = redir_url
-                        
-                movie = scraper_utils.parse_movie_link(label)
-                quality = scraper_utils.height_get_quality(movie['height'])
-                is_3d = True if re.search('\s+3D\s+', label) else False
-                if is_3d: quality = QUALITIES.HD1080
-                host = urlparse.urlparse(stream_url).hostname
-                source = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'direct': False}
-                source['3D'] = is_3d
-                match = re.search('([\d.]+\s+[MG]?B)', label)
-                if match:
-                    source['size'] = match.group(1)
+        best_quality = QUALITIES.HIGH
+        match = re.search('''['"]?sources["']?\s*:\s*\[(.*?)\}\s*,?\s*\]''', html, re.DOTALL)
+        if match:
+            files = re.findall('''['"]?file['"]?\s*:\s*(.*?)['"]([^'"]+)''', match.group(1), re.DOTALL)
+            labels = re.findall('''['"]?label['"]?\s*:\s*['"]([^'"]*)''', match.group(1), re.DOTALL)
+            for stream, label in map(None, files, labels):
+                func, stream_url = stream
+                if 'atob' in func:
+                    stream_url = base64.b64decode(stream_url)
+                stream_url = stream_url.replace(' ', '%20')
+                host = scraper_utils.get_direct_hostname(self, stream_url)
+                label = re.sub(re.compile('\s*HD', re.I), '', label)
+                quality = scraper_utils.height_get_quality(label)
+                if Q_ORDER[quality] > Q_ORDER[best_quality]: best_quality = quality
+                stream_url += scraper_utils.append_headers({'User-Agent': scraper_utils.get_ua(), 'Referer': page_url})
+                source = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'direct': True}
                 sources.append(source)
-
-        return sources
-
+        return best_quality, sources
+        
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
-        search_url = urlparse.urljoin(self.base_url, '/search/search_val')
-        headers = {'Referer': urlparse.urljoin(self.base_url, '/search')}
-        headers.update(XHR)
-        params = {'language': 'English - UK', 'term': title}
-        html = self._http_get(search_url, params=params, headers=headers, require_debrid=True, cache_limit=8)
-        js_data = scraper_utils.parse_json(html, search_url)
-        for item in js_data:
-            if item.get('category', '').lower() != 'movies': continue
-            match_url = item['url']
-            match_title, match_year = scraper_utils.extra_year(item['label'])
+        search_url = scraper_utils.urljoin(self.base_url, '/search/%s' % (urllib.quote(title)))
+        html = self._http_get(search_url, cache_limit=8)
+        fragment = dom_parser2.parse_dom(html, 'div', {'id': 'who-likes'})
+        if not fragment: return results
+        
+        fragment = fragment[0].content
+        match_url = dom_parser2.parse_dom(fragment, 'a', req='href')
+        match_title_year = dom_parser2.parse_dom(fragment, 'img', req='alt')
+        if match_url and match_title_year:
+            match_url = match_url[0].attrs['href']
+            match_title_year = match_title_year[0].attrs['alt']
+            match_title, match_year = scraper_utils.extra_year(match_title_year)
             if not year or not match_year or year == match_year:
                 result = {'title': scraper_utils.cleanse_title(match_title), 'year': match_year, 'url': scraper_utils.pathify_url(match_url)}
                 results.append(result)

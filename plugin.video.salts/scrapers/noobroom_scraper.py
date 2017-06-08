@@ -17,8 +17,8 @@
 """
 import re
 import urllib2
-import urlparse
 import kodi
+import dom_parser2
 import log_utils  # @UnusedImport
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
@@ -27,6 +27,7 @@ from salts_lib.constants import VIDEO_TYPES
 from salts_lib.utils2 import i18n
 import scraper
 
+logger = log_utils.Logger.get_logger()
 BASE_URL = 'http://superchillin.com'
 
 class Scraper(scraper.Scraper):
@@ -48,12 +49,12 @@ class Scraper(scraper.Scraper):
         return 'NoobRoom'
 
     def resolve_link(self, link):
-        url = urlparse.urljoin(self.base_url, link)
+        url = scraper_utils.urljoin(self.base_url, link)
         html = self._http_get(url, cache_limit=.5)
         match = re.search('"file"\s*:\s*"([^"]+)', html)
         if match:
             file_link = match.group(1)
-            stream_url = urlparse.urljoin(self.base_url, file_link)
+            stream_url = scraper_utils.urljoin(self.base_url, file_link)
             cj = self._set_cookies(self.base_url, {})
             request = urllib2.Request(stream_url)
             request.add_header('User-Agent', scraper_utils.get_ua())
@@ -66,42 +67,51 @@ class Scraper(scraper.Scraper):
     def get_sources(self, video):
         source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
-            has_1080p = True if 'Watch in 1080p' in html else False
-            if video.video_type == VIDEO_TYPES.MOVIE:
-                quality = QUALITIES.HD720
-                paid_quality = QUALITIES.HD1080
-            else:
-                quality = QUALITIES.HIGH
-                paid_quality = QUALITIES.HD720
-                
-            for match in re.finditer("class='hoverz'.*?href='([^']+)'>([^<]+)\s+\(([^)]+).*?>(\d+)%", html, re.DOTALL):
-                url, host, status, load = match.groups()
-                if not self.include_paid and status.upper() == 'PREMIUM':
-                    continue
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, cache_limit=.5)
+        has_1080p = True if 'Watch in 1080p' in html else False
+        if video.video_type == VIDEO_TYPES.MOVIE:
+            quality = QUALITIES.HD720
+            paid_quality = QUALITIES.HD1080
+        else:
+            quality = QUALITIES.HIGH
+            paid_quality = QUALITIES.HD720
+            
+        loads = re.findall('<span[^>]*>(\d+)%</span>', html)
+        for match, load in map(None, dom_parser2.parse_dom(html, 'a', {'class': 'hoverz'}, req='href'), loads):
+            stream_url = match.attrs['href']
+            label = match.content
+            if load is None: load = 0
 
-                url = url.replace('&amp;', '&')
-                host = '%s (%s)' % (host, status)
-                hoster = {'multi-part': False, 'host': host, 'class': self, 'url': url, 'quality': quality, 'views': None, 'rating': 100 - int(load), 'direct': True}
+            match = re.search('([^<]+)\s+\(([^)]+)', label)
+            if not match: continue
+            host, status = match.groups()
+            if not self.include_paid and status.upper() == 'PREMIUM':
+                continue
+
+            url = url.replace('&amp;', '&')
+            host = '%s (%s)' % (host, status)
+            hoster = {'multi-part': False, 'host': host, 'class': self, 'url': stream_url, 'quality': quality, 'views': None, 'rating': 100 - int(load), 'direct': True}
+            hosters.append(hoster)
+
+            if self.include_paid and has_1080p:
+                url += '&hd=1'
+                hoster = {'multi-part': False, 'host': host, 'class': self, 'url': stream_url, 'quality': paid_quality, 'views': None, 'rating': 100 - int(load), 'direct': True}
                 hosters.append(hoster)
-
-                if self.include_paid and has_1080p:
-                    url += '&hd=1'
-                    hoster = {'multi-part': False, 'host': host, 'class': self, 'url': url, 'quality': paid_quality, 'views': None, 'rating': 100 - int(load), 'direct': True}
-                    hosters.append(hoster)
         return hosters
 
     def _get_episode_url(self, show_url, video):
         episode_pattern = "%sx%02d\s*-\s*.*?href='([^']+)" % (video.season, int(video.episode))
         title_pattern = "\d+x\d+\s*-\s*.*?href='(?P<url>[^']+)'>(?P<title>[^<]+)"
         airdate_pattern = "href='([^']+)(?:[^>]+>){3}\s*-\s*\(Original Air Date:\s+{day}-{month}-{year}"
-        return self._default_get_episode_url(show_url, video, episode_pattern, title_pattern, airdate_pattern)
+        show_url = scraper_utils.urljoin(self.base_url, show_url)
+        html = self._http_get(show_url, cache_limit=2)
+        return self._default_get_episode_url(html, video, episode_pattern, title_pattern, airdate_pattern)
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         if not self.include_paid and video_type != VIDEO_TYPES.MOVIE: return []
-        search_url = urlparse.urljoin(self.base_url, '/search.php')
+        search_url = scraper_utils.urljoin(self.base_url, '/search.php')
         html = self._http_get(search_url, params={'q': title}, cache_limit=.25)
         results = []
         if video_type == VIDEO_TYPES.MOVIE:
@@ -110,14 +120,15 @@ class Scraper(scraper.Scraper):
             pattern = '<i>\s*TV Series\s*</i>(.*)'
 
         match = re.search(pattern, html)
-        if match:
-            container = match.group(1)
-            pattern = "href='([^']+)'>([^<]+)\s*</a>\s*(?:\((\d{4})\))?"
-            for match in re.finditer(pattern, container):
-                url, match_title, match_year = match.groups('')
-                if not year or not match_year or year == match_year:
-                    result = {'url': scraper_utils.pathify_url(url), 'title': scraper_utils.cleanse_title(match_title), 'year': match_year}
-                    results.append(result)
+        if not match: return results
+        
+        container = match.group(1)
+        pattern = "href='([^']+)'>([^<]+)\s*</a>\s*(?:\((\d{4})\))?"
+        for match in re.finditer(pattern, container):
+            url, match_title, match_year = match.groups('')
+            if not year or not match_year or year == match_year:
+                result = {'url': scraper_utils.pathify_url(url), 'title': scraper_utils.cleanse_title(match_title), 'year': match_year}
+                results.append(result)
 
         return results
 
@@ -125,9 +136,9 @@ class Scraper(scraper.Scraper):
     def get_settings(cls):
         settings = super(cls, cls).get_settings()
         name = cls.get_name()
-        settings.append('         <setting id="%s-username" type="text" label="     %s" default="" visible="eq(-4,true)"/>' % (name, i18n('username')))
-        settings.append('         <setting id="%s-password" type="text" label="     %s" option="hidden" default="" visible="eq(-5,true)"/>' % (name, i18n('password')))
-        settings.append('         <setting id="%s-include_premium" type="bool" label="     %s" default="false" visible="eq(-6,true)"/>' % (name, i18n('include_premium')))
+        settings.append('         <setting id="%s-username" type="text" label="     %s" default="" visible="eq(-3,true)"/>' % (name, i18n('username')))
+        settings.append('         <setting id="%s-password" type="text" label="     %s" option="hidden" default="" visible="eq(-4,true)"/>' % (name, i18n('password')))
+        settings.append('         <setting id="%s-include_premium" type="bool" label="     %s" default="false" visible="eq(-5,true)"/>' % (name, i18n('include_premium')))
         return settings
 
     def _http_get(self, url, params=None, data=None, headers=None, method=None, cache_limit=8):
@@ -137,18 +148,18 @@ class Scraper(scraper.Scraper):
 
         html = super(self.__class__, self)._http_get(url, params=params, data=data, headers=headers, method=method, cache_limit=cache_limit)
         if 'href="logout.php"' not in html:
-            log_utils.log('Logging in for url (%s)' % (url), log_utils.LOGDEBUG)
+            logger.log('Logging in for url (%s)' % (url), log_utils.LOGDEBUG)
             self.__login(html)
             html = super(self.__class__, self)._http_get(url, params=params, data=data, headers=headers, method=method, cache_limit=0)
 
         return html
 
     def __login(self, html):
-        url = urlparse.urljoin(self.base_url, '/login2.php')
+        url = scraper_utils.urljoin(self.base_url, '/login2.php')
         data = {'email': self.username, 'password': self.password, 'echo': 'echo'}
         match = re.search('challenge\?k=([^"]+)', html)
         if match:
-            data.update(self._do_recaptcha(match.group(1)))
+            data.update(scraper_utils.do_recaptcha(self, match.group(1)))
             
         html = super(self.__class__, self)._http_get(url, data=data, allow_redirect=False, cache_limit=0)
         if 'index.php' not in html:

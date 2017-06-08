@@ -25,7 +25,7 @@ from salts_lib.constants import QUALITIES
 from salts_lib.constants import VIDEO_TYPES
 import scraper
 
-BASE_URL = 'http://coolmoviezone.org'
+BASE_URL = 'http://coolmoviezone.net'
 
 class Scraper(scraper.Scraper):
     base_url = BASE_URL
@@ -45,28 +45,28 @@ class Scraper(scraper.Scraper):
     def get_sources(self, video):
         source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
-            
-            match = re.search('Views?\s*:\s*(\d+)', html, re.I)
-            if match:
-                views = match.group(1)
-            else:
-                views = None
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, cache_limit=.5)
+        
+        match = re.search('Views?\s*:\s*(\d+)', html, re.I)
+        if match:
+            views = match.group(1)
+        else:
+            views = None
 
-            pattern = 'href="[^"]+/rd\.html\?url=([^"]+)'
-            for match in re.finditer(pattern, html):
-                url = match.group(1)
-                host = urlparse.urlsplit(url).hostname
-                hoster = {'multi-part': False, 'host': host, 'url': url, 'class': self, 'rating': None, 'views': views, 'quality': scraper_utils.get_quality(video, host, QUALITIES.HIGH), 'direct': False}
-                hosters.append(hoster)
+        pattern = 'href="[^"]+/rd\.html\?url=([^"]+)'
+        for match in re.finditer(pattern, html):
+            url = match.group(1)
+            host = urlparse.urlsplit(url).hostname
+            hoster = {'multi-part': False, 'host': host, 'url': url, 'class': self, 'rating': None, 'views': views, 'quality': scraper_utils.get_quality(video, host, QUALITIES.HIGH), 'direct': False}
+            hosters.append(hoster)
 
         return hosters
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
-        search_url = urlparse.urljoin(self.base_url, '/index.php')
+        search_url = scraper_utils.urljoin(self.base_url, '/index.php')
         html = self._http_get(search_url, params={'s': title}, cache_limit=1)
         pattern = 'href="([^"]+)"\s+rel="bookmark">([^<]+)\s+\((\d{4})\)'
         for match in re.finditer(pattern, html, re.DOTALL):

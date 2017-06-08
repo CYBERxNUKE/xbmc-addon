@@ -2,12 +2,12 @@
 # Addon id: plugin.video.salts
 # Addon Provider: TV Addons
 # Translators:
-# Slavisa Milojkovic <s.milojkovic@gmail.com>, 2016
+# Slavisa Milojkovic, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SALTS\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-10-12 02:21+0000\n"
+"PO-Revision-Date: 2017-03-28 19:56+0000\n"
 "Last-Translator: tknorris\n"
 "Language-Team: Serbian (http://www.transifex.com/tv-addons/salts/language/sr/)\n"
 "MIME-Version: 1.0\n"

@@ -17,9 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import re
-import urlparse
 import kodi
-import dom_parser
+import dom_parser2
 import log_utils  # @UnusedImport
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
@@ -54,26 +53,27 @@ class Scraper(scraper.Scraper):
     def get_sources(self, video):
         hosters = []
         source_url = self.get_url(video)
-        if source_url and source_url != FORCE_NO_MATCH:
-            page_url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(page_url, cache_limit=8)
-            for stream_url in dom_parser.parse_dom(html, 'a', ret='href'):
-                if MOVIE_URL in stream_url:
-                    meta = scraper_utils.parse_movie_link(stream_url)
-                    stream_url = scraper_utils.pathify_url(stream_url) + '|User-Agent=%s' % (scraper_utils.get_ua())
-                    quality = scraper_utils.height_get_quality(meta['height'])
-                    hoster = {'multi-part': False, 'host': self._get_direct_hostname(stream_url), 'class': self, 'quality': quality, 'views': None, 'rating': None, 'url': stream_url, 'direct': True}
-                    if 'format' in meta: hoster['format'] = meta['format']
-                    hosters.append(hoster)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        page_url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(page_url, cache_limit=8)
+        for attrs, _content in dom_parser2.parse_dom(html, 'a', req='href'):
+            stream_url = attrs['href']
+            if MOVIE_URL in stream_url:
+                meta = scraper_utils.parse_movie_link(stream_url)
+                stream_url = scraper_utils.pathify_url(stream_url) + scraper_utils.append_headers({'User-Agent': scraper_utils.get_ua()})
+                quality = scraper_utils.height_get_quality(meta['height'])
+                hoster = {'multi-part': False, 'host': scraper_utils.get_direct_hostname(self, stream_url), 'class': self, 'quality': quality, 'views': None, 'rating': None, 'url': stream_url, 'direct': True}
+                if 'format' in meta: hoster['format'] = meta['format']
+                hosters.append(hoster)
+                
         return hosters
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
         html = self._http_get(self.base_url, params={'s': title}, cache_limit=8)
-        for item in dom_parser.parse_dom(html, 'h2'):
-            match = re.search('href="([^"]+)[^>]+>(.*?)</a>', item)
-            if match:
-                match_url, match_title_year = match.groups()
+        for _attrs, item in dom_parser2.parse_dom(html, 'h2'):
+            for attrs, match_title_year in dom_parser2.parse_dom(item, 'a', req=['href']):
+                match_url = attrs['href']
                 match_title_year = re.sub('[^\x00-\x7F]', '', match_title_year)
                 match = re.search('(.*?)\s+(\d{4})$', match_title_year)
                 if match:

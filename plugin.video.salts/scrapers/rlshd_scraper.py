@@ -19,7 +19,7 @@ import re
 import urlparse
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import VIDEO_TYPES
@@ -46,24 +46,24 @@ class Scraper(scraper.Scraper):
     def get_sources(self, video):
         source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, require_debrid=True, cache_limit=.5)
-            sources = self.__get_post_links(html, video)
-            for source in sources:
-                if re.search('\.part\.?\d+', source) or '.rar' in source or 'sample' in source or source.endswith('.nfo'): continue
-                host = urlparse.urlparse(source).hostname
-                hoster = {'multi-part': False, 'host': host, 'class': self, 'views': None, 'url': source, 'rating': None, 'quality': sources[source], 'direct': False}
-                hosters.append(hoster)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, require_debrid=True, cache_limit=.5)
+        sources = self.__get_post_links(html, video)
+        for source in sources:
+            if scraper_utils.excluded_link(source): continue
+            host = urlparse.urlparse(source).hostname
+            hoster = {'multi-part': False, 'host': host, 'class': self, 'views': None, 'url': source, 'rating': None, 'quality': sources[source], 'direct': False}
+            hosters.append(hoster)
         return hosters
 
     def __get_post_links(self, html, video):
         sources = {}
-        post = dom_parser.parse_dom(html, 'article', {'id': 'post-\d+'})
+        post = dom_parser2.parse_dom(html, 'article', {'id': re.compile('post-\d+')})
         if post:
-            for fragment in dom_parser.parse_dom(post[0], 'h2'):
-                for match in re.finditer('href="([^"]+)', fragment):
-                    stream_url = match.group(1)
+            for _attrs, fragment in dom_parser2.parse_dom(post[0].content, 'h2'):
+                for attrs, _content in dom_parser2.parse_dom(fragment, 'a', req='href'):
+                    stream_url = attrs['href']
                     meta = scraper_utils.parse_episode_link(stream_url)
                     release_quality = scraper_utils.height_get_quality(meta['height'])
                     host = urlparse.urlparse(stream_url).hostname
@@ -79,8 +79,8 @@ class Scraper(scraper.Scraper):
         settings = super(cls, cls).get_settings()
         settings = scraper_utils.disable_sub_check(settings)
         name = cls.get_name()
-        settings.append('         <setting id="%s-filter" type="slider" range="0,180" option="int" label="     %s" default="30" visible="eq(-4,true)"/>' % (name, i18n('filter_results_days')))
-        settings.append('         <setting id="%s-select" type="enum" label="     %s" lvalues="30636|30637" default="0" visible="eq(-5,true)"/>' % (name, i18n('auto_select')))
+        settings.append('         <setting id="%s-filter" type="slider" range="0,180" option="int" label="     %s" default="30" visible="eq(-3,true)"/>' % (name, i18n('filter_results_days')))
+        settings.append('         <setting id="%s-select" type="enum" label="     %s" lvalues="30636|30637" default="0" visible="eq(-4,true)"/>' % (name, i18n('auto_select')))
         return settings
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable

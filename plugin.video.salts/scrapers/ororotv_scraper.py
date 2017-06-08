@@ -15,7 +15,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import urlparse
 import base64
 import datetime
 import kodi
@@ -27,6 +26,7 @@ from salts_lib.constants import VIDEO_TYPES
 from salts_lib.utils2 import i18n
 import scraper
 
+logger = log_utils.Logger.get_logger()
 BASE_URL = 'https://ororo.tv'
 
 class Scraper(scraper.Scraper):
@@ -47,25 +47,25 @@ class Scraper(scraper.Scraper):
         return 'ororo.tv'
 
     def get_sources(self, video):
-        source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            query = urlparse.parse_qs(urlparse.urlparse(source_url).query)
-            if 'id' in query:
-                vid_type = 'movies' if video.video_type == VIDEO_TYPES.MOVIE else 'episodes'
-                url = urlparse.urljoin(self.base_url, '/api/v2/%s/%s' % (vid_type, query['id'][0]))
-                js_data = self._http_get(url, cache_limit=.5)
-                if 'url' in js_data:
-                    stream_url = js_data['url']
-                    quality = QUALITIES.HD720
-                    hoster = {'multi-part': False, 'host': self._get_direct_hostname(stream_url), 'class': self, 'url': stream_url, 'quality': quality, 'views': None, 'rating': None, 'direct': True}
-                    hosters.append(hoster)
+        source_url = self.get_url(video)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        query = scraper_utils.parse_query(source_url)
+        if 'id' in query:
+            vid_type = 'movies' if video.video_type == VIDEO_TYPES.MOVIE else 'episodes'
+            url = scraper_utils.urljoin(self.base_url, '/api/v2/%s/%s' % (vid_type, query['id']))
+            js_data = self._http_get(url, cache_limit=.5)
+            if 'url' in js_data:
+                stream_url = js_data['url']
+                quality = QUALITIES.HD720
+                hoster = {'multi-part': False, 'host': scraper_utils.get_direct_hostname(self, stream_url), 'class': self, 'url': stream_url, 'quality': quality, 'views': None, 'rating': None, 'direct': True}
+                hosters.append(hoster)
         return hosters
 
     def _get_episode_url(self, show_url, video):
-        query = urlparse.parse_qs(urlparse.urlparse(show_url).query)
+        query = scraper_utils.parse_query(show_url)
         if 'id' in query:
-            url = urlparse.urljoin(self.base_url, '/api/v2/shows/%s' % (query['id'][0]))
+            url = scraper_utils.urljoin(self.base_url, '/api/v2/shows/%s' % (query['id']))
             js_data = self._http_get(url, cache_limit=.5)
             if 'episodes' in js_data:
                 force_title = scraper_utils.force_title(video)
@@ -81,7 +81,7 @@ class Scraper(scraper.Scraper):
                                 if video.ep_airdate == (ep_airdate - datetime.timedelta(days=1)):
                                     return scraper_utils.pathify_url('?id=%s' % (episode['id']))
                 else:
-                    log_utils.log('Skipping S&E matching as title search is forced on: %s' % (video.trakt_id), log_utils.LOGDEBUG)
+                    logger.log('Skipping S&E matching as title search is forced on: %s' % (video.trakt_id), log_utils.LOGDEBUG)
                 
                 if (force_title or kodi.get_setting('title-fallback') == 'true') and video.ep_title:
                     norm_title = scraper_utils.normalize_title(video.ep_title)
@@ -97,7 +97,7 @@ class Scraper(scraper.Scraper):
         else:
             url = '/api/v2/shows'
             key = 'shows'
-        url = urlparse.urljoin(self.base_url, url)
+        url = scraper_utils.urljoin(self.base_url, url)
         js_data = self._http_get(url, cache_limit=8)
         norm_title = scraper_utils.normalize_title(title)
         if key in js_data:
@@ -115,8 +115,8 @@ class Scraper(scraper.Scraper):
     def get_settings(cls):
         settings = super(cls, cls).get_settings()
         name = cls.get_name()
-        settings.append('         <setting id="%s-username" type="text" label="     %s" default="" visible="eq(-4,true)"/>' % (name, i18n('username')))
-        settings.append('         <setting id="%s-password" type="text" label="     %s" option="hidden" default="" visible="eq(-5,true)"/>' % (name, i18n('password')))
+        settings.append('         <setting id="%s-username" type="text" label="     %s" default="" visible="eq(-3,true)"/>' % (name, i18n('username')))
+        settings.append('         <setting id="%s-password" type="text" label="     %s" option="hidden" default="" visible="eq(-4,true)"/>' % (name, i18n('password')))
         return settings
 
     def _http_get(self, url, data=None, headers=None, cookies=None, cache_limit=8):

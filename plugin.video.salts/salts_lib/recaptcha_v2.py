@@ -26,14 +26,19 @@ import os
 import xbmcgui
 import log_utils
 import kodi
+import dom_parser2
 import scraper_utils
 
-COMPONENT = __name__
+logger = log_utils.Logger.get_logger(__name__)
+logger.disable()
 
 class cInputWindow(xbmcgui.WindowDialog):
     def __init__(self, *args, **kwargs):  # @UnusedVariable
-        bg_image = os.path.join(kodi.get_path(), 'resources', 'skins', 'Default', 'media', 'DialogBack2.png')
-        check_image = os.path.join(kodi.get_path(), 'resources', 'skins', 'Default', 'media', 'checked.png')
+        media_path = os.path.join(kodi.get_path(), 'resources', 'skins', 'Default', 'media')
+        bg_image = os.path.join(media_path, 'DialogBack2.png')
+        check_image = os.path.join(media_path, 'checked.png')
+        button_fo = os.path.join(media_path, 'button-fo.png')
+        button_nofo = os.path.join(media_path, 'button-nofo.png')
         self.cancelled = False
         self.chk = [0] * 9
         self.chkbutton = [0] * 9
@@ -64,13 +69,11 @@ class cInputWindow(xbmcgui.WindowDialog):
         name = 'for: [I]%s[/I]' % (name) if name is not None else ''
         self.strActionInfo = xbmcgui.ControlLabel(imgX, imgY + imgh, imgw, 20, 'Captcha Round: %s %s' % (self.iteration, name), 'font40')
         self.addControl(self.strActionInfo)
-        self.cancelbutton = xbmcgui.ControlButton(middle - 110, button_y, 100, button_h, 'Cancel', alignment=2)
-        self.okbutton = xbmcgui.ControlButton(middle + 10, button_y, 100, button_h, 'OK', alignment=2)
+        self.cancelbutton = xbmcgui.ControlButton(middle - 110, button_y, 100, button_h, 'Cancel', focusTexture=button_fo, noFocusTexture=button_nofo, alignment=2)
+        self.okbutton = xbmcgui.ControlButton(middle + 10, button_y, 100, button_h, 'OK', focusTexture=button_fo, noFocusTexture=button_nofo, alignment=2)
         self.addControl(self.okbutton)
         self.addControl(self.cancelbutton)
 
-        button_fo = os.path.join(kodi.get_path(), 'resources', 'skins', 'Default', 'media', 'button-fo.png')
-        button_nofo = os.path.join(kodi.get_path(), 'resources', 'skins', 'Default', 'media', 'button-nofo.png')
         for i in xrange(9):
             row = i / 3
             col = i % 3
@@ -117,6 +120,7 @@ class cInputWindow(xbmcgui.WindowDialog):
             return [i for i in xrange(9) if self.chkstate[i]]
 
     def onControl(self, control):
+        # logger.log('control: %s' % (control), log_utils.LOGDEBUG)
         if control == self.okbutton and any(self.chkstate):
             self.close()
 
@@ -131,36 +135,47 @@ class cInputWindow(xbmcgui.WindowDialog):
                 self.chk[index].setVisible(self.chkstate[index])
 
     def onAction(self, action):
+        # logger.log('action: %s' % (action), log_utils.LOGDEBUG)
         if action == 10:
             self.cancelled = True
             self.close()
 
 class UnCaptchaReCaptcha:
-    def processCaptcha(self, key, lang, name=None):
-        headers = {'Referer': 'https://www.google.com/recaptcha/api2/demo', 'Accept-Language': lang}
+    def processCaptcha(self, key, lang, name=None, referer=None):
+        if referer is None: referer = 'https://www.google.com/recaptcha/api2/demo'
+        headers = {'Referer': referer, 'Accept-Language': lang}
         html = get_url('http://www.google.com/recaptcha/api/fallback?k=%s' % (key), headers=headers)
         token = ''
         iteration = 0
         while True:
-            payload = re.findall('"(/recaptcha/api2/payload[^"]+)', html)
+            payload = dom_parser2.parse_dom(html, 'img', {'class': 'fbc-imageselect-payload'}, req='src')
             iteration += 1
-            message = re.findall('<label[^>]+class="fbc-imageselect-message-text"[^>]*>(.*?)</label>', html)
+            message = dom_parser2.parse_dom(html, 'label', {'class': 'fbc-imageselect-message-text'})
             if not message:
-                message = re.findall('<div[^>]+class="fbc-imageselect-message-error">(.*?)</div>', html)
-            if not message:
-                token = re.findall('"this\.select\(\)">(.*?)</textarea>', html)[0]
-                if token:
-                    log_utils.log('Captcha Success: %s' % (token), log_utils.LOGDEBUG, COMPONENT)
-                else:
-                    log_utils.log('Captcha Failed', log_utils.LOGDEBUG, COMPONENT)
-                break
+                message = dom_parser2.parse_dom(html, 'div', {'class': 'fbc-imageselect-message-error'})
+                
+            if message and payload:
+                message = message[0].content
+                payload = payload[0].attrs['src']
             else:
-                message = message[0]
-                payload = payload[0]
+                token = dom_parser2.parse_dom(html, 'div', {'class': 'fbc-verification-token'})
+                if token:
+                    token = dom_parser2.parse_dom(token[0].content, 'textarea')[0].content
+                    logger.log('Captcha Success: %s' % (token), log_utils.LOGDEBUG)
+                else:
+                    logger.log('Captcha Failed', log_utils.LOGDEBUG)
+                break
 
-            cval = re.findall('name="c"\s+value="([^"]+)', html)[0]
-            captcha_imgurl = 'https://www.google.com%s' % (payload.replace('&amp;', '&'))
-            message = re.sub('</?strong>', '', message)
+            cval = dom_parser2.parse_dom(html, 'input', {'name': 'c'}, req='value')
+            if not cval: break
+            
+            cval = cval[0].attrs['value']
+            captcha_imgurl = scraper_utils.urljoin('https://www.google.com', scraper_utils.cleanse_title(payload))
+            message = message.replace('<strong>', '[B]').replace('</strong>', '[/B]')
+            message = re.sub(re.compile('</?(div|strong)[^>]*>', re.I), '', message)
+            if any(c for c in ['<', '>'] if c in message):
+                logger.log('Suspicious Captcha Prompt: %s' % (message), log_utils.LOGWARNING)
+                
             oSolver = cInputWindow(captcha=captcha_imgurl, msg=message, iteration=iteration, name=name)
             captcha_response = oSolver.get()
             if not captcha_response:
@@ -176,7 +191,7 @@ def get_url(url, data=None, timeout=20, headers=None):
     post_data = urllib.urlencode(data, doseq=True)
     if 'User-Agent' not in headers:
         headers['User-Agent'] = scraper_utils.get_ua()
-    log_utils.log('URL: |%s| Data: |%s| Headers: |%s|' % (url, post_data, headers), log_utils.LOGDEBUG, COMPONENT)
+    logger.log('URL: |%s| Data: |%s| Headers: |%s|' % (url, post_data, headers), log_utils.LOGDEBUG)
 
     try:
         req = urllib2.Request(url)
@@ -187,10 +202,10 @@ def get_url(url, data=None, timeout=20, headers=None):
         result = response.read()
         response.close()
     except urllib2.HTTPError as e:
-        log_utils.log('ReCaptcha.V2 HTTP Error: %s on url: %s' % (e.code, url), log_utils.LOGWARNING, COMPONENT)
+        logger.log('ReCaptcha.V2 HTTP Error: %s on url: %s' % (e.code, url), log_utils.LOGWARNING)
         result = ''
     except urllib2.URLError as e:
-        log_utils.log('ReCaptcha.V2 URLError Error: %s on url: %s' % (e, url), log_utils.LOGWARNING, COMPONENT)
+        logger.log('ReCaptcha.V2 URLError Error: %s on url: %s' % (e, url), log_utils.LOGWARNING)
         result = ''
 
     return result

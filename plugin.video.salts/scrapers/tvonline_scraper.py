@@ -20,12 +20,14 @@ import urlparse
 import base64
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import VIDEO_TYPES
 from salts_lib.constants import QUALITIES
 import scraper
+
+logger = log_utils.Logger.get_logger()
 
 BASE_URL = 'http://opentuner.is'
 
@@ -47,46 +49,51 @@ class Scraper(scraper.Scraper):
     def get_sources(self, video):
         source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            page_url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(page_url, cache_limit=.25)
-            for button in dom_parser.parse_dom(html, 'li', {'class': 'playing_button'}):
-                try:
-                    link = dom_parser.parse_dom(button, 'a', ret='href')
-                    match = re.search('php\?.*?=?([^"]+)', link[0])
-                    stream_url = base64.b64decode(match.group(1))
-                    match = re.search('(http://.*)', stream_url)
-                    stream_url = match.group(1)
-                    host = urlparse.urlparse(stream_url).hostname
-                    quality = scraper_utils.get_quality(video, host, QUALITIES.HIGH)
-                    hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'url': stream_url, 'direct': False}
-                    hosters.append(hoster)
-                except Exception as e:
-                    log_utils.log('Exception during tvonline source: %s - |%s|' % (e, button), log_utils.LOGDEBUG)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        page_url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(page_url, cache_limit=.25)
+        for _attrs, button in dom_parser2.parse_dom(html, 'li', {'class': 'playing_button'}):
+            try:
+                link = dom_parser2.parse_dom(button, 'a', req='href')
+                match = re.search('php\?.*?=?([^"]+)', link[0].attrs['href'])
+                stream_url = base64.b64decode(match.group(1))
+                match = re.search('(https?://.*)', stream_url)
+                stream_url = match.group(1)
+                host = urlparse.urlparse(stream_url).hostname
+                quality = scraper_utils.get_quality(video, host, QUALITIES.HIGH)
+                hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'url': stream_url, 'direct': False}
+                hosters.append(hoster)
+            except Exception as e:
+                logger.log('Exception during tvonline source: %s - |%s|' % (e, button), log_utils.LOGDEBUG)
     
         return hosters
 
     def _get_episode_url(self, show_url, video):
         episode_pattern = '''href=['"]([^'"]+/season-%s-episode-%s/?)''' % (video.season, video.episode)
-        title_pattern = '''href=['"](?P<url>[^'"]+/season-\d+-episode-\d+/?).*?>\s*\d+\s*-\s*(?P<title>.*?)</a>'''
-        return self._default_get_episode_url(show_url, video, episode_pattern, title_pattern)
+        title_pattern = '''href=['"](?P<url>[^'"]+).*?</strong>\s*\d+\s*-\s*(?P<title>.*?)</a>'''
+        show_url = scraper_utils.urljoin(self.base_url, show_url)
+        html = self._http_get(show_url, cache_limit=2)
+        parts = dom_parser2.parse_dom(html, 'div', {'class': 'Season'})
+        fragment = '\n'.join(part.content for part in parts)
+        return self._default_get_episode_url(fragment, video, episode_pattern, title_pattern)
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
-        if title:
-            first_letter = title[:1].lower()
-            if first_letter.isdigit(): first_letter = '0-9'
-            search_url = '/alphabet/%s/' % (first_letter)
-            search_url = urlparse.urljoin(self.base_url, search_url)
-            html = self._http_get(search_url, cache_limit=24)
-            fragment = dom_parser.parse_dom(html, 'div', {'class': 'home'})
+        seen_urls = set()
+        for page in ['/latest-added/', '/popular-today/', '/most-popular/']:
+            url = scraper_utils.urljoin(self.base_url, page)
+            html = self._http_get(url, cache_limit=24)
+            fragment = dom_parser2.parse_dom(html, 'div', {'class': 'home'})
             if fragment:
                 norm_title = scraper_utils.normalize_title(title)
-                for match in re.finditer('''href=["']([^'"]+)[^>]+>([^<]+)''', fragment[0]):
-                    url, match_title_year = match.groups()
+                for attrs, match_title_year in dom_parser2.parse_dom(fragment[0].content, 'a', req='href'):
+                    match_url = attrs['href']
                     match_title, match_year = scraper_utils.extra_year(match_title_year)
                     if norm_title in scraper_utils.normalize_title(match_title) and (not year or not match_year or year == match_year):
-                        result = {'url': scraper_utils.pathify_url(url), 'title': scraper_utils.cleanse_title(match_title), 'year': match_year}
+                        match_url = scraper_utils.pathify_url(match_url)
+                        if match_url in seen_urls: continue
+                        seen_urls.add(match_url)
+                        result = {'url': match_url, 'title': scraper_utils.cleanse_title(match_title), 'year': match_year}
                         results.append(result)
 
         return results

@@ -15,18 +15,17 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import re
 import scraper
 import urlparse
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import VIDEO_TYPES
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import QUALITIES
 
-BASE_URL = 'http://www.spacemov.net'
+BASE_URL = 'http://www.spacemov.ag'
 
 class Scraper(scraper.Scraper):
     base_url = BASE_URL
@@ -44,33 +43,36 @@ class Scraper(scraper.Scraper):
         return 'SpaceMov'
 
     def get_sources(self, video):
+        hosters = []
         source_url = self.get_url(video)
-        sources = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            page_url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(page_url, cache_limit=8)
-            for fragment in dom_parser.parse_dom(html, 'div', {'class': 'video'}):
-                for source in dom_parser.parse_dom(fragment, 'iframe', ret='src') + dom_parser.parse_dom(fragment, 'script', ret='src'):
-                    if 'validateemb' in source: continue
-                    host = urlparse.urlparse(source).hostname
-                    source = {'multi-part': False, 'url': source, 'host': host, 'class': self, 'quality': QUALITIES.HD720, 'views': None, 'rating': None, 'direct': False}
-                    sources.append(source)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        page_url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(page_url, cache_limit=8)
+        for _attrs, fragment in dom_parser2.parse_dom(html, 'div', {'class': 'responsiveVideo'}):
+            for attrs, _content in dom_parser2.parse_dom(fragment, 'iframe', req='src') + dom_parser2.parse_dom(fragment, 'script', req='src'):
+                source = attrs['src']
+                if 'validateemb' in source: continue
+                host = urlparse.urlparse(source).hostname
+                source = {'multi-part': False, 'url': source, 'host': host, 'class': self, 'quality': QUALITIES.HD720, 'views': None, 'rating': None, 'direct': False}
+                hosters.append(source)
 
-        return sources
+        return hosters
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
-        params = {'s': title, 'submit': 'Search'}
-        html = self._http_get(self.base_url, params=params, cache_limit=8)
-        fragment = dom_parser.parse_dom(html, 'div', {'id': 'single-post'})
-        if fragment:
-            for item in dom_parser.parse_dom(fragment[0], 'div', {'class': 'box-bg'}):
-                match = re.search('href="([^"]+)[^>]+>([^<]+)', item)
-                if match:
-                    match_url, match_title_year = match.groups()
-                    match_title, match_year = scraper_utils.extra_year(match_title_year)
-                    if not year or not match_year or year == match_year:
-                        result = {'title': scraper_utils.cleanse_title(match_title), 'year': match_year, 'url': scraper_utils.pathify_url(match_url)}
-                        results.append(result)
+        html = self._http_get(self.base_url, params={'s': title}, cache_limit=8)
+        for _attrs, item in dom_parser2.parse_dom(html, 'div', {'class': 'browse-movie-bottom'}):
+            match = dom_parser2.parse_dom(item, 'a', req='href')
+            if match:
+                match_url, match_title_year = match[0].attrs['href'], match[0].content
+                match_title, match_year = scraper_utils.extra_year(match_title_year)
+                if not match_year:
+                    div = dom_parser2.parse_dom(item, 'div', {'class': 'browse-movie-year'})
+                    if div: match_year = div[0].content.strip()
+                        
+                match_url += '?watching'
+                if not year or not match_year or year == match_year:
+                    result = {'title': scraper_utils.cleanse_title(match_title), 'year': match_year, 'url': scraper_utils.pathify_url(match_url)}
+                    results.append(result)
 
         return results

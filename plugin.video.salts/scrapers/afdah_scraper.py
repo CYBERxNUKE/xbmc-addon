@@ -20,7 +20,7 @@ import string
 import urlparse
 import log_utils  # @UnusedImport
 import kodi
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import QUALITIES
@@ -46,41 +46,57 @@ class Scraper(scraper.Scraper):
         return 'afdah'
 
     def get_sources(self, video):
-        source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
+        source_url = self.get_url(video)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, cache_limit=.5)
+        match = re.search('This movie is of poor quality', html, re.I)
+        if match:
+            quality = QUALITIES.LOW
+        else:
+            quality = QUALITIES.HIGH
 
-            match = re.search('This movie is of poor quality', html, re.I)
-            if match:
-                quality = QUALITIES.LOW
-            else:
-                quality = QUALITIES.HIGH
-
-            for match in re.finditer('href="([^"]+/embed\d*/[^"]+)', html):
-                url = match.group(1)
-                embed_html = self._http_get(url, cache_limit=.5)
-                hosters += self.__get_links(embed_html)
-            
-            pattern = 'href="([^"]+)[^>]*>\s*<[^>]+play_video.gif'
-            for match in re.finditer(pattern, html, re.I):
-                stream_url = match.group(1)
-                host = urlparse.urlparse(stream_url).hostname
-                quality = scraper_utils.get_quality(video, host, quality)
-                hoster = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': quality, 'rating': None, 'views': None, 'direct': False}
-                hosters.append(hoster)
+        for match in re.finditer('href="([^"]+/embed\d*/[^"]+)', html):
+            url = match.group(1)
+            embed_html = self._http_get(url, cache_limit=.5)
+            hosters += self.__get_links(embed_html)
+        
+        pattern = 'href="([^"]+)[^>]*>\s*<[^>]+play_video.gif'
+        for match in re.finditer(pattern, html, re.I):
+            stream_url = match.group(1)
+            host = urlparse.urlparse(stream_url).hostname
+            quality = scraper_utils.get_quality(video, host, quality)
+            hoster = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': quality, 'rating': None, 'views': None, 'direct': False}
+            hosters.append(hoster)
         return hosters
+
+    def search(self, video_type, title, year, season=''):  # @UnusedVariable
+        results = []
+        search_url = scraper_utils.urljoin(self.base_url, '/wp-content/themes/afdah/ajax-search.php')
+        data = {'test1': title, 'test2': 'title'}
+        html = self._http_get(search_url, data=data, headers=XHR, cache_limit=1)
+        for _attrs, item in dom_parser2.parse_dom(html, 'li'):
+            match = dom_parser2.parse_dom(item, 'a', req='href')
+            if not match: continue
+
+            match_url = match[0].attrs['href']
+            match_title, match_year = scraper_utils.extra_year(match[0].content)
+            if not year or not match_year or year == match_year:
+                result = {'url': scraper_utils.pathify_url(match_url), 'title': scraper_utils.cleanse_title(match_title), 'year': match_year}
+                results.append(result)
+        return results
 
     def __get_links(self, html):
         hosters = []
-        r = re.search('draw\("([^"]+)', html)
+        r = re.search('tlas\("([^"]+)', html)
         if r:
-            plaintext = self.__get_f(self.__caesar(self.__get_f(r.group(1)), 13))
-            sources = self._parse_sources_list(plaintext)
+            plaintext = self.__caesar(self.__get_f(self.__caesar(r.group(1), 13)), 13)
+            sources = scraper_utils.parse_sources_list(self, plaintext)
             for source in sources:
-                stream_url = source + '|User-Agent=%s&Cookie=%s' % (scraper_utils.get_ua(), self._get_stream_cookies())
-                host = self._get_direct_hostname(stream_url)
+                stream_url = source + scraper_utils.append_headers({'User-Agent': scraper_utils.get_ua(), 'Cookie': self._get_stream_cookies()})
+                host = scraper_utils.get_direct_hostname(self, stream_url)
                 hoster = {'multi-part': False, 'url': stream_url, 'host': host, 'class': self, 'quality': sources[source]['quality'], 'rating': None, 'views': None, 'direct': True}
                 hosters.append(hoster)
         return hosters
@@ -110,19 +126,3 @@ class Scraper(scraper.Scraper):
                 break
     
         return t
-
-    def search(self, video_type, title, year, season=''):  # @UnusedVariable
-        results = []
-        search_url = urlparse.urljoin(self.base_url, '/wp-content/themes/afdah/ajax-search.php')
-        data = {'search': title, 'type': 'title'}
-        html = self._http_get(search_url, data=data, headers=XHR, cache_limit=1)
-        for item in dom_parser.parse_dom(html, 'li'):
-            match_url = dom_parser.parse_dom(item, 'a', ret='href')
-            match_title_year = dom_parser.parse_dom(item, 'a')
-            if match_url and match_title_year:
-                match_url = match_url[0]
-                match_title, match_year = scraper_utils.extra_year(match_title_year[0])
-                if not year or not match_year or year == match_year:
-                    result = {'url': scraper_utils.pathify_url(match_url), 'title': scraper_utils.cleanse_title(match_title), 'year': match_year}
-                    results.append(result)
-        return results

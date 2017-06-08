@@ -16,15 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import re
-import urlparse
 import kodi
-import dom_parser
+import dom_parser2
+import log_utils  # @UnusedImport
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import QUALITIES
 from salts_lib.constants import VIDEO_TYPES
 import scraper
 
+logger = log_utils.Logger.get_logger(__name__)
 BASE_URL = 'http://geektv.ma'
 
 class Scraper(scraper.Scraper):
@@ -44,9 +45,9 @@ class Scraper(scraper.Scraper):
 
     def resolve_link(self, link):
         html = self._http_get(link, cache_limit=.5)
-        match = re.search('<iframe[^>]*src="([^"]+)', html, re.I)
+        match = dom_parser2.parse_dom(html, 'iframe', req='src')
         if match:
-            return match.group(1)
+            return match[0].attrs['src']
         else:
             match = re.search('Nothing in HERE<br>([^<]+)', html, re.I)
             if match:
@@ -55,35 +56,43 @@ class Scraper(scraper.Scraper):
         return link
 
     def get_sources(self, video):
-        source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
-    
-            for table_cell in dom_parser.parse_dom(html, 'td'):
-                match = re.search('href="([^"]+)(?:[^>]+>){2}\s*([^<]+)', table_cell)
-                if match:
-                    link, host = match.groups()
-                    hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': scraper_utils.get_quality(video, host, QUALITIES.HIGH), 'views': None, 'rating': None, 'url': link, 'direct': False}
-                    hosters.append(hoster)
+        source_url = self.get_url(video)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, cache_limit=.5)
+
+        fragment = dom_parser2.parse_dom(html, 'tbody')
+        if fragment:
+            fragment = fragment[0].content
+            for attrs, content in dom_parser2.parse_dom(fragment, 'a', req='href'):
+                stream_url = attrs['href']
+                match = dom_parser2.parse_dom(content, 'img')
+                if not match: continue
+                host = match[0].content.strip()
+                quality = scraper_utils.get_quality(video, host, QUALITIES.HIGH)
+                hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'url': stream_url, 'direct': False}
+                hosters.append(hoster)
 
         return hosters
 
     def _get_episode_url(self, show_url, video):
         episode_pattern = 'href="([^"]+[sS]%s-?[eE]%s(?!\d)[^"]*)"' % (video.season, video.episode)
-        title_pattern = 'href="(?P<url>[^"]+[sS]\d+-?[eE]\d+[^"]*).*?Episode\s+\d+\s*:(?P<title>[^<]+)'
-        return self._default_get_episode_url(show_url, video, episode_pattern, title_pattern)
+        title_pattern = 'href="(?P<url>[^"]+)(?:[^>]*>){3}\s*S\d+\s+Episode\s+\d+\s*:\s*(?P<title>[^<]+)'
+        show_url = scraper_utils.urljoin(self.base_url, show_url)
+        html = self._http_get(show_url, cache_limit=2)
+        fragment = dom_parser2.parse_dom(html, 'div', {'id': 'accordion'})
+        return self._default_get_episode_url(fragment, video, episode_pattern, title_pattern)
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
-        search_url = urlparse.urljoin(self.base_url, '/search')
+        search_url = scraper_utils.urljoin(self.base_url, '/search')
         html = self._http_get(search_url, params={'q': title}, cache_limit=8)
         results = []
-        for item in dom_parser.parse_dom(html, 'td', {'class': 'col-md-10'}):
-            match = re.search('href="([^"]+)">([^<]+)', item)
+        for _attrs, item in dom_parser2.parse_dom(html, 'td', {'class': 'col-md-10'}):
+            match = dom_parser2.parse_dom(item, 'a', req='href')
             if match:
-                url, match_title = match.groups()
-                result = {'url': scraper_utils.pathify_url(url), 'title': scraper_utils.cleanse_title(match_title), 'year': ''}
+                match_url, match_title = match[0].attrs['href'], match[0].content
+                result = {'url': scraper_utils.pathify_url(match_url), 'title': scraper_utils.cleanse_title(match_title), 'year': ''}
                 results.append(result)
 
         return results

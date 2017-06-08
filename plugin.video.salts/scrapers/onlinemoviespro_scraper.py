@@ -18,13 +18,14 @@
 import re
 import urlparse
 import kodi
+import dom_parser2
+import log_utils  # @UnusedImport
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import VIDEO_TYPES
 import scraper
 
-
-BASE_URL = 'http://www.onlinemovies-pro.com'
+BASE_URL = 'http://putlocker-9.site'
 
 class Scraper(scraper.Scraper):
     base_url = BASE_URL
@@ -42,45 +43,50 @@ class Scraper(scraper.Scraper):
         return 'OnlineMoviesPro'
 
     def get_sources(self, video):
-        source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, cache_limit=.5)
-            match = re.search('class="video-embed".*?src="([^"]+)', html, re.DOTALL)
-            if match:
-                stream_url = match.group(1)
-                host = urlparse.urlparse(stream_url).hostname
-                q_str = 'HDRIP'
-                match = re.search('>Quality(.*?)<br\s*/>', html, re.I)
-                if match:
-                    q_str = match.group(1)
-                    q_str = q_str.decode('utf-8').encode('ascii', 'ignore')
-                    q_str = re.sub('(</?strong[^>]*>|:|\s)', '', q_str, re.I | re.U)
-                    
-                hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': scraper_utils.blog_get_quality(video, q_str, host), 'views': None, 'rating': None, 'url': stream_url, 'direct': False}
-                
-                match = re.search('class="views-infos">(\d+).*?class="rating">(\d+)%', html, re.DOTALL)
-                if match:
-                    hoster['views'] = int(match.group(1))
-                    hoster['rating'] = match.group(2)
+        source_url = self.get_url(video)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, cache_limit=.5)
+        fragment = dom_parser2.parse_dom(html, 'div', {'class': 'video-embed'})
+        if not fragment: return hosters
+        
+        iframe_url = dom_parser2.parse_dom(fragment[0].content, 'iframe', req='src')
+        if not iframe_url: return hosters
+        
+        stream_url = iframe_url[0].attrs['src']
+        host = urlparse.urlparse(stream_url).hostname
+        q_str = 'HDRIP'
+        match = re.search('>Quality(.*?)<br\s*/>', html, re.I)
+        if match:
+            q_str = match.group(1)
+            q_str = q_str.decode('utf-8').encode('ascii', 'ignore')
+            q_str = re.sub('(</?strong[^>]*>|:|\s)', '', q_str, re.I | re.U)
+            
+        hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': scraper_utils.blog_get_quality(video, q_str, host), 'views': None, 'rating': None, 'url': stream_url, 'direct': False}
+        
+        match = re.search('class="views-infos">(\d+).*?class="rating">(\d+)%', html, re.DOTALL)
+        if match:
+            hoster['views'] = int(match.group(1))
+            hoster['rating'] = match.group(2)
 
-                hosters.append(hoster)
+        hosters.append(hoster)
         return hosters
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
-        test_url = title.replace("'", '')
-        test_url = re.sub(r'[^a-zA-Z0-9\s]+', ' ', test_url).lower().strip()
-        test_url = re.sub('\s+', ' ', test_url)
-        test_url = test_url.replace(' ', '-')
-        if year:
-            test_url += '-%s' % (year)
-        test_url += '/'
+        html = self._http_get(self.base_url, params={'s': title}, cache_limit=1)
+        if re.search('Sorry, but nothing matched', html, re.I): return results
         
-        test_url = urlparse.urljoin(self.base_url, test_url)
-        if self._http_get(test_url, cache_limit=1):
-            result = {'title': scraper_utils.cleanse_title(title), 'year': year, 'url': scraper_utils.pathify_url(test_url)}
-            results.append(result)
+        fragment = dom_parser2.parse_dom(html, 'ul', {'class': 'listing-videos'})
+        if not fragment: return results
+        
+        for attrs, match_title_year in dom_parser2.parse_dom(fragment[0].content, 'a', req='href'):
+            match_url = attrs['href']
+            match_title_year = re.sub('</?[^>]*>', '', match_title_year)
+            match_title, match_year = scraper_utils.extra_year(match_title_year)
+            if not year or not match_year or year == match_year:
+                result = {'title': scraper_utils.cleanse_title(match_title), 'year': match_year, 'url': scraper_utils.pathify_url(match_url)}
+                results.append(result)
 
         return results

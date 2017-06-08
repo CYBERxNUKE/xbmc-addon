@@ -36,8 +36,8 @@ MODES = __enum(
     PLAYED='played', WATCHED='watched', COLLECTED='collected', SHOW_BOOKMARKS='show_bookmarks', DELETE_BOOKMARK='delete_bookmark', SHOW_HISTORY='show_history',
     RESET_FAILS='reset_failures', MANAGE_PROGRESS='toggle_progress', AUTOPLAY='autoplay', INSTALL_THEMES='install_themes', RESET_REL_URLS='reset_rel_urls',
     ANTICIPATED='anticipated', SHOW_REWATCH='show_rewatch', PICK_REWATCH_LIST='pick_rewatch_list', SET_REWATCH_LIST='set_rewatch_list', MANAGE_REWATCH='manage_rewatch',
-    BUILD_SOURCE_DIR='build_source_dir', GENRES='genres', SHOW_GENRE='show_genre', PRUNE_CACHE='prune_cache', AUTH_TORBA='auth_torba', FLUSH_IMAGES='flush_images',
-    REFRESH_IMAGES='refresh_images', RESET_TORBA='reset_torba', INSTALL_CACHE='install_cache')
+    BUILD_SOURCE_DIR='build_source_dir', GENRES='genres', SHOW_GENRE='show_genre', PRUNE_CACHE='prune_cache', FLUSH_IMAGES='flush_images', REFRESH_IMAGES='refresh_images',
+    INSTALL_CACHE='install_cache', REPAIR_URLRESOLVER='repair_urlresolver')
 SECTIONS = __enum(TV='TV', MOVIES='Movies')
 VIDEO_TYPES = __enum(TVSHOW='TV Show', MOVIE='Movie', EPISODE='Episode', SEASON='Season')
 CONTENT_TYPES = __enum(TVSHOWS='tvshows', MOVIES='movies', SEASONS='seasons', EPISODES='episodes', FILES='files', ADDONS='addons')
@@ -63,8 +63,10 @@ CHUNK_SIZE = 512 * 1024
 PROGRESS = __enum(OFF=0, WINDOW=1, BACKGROUND=2)
 FORCE_NO_MATCH = '***FORCE_NO_MATCH***'
 SHORT_MONS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER']
 ACTIONS = __enum(ADD='add', REMOVE='remove')
-TRIG_DB_UPG = False
+DELIM = '[._ -]'
+DEFAULT_TIMEOUT = 30
 
 # sort keys need to be defined such that "best" have highest values
 # unknown (i.e. None) is always worst
@@ -102,10 +104,11 @@ IMG_SIZES = ['full', 'medium', 'thumb']
 XHR = {'X-Requested-With': 'XMLHttpRequest'}
 USER_AGENT = "Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
 BR_VERS = [
-    ['%s.0' % i for i in xrange(18, 50)],
+    ['%s.0' % i for i in xrange(18, 53)],
     ['37.0.2062.103', '37.0.2062.120', '37.0.2062.124', '38.0.2125.101', '38.0.2125.104', '38.0.2125.111', '39.0.2171.71', '39.0.2171.95', '39.0.2171.99', '40.0.2214.93', '40.0.2214.111',
      '40.0.2214.115', '42.0.2311.90', '42.0.2311.135', '42.0.2311.152', '43.0.2357.81', '43.0.2357.124', '44.0.2403.155', '44.0.2403.157', '45.0.2454.101', '45.0.2454.85', '46.0.2490.71',
-     '46.0.2490.80', '46.0.2490.86', '47.0.2526.73', '47.0.2526.80', '48.0.2564.116', '49.0.2623.112', '50.0.2661.86', '51.0.2704.103', '52.0.2743.116', '53.0.2785.143', '54.0.2840.71'],
+     '46.0.2490.80', '46.0.2490.86', '47.0.2526.73', '47.0.2526.80', '48.0.2564.116', '49.0.2623.112', '50.0.2661.86', '51.0.2704.103', '52.0.2743.116', '53.0.2785.143', '54.0.2840.71',
+     '56.0.2924.87', '57.0.2987.133'],
     ['11.0'],
     ['8.0', '9.0', '10.0', '10.6']]
 WIN_VERS = ['Windows NT 10.0', 'Windows NT 7.0', 'Windows NT 6.3', 'Windows NT 6.2', 'Windows NT 6.1', 'Windows NT 6.0', 'Windows NT 5.1', 'Windows NT 5.0']

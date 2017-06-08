@@ -26,6 +26,8 @@ from salts_lib.constants import VIDEO_TYPES
 from salts_lib.utils2 import i18n
 import scraper
 
+logger = log_utils.Logger.get_logger()
+
 BASE_URL = 'http://tvshows-hdtv.org'
 EP_PAGE = '/_new.episodes.%s.html'
 
@@ -55,13 +57,13 @@ class Scraper(scraper.Scraper):
             for day in [day_after, video.ep_airdate]:
                 if day < today:
                     page_url = EP_PAGE % (day.strftime('%Y.%m.%d'))
-                    page_url = urlparse.urljoin(self.base_url, page_url)
+                    page_url = scraper_utils.urljoin(self.base_url, page_url)
                     html = self._http_get(page_url, require_debrid=True, cache_limit=30 * 24)
                     sources.update(self.__get_sources(video, html))
                 if sources: break
                 
             if not sources and kodi.get_setting('scraper_url'):
-                page_url = urlparse.urljoin(self.base_url, '/index.html')
+                page_url = scraper_utils.urljoin(self.base_url, '/index.html')
                 html = self._http_get(page_url, require_debrid=True, cache_limit=2)
                 sources.update(self.__get_sources(video, html))
             
@@ -87,7 +89,7 @@ class Scraper(scraper.Scraper):
         result = self.db_connection().get_related_url(video.video_type, video.title, video.year, self.get_name(), video.season, video.episode)
         if result:
             url = result[0][0]
-            log_utils.log('Got local related url: |%s|%s|%s|%s|%s|' % (video.video_type, video.title, video.year, self.get_name(), url), log_utils.LOGDEBUG)
+            logger.log('Got local related url: |%s|%s|%s|%s|%s|' % (video.video_type, video.title, video.year, self.get_name(), url), log_utils.LOGDEBUG)
         else:
             url = '/search?' + urllib.urlencode({'title': video.title, 'season': video.season, 'episode': video.episode, 'air_date': video.ep_airdate})
             self.db_connection().set_related_url(video.video_type, video.title, video.year, self.get_name(), url, video.season, video.episode)
@@ -98,7 +100,7 @@ class Scraper(scraper.Scraper):
         settings = super(cls, cls).get_settings()
         settings = scraper_utils.disable_sub_check(settings)
         name = cls.get_name()
-        settings.append('         <setting id="%s-filter" type="slider" range="0,180" option="int" label="     %s" default="30" visible="eq(-4,true)"/>' % (name, i18n('filter_results_days')))
+        settings.append('         <setting id="%s-filter" type="slider" range="0,180" option="int" label="     %s" default="30" visible="eq(-3,true)"/>' % (name, i18n('filter_results_days')))
         return settings
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable

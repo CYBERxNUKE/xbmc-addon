@@ -24,11 +24,12 @@ import log_utils
 from salts_lib import recaptcha_v2
 from salts_lib.constants import USER_AGENT
 
-COMPONENT = __name__
+logger = log_utils.Logger.get_logger(__name__)
+logger.disable()
 
 class NoRedirection(urllib2.HTTPErrorProcessor):
     def http_response(self, request, response):  # @UnusedVariable
-        log_utils.log('Stopping Redirect', log_utils.LOGDEBUG, COMPONENT)
+        logger.log('Stopping Redirect', log_utils.LOGDEBUG)
         return response
 
     https_response = http_response
@@ -47,7 +48,7 @@ def solve(url, cj, user_agent=None, name=None):
     match = re.search('data-sitekey="([^"]+)', html)
     match1 = re.search('data-ray="([^"]+)', html)
     if match and match1:
-        token = recaptcha_v2.UnCaptchaReCaptcha().processCaptcha(match.group(1), lang='en', name=name)
+        token = recaptcha_v2.UnCaptchaReCaptcha().processCaptcha(match.group(1), lang='en', name=name, referer=url)
         if token:
             data = {'g-recaptcha-response': token, 'id': match1.group(1)}
             scheme = urlparse.urlparse(url).scheme
@@ -68,19 +69,24 @@ def solve(url, cj, user_agent=None, name=None):
                 while response.getcode() in [301, 302, 303, 307]:
                     if cj is not None:
                         cj.extract_cookies(response, request)
-                    request = urllib2.Request(response.info().getheader('location'))
+                    redir_url = response.info().getheader('location')
+                    if not redir_url.startswith('http'):
+                        redir_url = urlparse.urljoin(url, redir_url)
+                    request = urllib2.Request(redir_url)
                     for key in headers: request.add_header(key, headers[key])
                     if cj is not None:
                         cj.add_cookie_header(request)
                         
                     response = urllib2.urlopen(request)
+
                 final = response.read()
                 if cj is not None:
-                    cj.save()
+                    cj.extract_cookies(response, request)
+                    cj.save(ignore_discard=True)
                     
                 return final
             except urllib2.HTTPError as e:
-                log_utils.log('CF Captcha Error: %s on url: %s' % (e.code, url), log_utils.LOGWARNING, COMPONENT)
+                logger.log('CF Captcha Error: %s on url: %s' % (e.code, url), log_utils.LOGWARNING)
                 return False
     else:
-        log_utils.log('CF Captcha without sitekey/data-ray: %s' % (url), log_utils.LOGWARNING, COMPONENT)
+        logger.log('CF Captcha without sitekey/data-ray: %s' % (url), log_utils.LOGWARNING)

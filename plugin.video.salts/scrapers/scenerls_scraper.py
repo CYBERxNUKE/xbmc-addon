@@ -20,15 +20,15 @@ import urllib
 import urlparse
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import VIDEO_TYPES
 from salts_lib.utils2 import i18n
 import scraper
 
-BASE_URL = 'http://scene-rls.com'
-MULTI_HOST = 'nfo.scene-rls.com'
+BASE_URL = 'http://scene-rls.net'
+MULTI_HOST = 'nfo.scene-rls.net'
 CATEGORIES = {VIDEO_TYPES.MOVIE: '/category/movies/"', VIDEO_TYPES.EPISODE: '/category/tvshows/"'}
 
 class Scraper(scraper.Scraper):
@@ -49,25 +49,29 @@ class Scraper(scraper.Scraper):
     def get_sources(self, video):
         source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            url = urlparse.urljoin(self.base_url, source_url)
-            html = self._http_get(url, require_debrid=True, cache_limit=.5)
-            sources = self.__get_post_links(html)
-            for source in sources:
-                if re.search('\.part\.?\d+', source) or '.rar' in source or 'sample' in source or source.endswith('.nfo'): continue
-                host = urlparse.urlparse(source).hostname
-                quality = scraper_utils.blog_get_quality(video, sources[source]['release'], host)
-                hoster = {'multi-part': False, 'host': host, 'class': self, 'views': None, 'url': source, 'rating': None, 'quality': quality, 'direct': False}
-                if 'X265' in sources[source]['release'] or 'HEVC' in sources[source]['release']:
-                    hoster['format'] = 'x265'
-                hosters.append(hoster)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        url = scraper_utils.urljoin(self.base_url, source_url)
+        html = self._http_get(url, require_debrid=True, cache_limit=.5)
+        sources = self.__get_post_links(html)
+        for source, value in sources.iteritems():
+            if scraper_utils.excluded_link(source): continue
+            host = urlparse.urlparse(source).hostname
+            if video.video_type == VIDEO_TYPES.MOVIE:
+                meta = scraper_utils.parse_movie_link(value['release'])
+            else:
+                meta = scraper_utils.parse_episode_link(value['release'])
+            quality = scraper_utils.height_get_quality(meta['height'])
+            hoster = {'multi-part': False, 'host': host, 'class': self, 'views': None, 'url': source, 'rating': None, 'quality': quality, 'direct': False}
+            if 'format' in meta: hoster['format'] = meta['format']
+            hosters.append(hoster)
         return hosters
 
     def __get_post_links(self, html):
         sources = {}
-        post = dom_parser.parse_dom(html, 'div', {'class': 'postContent'})
+        post = dom_parser2.parse_dom(html, 'div', {'class': 'postContent'})
         if post:
-            for result in re.finditer('<p\s+style="text-align:\s*center;">(.*?)<br.*?<h2(.*?)(?:<h4|<h3|</div>|$)', post[0], re.DOTALL):
+            post = post[0].content
+            for result in re.finditer('<p\s+style="text-align:\s*center;">(.*?)<br.*?<h2(.*?)(?:<h4|<h3|</div>|$)', post, re.DOTALL):
                 release, links = result.groups()
                 release = re.sub('</?[^>]*>', '', release)
                 release = release.upper()
@@ -85,18 +89,18 @@ class Scraper(scraper.Scraper):
         settings = super(cls, cls).get_settings()
         settings = scraper_utils.disable_sub_check(settings)
         name = cls.get_name()
-        settings.append('         <setting id="%s-filter" type="slider" range="0,180" option="int" label="     %s" default="30" visible="eq(-4,true)"/>' % (name, i18n('filter_results_days')))
-        settings.append('         <setting id="%s-select" type="enum" label="     %s" lvalues="30636|30637" default="0" visible="eq(-5,true)"/>' % (name, i18n('auto_select')))
+        settings.append('         <setting id="%s-filter" type="slider" range="0,180" option="int" label="     %s" default="30" visible="eq(-3,true)"/>' % (name, i18n('filter_results_days')))
+        settings.append('         <setting id="%s-select" type="enum" label="     %s" lvalues="30636|30637" default="0" visible="eq(-4,true)"/>' % (name, i18n('auto_select')))
         return settings
 
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
-        search_url = urlparse.urljoin(self.base_url, '/search/%s/')
+        search_url = scraper_utils.urljoin(self.base_url, '/search/%s/')
         search_url = search_url % (urllib.quote_plus(title))
         headers = {'Referer': self.base_url}
         all_html = self._http_get(search_url, headers=headers, require_debrid=True, cache_limit=1)
         
         html = ''
-        for post in dom_parser.parse_dom(all_html, 'div', {'class': 'post'}):
+        for _attrs, post in dom_parser2.parse_dom(all_html, 'div', {'class': 'post'}):
             if CATEGORIES[video_type] in post:
                 html += post
                 

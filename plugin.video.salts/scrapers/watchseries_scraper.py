@@ -16,10 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import re
-import urlparse
 import kodi
 import log_utils  # @UnusedImport
-import dom_parser
+import dom_parser2
 from salts_lib import scraper_utils
 from salts_lib.constants import FORCE_NO_MATCH
 from salts_lib.constants import QUALITIES
@@ -46,50 +45,54 @@ class Scraper(scraper.Scraper):
 
     def resolve_link(self, link):
         if not link.startswith('http'):
-            url = urlparse.urljoin(self.base_url, link)
+            url = scraper_utils.urljoin(self.base_url, link)
             html = self._http_get(url, cache_limit=0)
-            stream_url = dom_parser.parse_dom(html, 'a', {'class': 'myButton p2'}, ret='href')
-            if stream_url: return stream_url[0]
+            for attrs, content in dom_parser2.parse_dom(html, 'a', req='href'):
+                if re.search('Click Here To Play', content, re.I):
+                    return attrs['href']
         else:
             return link
     
     def get_sources(self, video):
         source_url = self.get_url(video)
         hosters = []
-        if source_url and source_url != FORCE_NO_MATCH:
-            page_url = urlparse.urljoin(self.base_url, source_url)
-            headers = {'Refer': self.base_url}
-            html = self._http_get(page_url, headers=headers, cache_limit=.5)
-            table = dom_parser.parse_dom(html, 'div', {'class': 'linktable'})
-            if table:
-                for row in dom_parser.parse_dom(table[0], 'tr'):
-                    spans = dom_parser.parse_dom(row, 'span')
-                    stream_url = dom_parser.parse_dom(row, 'a', ret='href')
-                    is_sponsored = any([i for i in spans if 'sponsored' in i.lower()])
-                    if not is_sponsored and len(spans) > 1 and stream_url:
-                        host, rating = spans[0], spans[1]
-                        stream_url = stream_url[0]
-                        quality = scraper_utils.get_quality(video, host, QUALITIES.HIGH)
-                        hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'url': stream_url, 'direct': False}
-                        if 'rating'.endswith('%') and rating[:-1].isdigit():
-                            hoster['rating'] = rating[:-1]
-                        hosters.append(hoster)
+        if not source_url or source_url == FORCE_NO_MATCH: return hosters
+        page_url = scraper_utils.urljoin(self.base_url, source_url)
+        headers = {'Refer': self.base_url}
+        html = self._http_get(page_url, headers=headers, cache_limit=.5)
+        for _attrs, table in dom_parser2.parse_dom(html, 'table', {'class': 'W'}):
+            for _attrs, row in dom_parser2.parse_dom(table, 'tr'):
+                td = dom_parser2.parse_dom(row, 'td')
+                stream_url = dom_parser2.parse_dom(row, 'a', req='href')
+                if not td or not stream_url: continue
+                
+                host = td[0].content
+                host = re.sub('<!--.*?-->', '', host)
+                host = re.sub('<([^\s]+)[^>]*>.*?</\\1>', '', host)
+                host = host.strip()
+                stream_url = stream_url[0].attrs['href']
+                quality = scraper_utils.get_quality(video, host, QUALITIES.HIGH)
+                hoster = {'multi-part': False, 'host': host, 'class': self, 'quality': quality, 'views': None, 'rating': None, 'url': stream_url, 'direct': False}
+                hosters.append(hoster)
         return hosters
 
     def _get_episode_url(self, show_url, video):
-        episode_pattern = 'href="([^"]*s%s_e%s(?!\d)[^"]*)' % (video.season, video.episode)
-        return self._default_get_episode_url(show_url, video, episode_pattern)
+        episode_pattern = 'href="([^"]*s0*%s_e0*%s(?!\d)[^"]*)' % (video.season, video.episode)
+        show_url = scraper_utils.urljoin(self.base_url, show_url)
+        html = self._http_get(show_url, cache_limit=2)
+        fragment = dom_parser2.parse_dom(html, 'div', {'class': 'seasons-grid'})
+        return self._default_get_episode_url(fragment, video, episode_pattern)
     
     def search(self, video_type, title, year, season=''):  # @UnusedVariable
         results = []
-        search_url = urlparse.urljoin(self.base_url, '/suggest.php')
+        search_url = scraper_utils.urljoin(self.base_url, '/suggest.php')
         headers = {'Referer': self.base_url}
         headers.update(XHR)
         params = {'ajax': 1, 's': title, 'type': 'TVShows'}
         html = self._http_get(search_url, params=params, cache_limit=8)
-        for match in re.finditer('href="([^"]+)[^>]*>(.*?)</a>', html):
-            match_url, match_title = match.groups()
-            match_title = re.sub('</?span[^>]*>', '', match_title)
+        for attrs, match_title in dom_parser2.parse_dom(html, 'a', req='href'):
+            match_url = attrs['href']
+            match_title = re.sub('</?[^>]*>', '', match_title)
             match = re.search('\((\d{4})\)$', match_url)
             if match:
                 match_year = match.group(1)

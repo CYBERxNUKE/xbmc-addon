@@ -1,3 +1,266 @@
+[B]Version 2.0.194[/B]
+- Add sit2play
+- Add pubfilm.to
+- Add Mehliz
+- Improve 2DDL
+- Improve xmovies8.v2
+- Improve filmovizjia
+- Improve Dizimag
+- Improve Mehliz
+- Fix Dizigold
+- Fix Dizilab
+- Fix Dizipas
+- Fix Dizibox
+- Fix tvonline
+- Fix SeriesCoco
+- Fix pubfilm
+- Fix Flixanity
+- Fix DDLSeries
+- Fix RLSSource
+- Remove SolarMovie
+- Remove Torba
+- Fix episode thumbnail caching
+- Improve premiumize scraper
+
+[B]Version 2.0.187[/B]
+- Make episode detection faster across all scrapers
+- Fix m4ufree
+- Fix MovieHubs
+- Fix diziay
+- Fix iwatch
+- Fix MovieSub
+- Fix MovieWatcher
+- Fix Sezon
+- Fix MovieXK
+- Fix Quikr
+- Fix Pubfilm
+- Migrate to logger class
+- Improve js2py
+- Improve jsunfuck
+
+[B]Version 2.0.185[/B]
+- Improve image scraping (fix using thumbnails as fanart)
+- Add RMZ
+- Improve Premiumize.V2
+- Improve/Fix Furk
+- Improve YesMovies
+- Improve 2DDL
+- Improve DDLValley
+- Improve MyDDL
+- Improve Quikr
+- Improve rls-movies
+- Remove scrapers for defunct sites
+- Fix Dizist
+- Fix Watch5s
+- Fix Dizipas
+- Fix pubfilm
+- Fix Vumoo
+- Fix Solar
+- Fix SceneHDTV
+- Fix Vidics
+- Fix SeeHD
+- Fix Dizipas
+- Fix Putlocker
+- Update MVL
+- Update Flixanity
+
+[B]Version 2.0.175[/B]
+- Add SeriesOnline
+- Make ImageProxy multi-threaded
+- Remove old Artwork scraping method
+- Improve xmovies8.v2
+- Improve YesMovies
+- Improve emovies
+- Improve m4ufree
+- Improve HEVCBluray
+- Improve WatchOnline
+- Fix Scenedown
+- Fix MovieSub
+- Fix Watch5s
+
+[B]Version 2.0.171[/B]
+- Fix onlinediz
+- Fix DDLSeries
+- Fix OLMovies
+- Improve OnlineMovies
+- Fix Xmovies8
+- Merge afdah.org into xmovies8
+- Improve WatchItVideos
+- Fix MVL
+- Improve Kohi
+
+[B]Version 2.0.170[/B]
+- Add WatchOnline
+- Fix SeeHD
+- Fix RLSource
+- Fix MovieSub
+- Fix PubFilm
+- Fix Vivo
+- Fix MovieXK
+- Improve Dizibox
+- Fix IceFilms
+
+[B]Version 2.0.169[/B]
+- Fix bug in image scraper and fix proxy cache causing Refresh to not work
+- Fix RLSBB
+- Randomly shuffle unsorted sources
+
+[B]Version 2.0.168[/B]
+- Fix WatchSeries
+- Fix get_files for SeriesWatch
+- Clear Thumbnail cache when proxy is enabled (fixes Refresh Images)
+- Allow gzip encoding for all scraper and trakt replies (~75% on the wire savings)
+- Update Translations
+
+[B]Version 2.0.167[/B]
+- Add IOMovies scraper
+- Add Kohi scraper
+- Make image proxy default on
+- Code nesting cleanup in scrapers
+- Fix Streamdor
+- Fix xmovies8.v2
+- Improve Sezon
+- Improve Torba
+- Improve YesMovies
+- Code Centralization
+- Fix Pirate Junkies
+
+[B]Version 2.0.166[/B]
+- Update translations
+- Migrate all scrapers to further optomized dom_parser
+- Fix yesmovies
+- Improve dizilab
+- Improve MovieXK
+- Improve Xmovies8.V2
+
+[B]Version 2.0.165[/B]
+- Fix 20 or so scrapers
+- Migrate all scrapers to new dom_parser (4x faster)
+- Remove streamallthis
+- Remove yaban
+- Fix occasional MySQL + Directory mode bug
+
+[B]Version 2.0.160[/B]
+- Add x265 detection to alluc
+- Remove Fardadownload
+- Fix dizigold
+- Fix cf_captcha
+- Fix flixanity
+- Add Movieblast
+
+[B]Version 2.0.159[/B]
+- Improve Image Proxy reliability
+- Add StreamDor scraper
+- Fix sezon
+- Fix flixanity
+- Fix vidics
+- Fix RLSBB
+- Fix scene-rls
+- Fix tvonline
+- Remove WatchFilm
+- Fix OnlineDizi
+- Fix TVRush
+- Fix Losmovies
+
+[B]Version 2.0.155[/B]
+- Improve service code to reduce globals
+- Improve DB upgrade handling since it depends on DB Recovery now
+- Fix several bugs in image proxy that caused occasional crashes
+- Improve Hidden List caching
+- Fix RLSBB
+- Fix Vumoo 
+
+[B]Version 2.0.152[/B]
+- Improve Image Proxy
+- Move FL to single addon settings
+- Add Settings item to Repair Corrupt URLResolver
+- Improve Vumoo
+- Fix DDLSeries
+- Fix Afdah.org
+- Fix Xmovies8
+- Fix 2DDL
+- Fix WatchItVideos
+- Fix Afdah
+- Fix MovieHut
+- Fix IWatchOnline
+- Fix CMZ
+- Fix Putlocker
+- Fix MovieHubs
+- Fix MovieWatcher
+- Fix Pubfilm
+- Remove Filmstreaming.in
+- Remove Yshows
+- Remove MVL
+
+[B]Version 2.0.149[/B]
+- Add **EXPERIMENTAL** Image Proxy
+- Add setting to set Debrid Highlight color (Green is unreadable on Estuary)
+- Add SceneHDTV
+- Add Best-Moviez
+- Add MyDDL
+- 30 or so scrapers fixed/improved
+- Remove DailyReleases
+- Remove ventures 
+- Remove OCW
+- Remove RLSeries
+
+[B]Version 2.0.142[/B]
+- Add option to force fresh on Personal Lists and My Subscriptions
+- Switch trakt API to new host
+- Add new gvideo qualities
+- Add MovyTvy scraper
+- Add Vumoo scraper
+- Add Vebup scraper
+- Add Treasureen scraper
+- Fix hevcbluray
+- Fix Quikr
+- Fix 2ddl
+- Fix dizilab
+- Fix iWatchOnline
+- Fix LosMovies
+- Fix PutMV
+- Fix Yabananci scraper
+- Fix SceneDown
+- Fix Flixanity
+- Fix WatchitVideos
+- Fix SolarMovie
+- Fix putlocker
+- Fix Movie25
+- Fix SpaceMov
+- Improve SeriesWatch
+- Improve dayt
+- Improve MVL scraper
+- Improve SeeHD scraper
+- Improve Xmovies8.V2
+- Improve VKFlix
+- Improve YesMovies
+- Improve TVOnline
+- Remove SantaSeries
+
+[B]Version 2.0.136[/B]
+- Fix Watch5s
+- Fix MVL
+- Fix xmovies8.v2
+- Fix Putlockers
+- Fix rls-movies
+- Update sezonlukdizi
+
+[B]Version 2.0.133[/B]
+- Add YabanciDizi
+- Add RealMovies
+- Fix PutMV
+- Fix Pelispedia
+- Fix Watch5s
+- Fix MovieGo
+- Fix MovieWatcher
+- Fix SpaceMov
+- Fix MovieHubs
+- Fix Afdah
+- Improve MovieXK
+- Fix TuneMovie
+- Fix WMO
+- Handle reserved windows filenames
+
 [B]Version 2.0.129[/B]
 - Fix MVL
 - Fix Watch5s
