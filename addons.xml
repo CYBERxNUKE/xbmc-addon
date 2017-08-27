@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
 <addon id="plugin.program.diggzwizard" name="Diggz Wizard" version="2.5" provider-name="Diggz">
   <requires>
@@ -103,7 +103,7 @@
   </extension>
 </addon>
 
-﻿<addon id="plugin.video.exodus" version="3.1.22" name="Exodus" provider-name="Exodus">
+﻿<addon id="plugin.video.exodus" version="3.2.00" name="Exodus" provider-name="Exodus">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="script.exodus.artwork" version="1.0.5" />
@@ -121,7 +121,7 @@
 		<forum></forum>
 		<website></website>
 		<source></source>
-		<news>Last Version Made From The TVA Guys, If anything changes will be listed here, this version should fix install errors</news>
+		<news>COVENANT UPDATE</news>
 	</extension>
 </addon>
 
