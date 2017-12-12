@@ -92,8 +92,7 @@ def main_menu():
     if os.path.exists(oldfresh):
         shutil.rmtree(oldfresh)
 
-    if kodi.get_setting ('wizardran') == 'false':
-        kodi.addItem("Config Wizard",'','call_wizard',artwork+'config_wizard.png',description="Automatically configure Kodi with the best addons and goodies in seconds!")
+    kodi.addItem("Config Wizard",'','call_wizard',artwork+'config_wizard.png',description="Automatically configure Kodi with the best addons and goodies in seconds!")
     kodi.addDir("Addon Installer",'','call_installer',artwork+'addon_installer.png',description="It’s like an App Store for Kodi addons!")
     kodi.addDir("Maintenance Tools",'','call_maintool',artwork+'maintool.png',description="Keep your Kodi setup running at optimum performance!")
     #kodi.addDir("Kodi Librtmp Files",'','get_libs',artwork+'librtmp_files.png')
