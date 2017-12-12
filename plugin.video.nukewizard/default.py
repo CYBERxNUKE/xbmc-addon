@@ -65,7 +65,7 @@ def main_menu():
 
 
     if kodi.get_setting('hasran')=='false':
-        kodi.set_setting('hasran','true')
+        kodi.set_setting('hasran','false')
     try:
         if not os.path.exists(hubpath):
             installer.HUBINSTALL('CYBERxNUKE.Repository','https://github.com/CYBERxNUKE/xbmc-addon/raw/master/repository.cyberxnuke/repository.cyberxnuke-1.1.zip','','addon','none')
