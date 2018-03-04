@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.firetvguru" name="Fire TV Guru Repo" version="0.0.6" provider-name="Fire TV Guru Repo">
+	<extension point="xbmc.addon.repository" name="Fire TV Guru Repo">
+		<info compressed="false">https://raw.github.com/FireTvGuru/repo/master/addons.xml</info>
+		<checksum>https://raw.github.com/FireTvGuru/repo/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.github.com/FireTvGuru/repo/master/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Fire TV Guru Repo</summary>
+		<description>My Repository</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+
