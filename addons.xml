@@ -415,17 +415,24 @@ Disfruta de los mejores canales...
 
 </addon>
 
-<addon id="repository.aresproject" name="[COLOR blue]A[/COLOR][COLOR white]res Project[/COLOR]" version="0.1.1" provider-name="Ares Team">
-<extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
-<info compressed="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</info>
+<addon id="repository.aresproject" name="[COLOR blue]A[/COLOR][COLOR white]res Project[/COLOR]" version="0.1.0" provider-name="Ares Team">
+	<extension point="xbmc.addon.repository" name="AresRepo">
+	<dir>
+        <info compressed="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</info>
 <checksum>https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</checksum>
 <datadir zip="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/</datadir>
-</extension>
-<extension point="xbmc.addon.metadata">
-<summary>CYBERxNUKE Repository</summary>
-<description>CYBERxNUKE Repository</description>
-<platform>all</platform>
-</extension>
+	</dir>
+    <dir>
+		<info compressed="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</info>
+<checksum>https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</checksum>
+<datadir zip="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/</datadir>
+    </dir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>AresProject.</summary>
+		<description>Ares-Project Addons Source. Visit Us At https://ares-project.uk</description>
+		<platform>all</platform>
+	</extension>
 </addon>
 
 <addon id="repository.cyberxnuke" name="CYBERxNUKE Repository" version="1.1" provider-name="CYBERxNUKE">
