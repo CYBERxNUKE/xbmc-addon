@@ -6,7 +6,7 @@
 		<import addon="script.ProjectCypher.metadata" />
 		<import addon="script.module.sportsvod" />
 		<import addon="script.cypher.pairwith" />
-        <import addon="script.cypher.pairwith.launcher" />
+    <import addon="script.cypher.pairwith.launcher" />
 		<import addon="script.cypherstream" />
 		<import addon="script.module.cyphersolid" />
 		<import addon="script.module.cypherswift" />
