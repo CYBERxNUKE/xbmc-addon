@@ -219,7 +219,7 @@
 		<import addon="script.ProjectCypher.metadata" />
 		<import addon="script.module.sportsvod" />
 		<import addon="script.cypher.pairwith" />
-        <import addon="script.cypher.pairwith.launcher" />
+    <import addon="script.cypher.pairwith.launcher" />
 		<import addon="script.cypherstream" />
 		<import addon="script.module.cyphersolid" />
 		<import addon="script.module.cypherswift" />
@@ -413,6 +413,19 @@ Disfruta de los mejores canales...
 
   </extension>
 
+</addon>
+
+<addon id="repository.aresproject" name="[COLOR blue]A[/COLOR][COLOR white]res Project[/COLOR]" version="0.1.1" provider-name="Ares Team">
+<extension point="xbmc.addon.repository" name="CYBERxNUKE Addon Repository">
+<info compressed="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</info>
+<checksum>https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</checksum>
+<datadir zip="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/</datadir>
+</extension>
+<extension point="xbmc.addon.metadata">
+<summary>CYBERxNUKE Repository</summary>
+<description>CYBERxNUKE Repository</description>
+<platform>all</platform>
+</extension>
 </addon>
 
 <addon id="repository.cyberxnuke" name="CYBERxNUKE Repository" version="1.1" provider-name="CYBERxNUKE">
