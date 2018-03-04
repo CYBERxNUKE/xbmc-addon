@@ -127,7 +127,9 @@ def getSource(params, src):
         paramPage = params.strip('\',\'')
 
     paramPage = paramPage.replace('%s', src)
-    return common.getHTML(paramPage, None, paramReferer)
+    data = common.getHTML(paramPage, None, paramReferer)
+    #common.log('JairoXGetSource:' + data)
+    return data
 
 
 def parseText(item, params, src):
@@ -144,6 +146,7 @@ def parseText(item, params, src):
     variables = []
     if len(paramArr) > 2:
         variables = paramArr[2].split('|')
+    #common.log('JairoX2:' + text)
     return reg.parseText(text, regex, variables)
 
 
@@ -182,54 +185,110 @@ def getInfo(item, params, src, xml=False, mobile=False):
         pass
 
     common.log('Get Info from: "'+ paramPage + '" from "' + referer + '"')
-    data = common.getHTML(paramPage, form_data, referer, xml, mobile, ignoreCache=False,demystify=True)
+    #common.log('JairoX1:' + paramRegex)
+    data = common.getHTML(paramPage, form_data, referer, xml, mobile, ignoreCache=False, demystify=True)
+    #common.log('JairoX2:' + str(data.encode('ascii', 'ignore').decode('ascii')))
     return reg.parseText(data, paramRegex, variables)
+
+def hex2ascii(src):
+    import binascii
+    try:
+        ascii_string = binascii.unhexlify(src)
+    except:
+        ascii_string = ''
+    return ascii_string
 
 
 def decodeBase64(src):
-    from base64 import b64decode
-    return b64decode(src)
+    #common.log("Jairox5:" + src)
+    import base64
+    import binascii
+
+    ds = src
+    while len(ds)>=4 and re.match(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$", ds): #keep decoding in case of multiple encodings        
+        try:
+            ds = base64.decodestring(ds)
+            ds.encode('ascii', 'strict') #check if result is valid ascii
+        except UnicodeDecodeError: #decoded string not ascii
+            ds = ''
+            break
+        except binascii.Error: #nothing left to decode
+            break
+    return ds
+
+def decodeBase64Special(params, src):
+    import base64
+    paramArr = __parseParams(params)
+    paramstr = paramArr[0].replace('%s', src)
+    paramflag = paramArr[1]
+    #common.log("Jairox5:" + paramflag + '@@@' + paramstr)    
+    s = str()
+    try:
+        if paramflag == 'split':
+            chunks = paramstr.split(',')
+            for chunk in chunks:
+                s += base64.decodestring(chunk)
+    except:
+        s = paramstr
+    return s
 
 def encodeBase64(src):
-    from base64 import b64encode
-    return b64encode(src)
+    from base64 import urlsafe_b64encode
+    return urlsafe_b64encode(src)
 
 def decodeRawUnicode(src):
     try:
         return src
     except:
         return src
+
+def simpleToken(url):
+    import requests,zlib
+    time = common.getSetting(url+'_time')
+    s = requests.Session()
+    s.verify = False
+    if time:
+        s.headers.update({'If-Modified-Since' : time})
+    s.headers.update({'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'})
+    s.headers.update({'Referer' : url})
+    r = s.get(url, timeout=10)
+    if r.status_code == 304:
+        return common.getSetting(url+'_token')
+    elif r.status_code == 200:
+        content = zlib.decompress(r.content[8:])
+        if 'tv-msn' in url:
+            token = re.findall(r"lengths.param1.(\w+)", content)[0][:16]
+        else:
+            token = re.findall("TokenResponse (\w+)", content)[0][:16]
+        common.setSetting(url+'_token',token)
+        common.setSetting(url+'_time',r.headers['Last-Modified'])
+        return token
     
+      
 def resolve(src):
     try:
+        import random
         parsed_link = urlparse.urlsplit(src)
         tmp_host = parsed_link.netloc.split(':')
-        if tmp_host[0] == 'watch4.streamlive.to':
+        if 'streamlive.to' in tmp_host[0]:
             servers = ['80.82.78.4',
-                       #'93.174.93.230',
-                       '95.211.210.69',
-                       '95.211.196.5',
-                       '184.173.85.91',
-                       '85.17.31.102',
-                       '169.54.85.69']
-            import random
-            tmp_host[0] = random.choice(servers)
-        elif tmp_host[0] == 'watch3.streamlive.to':
-            servers = ['80.82.78.4',
-                       '95.211.210.69',
-                       '184.173.85.91',
-                       '85.17.31.102',
-                       '95.211.196.5']
-            import random
+                       '89.248.168.57',
+                       '93.174.93.230',
+                       '89.248.169.55',
+                       '62.210.139.136']
             tmp_host[0] = random.choice(servers)
         elif tmp_host[0] == 'xlive.sportstream365.com':
-            servers = ['93.189.57.254',
-                       '185.28.190.158',
-                       '178.175.132.210',
-                       '178.17.168.90',
-                       '185.56.137.178',
-                       '94.242.254.72']
-            import random
+            servers = ["91.192.80.210","93.189.57.254","93.189.62.10"]
+            tmp_host[0] = random.choice(servers)
+        elif tmp_host[0] == 'live.pub.stream':
+            servers =  ["195.154.172.90",
+                        "195.154.179.174",
+                        "195.154.168.218",
+                        "62.210.203.170",
+                        "195.154.168.230",
+                        "62.210.203.163",
+                        "195.154.167.95",
+                        "195.154.182.101"]
             tmp_host[0] = random.choice(servers)
         else:
             tmp_host[0] = socket.gethostbyname(tmp_host[0])
@@ -240,20 +299,24 @@ def resolve(src):
         return src
 
 
-def replace(params, src):
+def replace(item, params, src):
     paramArr = __parseParams(params)
     paramstr = paramArr[0].replace('%s', src)
     paramSrch = paramArr[1]
     paramRepl = paramArr[2]
+    if paramRepl.startswith('@') and paramRepl.endswith('@'):
+        paramRepl = item.getInfo(paramRepl.strip('@'))
     return paramstr.replace(paramSrch,paramRepl)
 
 
-def replaceRegex(params, src):
+def replaceRegex(item, params, src):
     paramArr = __parseParams(params)
     paramStr = paramArr[0].replace('%s', src)
     paramSrch = paramArr[1]
     paramRepl = paramArr[2]
-
+    if paramRepl.startswith('@') and paramRepl.endswith('@'):
+        paramRepl = item.getInfo(paramRepl.strip('@'))
+    
     r = re.compile(paramSrch, re.IGNORECASE + re.DOTALL + re.MULTILINE + re.UNICODE)
     ms = r.findall(paramStr)
     if ms:
@@ -335,6 +398,31 @@ def decodeXppod(src):
 
 def decodeXppod_hls(src):
     return xp.decode_hls(src)
+
+def bcast64(src):
+    _keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='    
+    t = ""
+    f = 0
+    e = re.sub(r'[^A-Za-z0-9\+\/\=]','',src)
+    while f < len(e):
+        s = _keyStr.index(e[f])
+        f += 1
+        o = _keyStr.index(e[f])
+        f += 1
+        u = _keyStr.index(e[f])
+        f += 1
+        a = _keyStr.index(e[f])
+        f += 1
+        n = s << 2 | o >> 4
+        r = (o & 15) << 4 | u >> 2
+        i = (u & 3) << 6 | a
+        t = t + chr(n);
+        if (u != 64):
+            t = t + chr(r)
+        if (a != 64):
+            t = t + chr(i)
+    return t
+
 
 def getCookies(cookieName, url):
     domain = urlparse.urlsplit(url).netloc
