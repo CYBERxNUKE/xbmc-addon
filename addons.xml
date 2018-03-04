@@ -415,7 +415,7 @@ Disfruta de los mejores canales...
 
 </addon>
 
-<addon id="repository.aresproject" name="[COLOR blue]A[/COLOR][COLOR white]res Project[/COLOR]" version="0.1.1" provider-name="Ares Team">
+<addon id="repository.aresproject" name="[COLOR blue]A[/COLOR][COLOR white]res Project[/COLOR]" version="0.2" provider-name="Ares Team">
 	<extension point="xbmc.addon.repository" name="AresRepo">
 	<dir>
         <info compressed="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</info>
