@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<channel>
+	<id>yaske</id>
+	<name>Yaske</name>
+
+	<active>true</active>
+	<adult>false</adult>
+	<language>es</language>
+
+	<fanart>https://github.com/master-1970/resources/raw/master/images/fanart/yaske.png</fanart>
+	<thumbnail>https://github.com/master-1970/resources/raw/master/images/squares/yaske.png</thumbnail>
+	<bannermenu>https://github.com/master-1970/resources/raw/master/images/bannermenu/yaske.png</bannermenu>
+
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/channels/</update_url>
+	<version>12</version>
+
+	<changes>
+		<change>
+			<date>01/02/17</date>
+			<autor>super_berny</autor>
+			<description>Añadir imagenes, sinopsis, etc...</description>
+		</change>
+		<change>
+			<date>18/01/17</date>
+			<autor>eniebla</autor>
+			<description>Uso de httptools</description>
+		</change>
+		<change>
+			<date>12/12/16</date>
+			<autor>cmos</autor>
+			<description>Cambios en la web</description>
+		</change>
+		<change>
+			<date>01/07/16</date>
+			<autor>SeiTaN</autor>
+			<description>Eliminado código innecesario.</description>
+		</change>
+		<change> 
+			<date>29/04/16</date>
+			<autor>super_berny</autor>
+			<description>Adaptar a Novedades Peliculas e Infantiles</description>
+		</change>
+	</changes>
+		
+	<categories>
+		<category>latino</category>
+		<category>movie</category>
+	</categories>
+
+	<settings>
+		<id>include_in_newest_peliculas</id>
+		<type>bool</type>
+		<label>Incluir en Novedades - Peliculas</label>
+		<default>true</default>
+		<enabled>true</enabled>
+		<visible>true</visible>
+	</settings>
+	<settings>
+		<id>include_in_newest_infantiles</id>
+		<type>bool</type>
+		<label>Incluir en Novedades - Infantiles</label>
+		<default>false</default>
+		<enabled>true</enabled>
+		<visible>true</visible>
+	</settings>
+</channel>

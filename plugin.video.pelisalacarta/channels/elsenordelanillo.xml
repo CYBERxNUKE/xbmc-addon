@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<channel>
+	<id>elsenordelanillo</id>
+	<name>El señor del anillo</name>
+
+	<active>true</active>
+	<adult>false</adult>
+	<language>es</language>
+	<include_in_global_search>disabled</include_in_global_search>
+	
+	<fanart></fanart>
+	<thumbnail>http://media.tvalacarta.info/pelisalacarta/squares/elsenordelanillo.png</thumbnail>
+	<bannermenu>http://media.tvalacarta.info/pelisalacarta/bannermenu/elsenordelanillo.png</bannermenu>
+
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/channels/</update_url>
+	<version>1</version>
+	<date>01/07/2016</date>
+	<changes>Eliminado código innecesario.</changes>
+
+	<categories>
+		<category>latino</category>
+		<category>movie</category>
+	</categories>
+</channel>

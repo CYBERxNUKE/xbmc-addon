@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<channel>
+	<id>gaypornshare</id>
+	<name>gaypornshare</name>
+	<language>es</language>
+	<include_in_global_search>false</include_in_global_search>
+	
+	<update_url></update_url>
+	<active>false</active>
+	<version>4</version>
+	<adult>true</adult>
+	<date>01/07/2016</date>
+	<changes>Eliminado código innecesario.</changes>
+	<fanart></fanart>
+	<thumbnail></thumbnail>
+	<categories>
+		<category>documentary</category>
+	</categories>
+</channel>

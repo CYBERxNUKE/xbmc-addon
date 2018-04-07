@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<channel>
+	<id>newpct1</id>
+	<name>Newpct1</name>
+
+	<active>true</active>
+	<adult>false</adult>
+	<language>es</language>
+
+	<fanart></fanart>
+	<thumbnail>http://media.tvalacarta.info/pelisalacarta/squares/newpct1.png</thumbnail>
+	<bannermenu>http://media.tvalacarta.info/pelisalacarta/bannermenu/newpct1.png</bannermenu>
+
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/channels/</update_url>
+	<version>17</version>
+
+
+	<changes>
+		<change>
+			<date>17/04/17</date>
+			<autor>Cmos</autor>
+			<description>Arreglada seccion series</description>
+		</change>
+		<change>
+			<date>29/12/16</date>
+			<autor>super_berny</autor>
+			<description>Adaptado, por cambios en la web, seccion Series</description>
+		</change>
+		<change>
+			<date>01/07/2016</date>
+			<autor>SeiTaN</autor>
+			<description>Eliminado código innecesario.</description>
+		</change>
+	</changes>
+
+	<categories>
+		<category>movie</category>
+		<category>serie</category>
+		<category>anime</category>
+		<category>torrent</category>
+	</categories>
+
+	<settings>
+		<id>include_in_global_search</id>
+		<type>bool</type>
+		<label>Incluir en busqueda global</label>
+		<default>false</default>
+		<enabled>true</enabled>
+		<visible>true</visible>
+	</settings>
+</channel>

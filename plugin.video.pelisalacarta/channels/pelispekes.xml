@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<channel>
+	<id>pelispekes</id>
+	<name>PelisPekes</name>
+
+	<active>true</active>
+	<adult>false</adult>
+	<language>es</language>
+	<include_in_global_search>disabled</include_in_global_search>
+		
+	<fanart></fanart>
+	<thumbnail>http://media.tvalacarta.info/pelisalacarta/squares/pelispekes.png</thumbnail>
+	<bannermenu>http://media.tvalacarta.info/pelisalacarta/bannermenu/pelispekes.png</bannermenu>
+
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/channels/</update_url>
+	<version>5</version>
+	<date>01/07/2016</date>
+	<changes>Eliminado código innecesario.</changes>
+
+	<categories>
+		<category>movie</category>
+	</categories>
+</channel>

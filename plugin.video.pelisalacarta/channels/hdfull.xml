@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<channel>
+	<id>hdfull</id>
+	<name>HDFull</name>
+
+	<active>true</active>
+	<adult>false</adult>
+	<language>es</language>
+
+	<fanart></fanart>
+	<thumbnail>http://media.tvalacarta.info/pelisalacarta/squares/hdfull.png</thumbnail>
+	<bannermenu>http://media.tvalacarta.info/pelisalacarta/bannermenu/hdfull.png</bannermenu>
+
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/channels/</update_url>
+    <version>9</version>
+	<changes>
+        <change>
+            <date>21/03/2017</date>
+            <autor>Cmos</autor>
+            <description>Pequeño fix para corregir algunas urls de los vídeos que se extraían mal</description>
+        </change>
+        <change>
+            <date>02/02/2017</date>
+            <autor>robalo, Cmos</autor>
+            <description>Arreglada la extracción de enlaces por cambios en la web</description>
+        </change>
+        <change>
+            <date>05/01/2017</date>
+            <autor>Cmos</autor>
+            <description>Corregido debido a cloudflare</description>
+        </change>
+	</changes>
+
+
+	<categories>
+		<category>movie</category>
+		<category>serie</category>
+	</categories>
+
+	<settings>
+		<id>hdfulluser</id>
+		<type>text</type>
+		<label>@30014</label>
+		<enabled>true</enabled>
+		<visible>true</visible>
+	</settings>
+	<settings>
+		<id>hdfullpassword</id>
+		<type>text</type>
+		<label>@30015</label>
+		<hidden>true</hidden>
+		<enabled>!eq(-1,'')</enabled>
+		<visible>true</visible>
+	</settings>
+	<settings>
+		<id>include_in_global_search</id>
+		<type>bool</type>
+		<label>Incluir en busqueda global</label>
+		<default>true</default>
+		<enabled>true</enabled>
+		<visible>true</visible>
+	</settings>
+</channel>

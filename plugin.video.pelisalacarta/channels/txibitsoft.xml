@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<channel>
+	<id>txibitsoft</id>
+	<name>Txibitsoft</name>
+	<active>true</active>
+	<adult>false</adult>
+	<language>es</language>
+    
+    <version>15</version>
+    <changes>
+         
+            <change>
+                    <date>07/12/2016</date>
+			        <autor>Neno1978</autor>
+                    <description>Correciones código. Adaptación a Infoplus</description>
+            </change>        
+            <change> 
+                    <date>04/04/2017</date>
+			        <autor>Neno1978</autor>
+                    <description>Migración a Httptools.Algunas mejoras código</description>
+            </change>
+            
+    </changes>        
+    
+
+    
+	<fanart></fanart>
+	<thumbnail>http://s27.postimg.org/hx5ohryxf/tblogo.jpg</thumbnail>
+	<bannermenu>http://media.tvalacarta.info/pelisalacarta/bannermenu/txibitsoft.png</bannermenu>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/channels/</update_url>
+	
+	
+	<categories>
+		<category>torrent</category>
+		<category>serie</category>
+		<category>movie</category>
+	</categories>
+
+	<settings>
+		<id>include_in_global_search</id>
+		<type>bool</type>
+		<label>Incluir en busqueda global</label>
+		<default>true</default>
+		<enabled>true</enabled>
+		<visible>true</visible>
+	</settings>
+</channel>
