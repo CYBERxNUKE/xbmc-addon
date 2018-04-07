@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <addon id="plugin.video.sedundnes" name=" [COLOR yellow] Not Sure [/COLOR]" version="0.0.20" provider-name="Not Sure">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
