@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<server>
+	<active>true</active>
+	<changes>Versión incial</changes>
+	<date>15/02/2017</date>
+	<free>true</free>
+	<id>filescdn</id>
+	<name>filescdn</name>
+	<premium></premium>
+	<thumbnail>https://s31.postimg.org/ijne6piij/filescdn.png</thumbnail>
+	<update_url></update_url>
+	<version>1</version>
+</server>

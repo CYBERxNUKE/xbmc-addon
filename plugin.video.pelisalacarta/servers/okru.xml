@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<server>
+	<active>true</active>
+	<version>2</version>
+	<changes>
+        <change>
+            <date>28/01/2017</date>
+            <autor>Cmos</autor>
+            <description>Mejorada detección de enlaces caídos, adaptado a los últimos cambios</description>
+        </change>
+        <change>
+            <date>07/09/2015</date>
+            <autor>kampanita</autor>
+            <description>Version inicial</description>
+        </change>
+	</changes>
+	<free>true</free>
+	<id>okru</id>
+	<name>okru</name>
+	<premium></premium>
+	<thumbnail>http://media.tvalacarta.info/servers/server_okru.png</thumbnail>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/servers/</update_url>
+</server>

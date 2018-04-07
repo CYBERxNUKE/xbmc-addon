@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<server>
+	<active>true</active>
+	<version>4</version>
+	<changes>
+		<change>
+			<date>16/04/2017</date>
+			<autor>Intel1</autor>
+			<description>Detectar servidor caído</description>
+		</change>
+		<change>
+			<date>27/02/2017</date>
+			<autor>Cmos</autor>
+			<description>Reparado conector</description>
+		</change>
+		<change>
+			<date>04/06/2016</date>
+			<autor>Cmos</autor>
+			<description>Reparado por cambios en la expresion regular de los enlaces a los videos</description>
+		</change>
+	</changes>
+	<free>true</free>
+	<id>spruto</id>
+	<name>spruto</name>
+	<premium></premium>
+	<thumbnail>http://media.tvalacarta.info/servers/server_spruto.png</thumbnail>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/servers/</update_url>
+</server>

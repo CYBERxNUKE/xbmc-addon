@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<server>
+	<active>true</active>
+	<version>2</version>
+	<changes>
+		<change>
+			<date>03/03/2017</date>
+			<autor>Cmos</autor>
+			<description>Corregido por cambios en el servidor y añadido como free</description>
+		</change>
+		<change>
+			<date>25/03/2016</date>
+			<autor>divadres</autor>
+			<description>Versión inicial</description>
+		</change>
+	</changes>
+
+	<free>true</free>
+	<id>zippyshare</id>
+	<name>zippyshare</name>
+	<premium>
+		<value>realdebrid</value>
+		<value>alldebrid</value>
+	</premium>
+	<thumbnail>http://media.tvalacarta.info/servers/server_zippyshare.png</thumbnail>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/servers/</update_url>
+</server>

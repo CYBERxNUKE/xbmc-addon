@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<server>
+	<active>true</active>
+	<version>2</version>
+	<changes>
+        <change>
+            <date>29/04/2017</date>
+            <autor>Cmos</autor>
+            <description>Corregido, usa proxy en caso de error con https</description>
+        </change>
+        <change>
+            <date>25/03/2016</date>
+            <autor>divadr</autor>
+            <description>Versión inicial</description>
+        </change>
+	</changes>
+
+	<free>true</free>
+	<id>rapidvideo</id>
+	<name>rapidvideo</name>
+	<premium></premium>
+	<thumbnail>http://media.tvalacarta.info/servers/server_rapidvideo.png</thumbnail>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/servers/</update_url>
+</server>

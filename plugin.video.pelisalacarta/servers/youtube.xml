@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<server>
+	<active>true</active>
+	<version>2</version>
+	<changes>
+		<change>
+			<date>03/02/2017</date>
+			<autor>Cmos</autor>
+			<description>Adaptado para el uso de mpd (calidades 1080p y superiores) en Kodi 17. Reestructurado parte del código</description>
+		</change>
+		<change>
+			<date>25/03/2016</date>
+			<autor></autor>
+			<description>Versión inicial</description>
+		</change>
+	</changes>
+	<free>true</free>
+	<id>youtube</id>
+	<name>youtube</name>
+	<premium>
+		<value>realdebrid</value>
+		<value>alldebrid</value>
+	</premium>
+	<thumbnail>http://media.tvalacarta.info/servers/server_youtube.png</thumbnail>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/servers/</update_url>
+</server>

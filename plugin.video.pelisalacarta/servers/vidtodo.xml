@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<server>
+	<active>true</active>
+	<changes>Versión incial</changes>
+	<date>24/12/2016</date>
+	<free>true</free>
+	<id>vidtodo</id>
+	<name>vidtodo</name>
+	<premium></premium>
+	<thumbnail>http://media.tvalacarta.info/servers/server_vidtodo.png</thumbnail>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/servers/</update_url>
+	<version>1</version>
+</server>

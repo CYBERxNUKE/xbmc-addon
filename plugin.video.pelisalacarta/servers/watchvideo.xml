@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<server>
+	<active>true</active>
+	<version>1</version>
+	<changes>
+        <change>
+            <date>21/03/2017</date>
+            <autor>Cmos</autor>
+            <description>Primera version</description>
+        </change>
+	</changes>
+	<free>true</free>
+	<id>watchvideo</id>
+	<name>watchvideo</name>
+	<premium></premium>
+	<thumbnail>http://i.imgur.com/vDev2I6.png?1</thumbnail>
+	<update_url>https://raw.githubusercontent.com/tvalacarta/pelisalacarta/master/python/main-classic/servers/</update_url>
+</server>
