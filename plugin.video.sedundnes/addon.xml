@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.sedundnes" name=" [COLOR yellow] Not Sure [/COLOR]" version="0.0.20" provider-name="Not Sure">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0" />
+		<import addon="script.sedundnes.artwork" />
+		<import addon="script.sedundnes.metadata" />
+		<import addon="plugin.video.youtube" version="5.2.1" optional="true" />
+		<import addon="script.module.pyxbmct" />
+		<import addon="script.snstream" />
+		<import addon="script.snsports" />
+		<import addon="script.snxxx" />
+		<import addon="script.module.urlresolver" />
+		<import addon="script.mrknow.urlresolver" version="2017.03.30.1"/>
+		<import addon="script.module.requests" />
+		<import addon="script.module.liveresolver"/>
+		<import addon="script.video.F4mProxy"/>
+		<import addon="plugin.video.f4mTester" />
+		<import addon="script.module.nanscrapers" version="0.5.5" />
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">Sure, Not</summary>
+		<description lang="en">Welcome All, remember this is free so if something doesn't work! Its FREE! Contained in this adoon are playlists that are widely available on the public inter webs. I do not host or upload any video, films, media file, live streams (avi, mov, flv, mpg, mpeg, divx, dvd rip, mp3, mp4). I have no control over the links on any site that we provide a link to. If you see any form of infringements, please contact appropriate media file owners or host sites immediately.  is not an official part of the media player you are running, and therefore not to be mentioned within official support channels, this addon has nothing to do with the media player itself, nor it’s intended use, it is simply a third party plugin which has been added to your system.  O and lastly remember its FREE! Lastly this is a third party Addon not supported by Kodi!!! </description>
+		<platform>all</platform>
+		<forum>-</forum>
+		<website>-</website>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+			<screenshot>resources/screenshots/1.jpg</screenshot>
+		</assets>
+		<news>1 Version</news>
+	</extension>
+</addon>
