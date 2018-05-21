@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.blamo" version="2.5.6
+" name="Death Streams" provider-name="Mr. Blamo">
+    <requires>        
+		<import addon="xbmc.python" version="2.19.0"/>
+        <import addon="script.module.pyxbmct"/>
+        <import addon="script.module.resolveurl" />
+		<import addon="script.module.metahandler" />
+		<import addon="script.module.futures"/>
+        <import addon="script.module.myconnpy" />
+        <import addon="script.module.deathstreams"/>
+		<import addon="script.module.requests" />
+        <import addon="script.module.six"/>
+        <import addon="script.module.dateutil"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+     <extension point="xbmc.service" library="service.py" start="startup"/>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">Stream video from many difference sources, SALTS fork by MR.Blamo</summary>
+        <summary lang="hr">Gledajte video iz različitih izvora, SALTS fork od MR.Blamo</summary>
+        <summary lang="he">הזרמת וידאו ממקורות שונים רבים, פיתוח משנה של SALT על ידי MR.Blamo</summary>    
+        <description lang="en">This addon uses trakt.tv for most show and movie meta data and uses a variety of websites for hoster sources</description>
+        <description lang="hr">Ovaj dodatak koristi trakt.tv za većinu metapodataka filmova i TV serija a koristi različite web stranice za izvore</description>
+        <description lang="he">ההרחבה הזו משתמשת ב- trakt.tv עבור רוב נתוני מידע-מטא של הסרטים והסדרות ומשתמשת במגוון אתרי אינטרנט עבור מקורות מארחים</description>
+        <disclaimer lang="en">The author is not responsible for the use of this addon. The author is not responsible for the content found using this addon. The author does not host or own any content found within this addon.
+The author is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.
+This is a Non-profit resource, organized solely for educational purposes which is protected under the Fair-Use doctrine of the Copyright Act, Specifically section 107, which does promote freedom of expression, by permitting the unlicensed use of copyright-protected works.
+</disclaimer>
+		<platform>all</platform>
+		<license>Beerware rev. 42</license>
+	<platform>all</platform>
+	</extension>
+</addon>
