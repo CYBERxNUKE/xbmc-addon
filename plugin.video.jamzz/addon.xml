@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.jamzz" name="Jamzz" version="0.0.2" provider-name="Team MadDogg">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0" />
+		<import addon="script.module.universalscrapers" version="1.0.0" />
+        <import addon="script.module.python.koding.aio" version="0.0.1"/>
+        <import addon="script.module.ytpsearch" version="0.0.3"/>
+		<import addon="plugin.video.youtube" version="5.0.0"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">Music Videos from YouTube</summary>
+		<description lang="en"> We do no host any material</description>
+		<platform>all</platform>
+		<genre>canada,usa</genre>
+		<video_guide></video_guide>
+		<video_preview></video_preview>
+	</extension>
+</addon>
