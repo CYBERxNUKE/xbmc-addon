@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.snxxx" 
+	     name="XXX" 
+	     version="0.0.10" 
+	     provider-name="seduNdneS">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.urlresolver"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="snxxx.py">
+        <provides>all</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">-</summary>
+    <description lang="en">XXX depend for NotSure Addon</description>
+    <disclaimer lang="en">.</disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+  </extension>
+</addon>

@@ -1,0 +1,1 @@
+def isresolvable(url):        checks = ['247']        for check in checks:        if check in url:             return True            break

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="GENERAL">
+		<setting type="lsep" label="[COLOR blue][B]General[/B][/COLOR]"/>
+		<setting type="lsep" label="==========================================="/>
+		<setting id="check_rtmp" type="bool" label="Check if RTMP services are enabled?" default="true" />
+		<setting type="lsep" label="[COLOR gray][B]Only display Live TV channels with the following terms present.[/B][/COLOR]" />
+		<setting type="lsep" label="[COLOR gray][B](Seperate Each Term with a comma i.e 'bein,sports')[/B][/COLOR]" />
+		<setting id="sport_filter" type="text" label="Terms: " default="None" visible="true" />
+		<setting type="lsep" label="==========================================="/>
+		<setting id="check_links" type="bool" label="Check Live TV links are alive before displaying?" default="true" />
+		<setting id="check_limit" type="enum" values="250 Links|500 Links|750 Links|1000 Links|Always Check Every Link" label="Auto Disbale link checker for lists with more than" default="0"/>
+		<setting type="lsep" label="[COLOR blue][B]Soccer Streams[/B][/COLOR]"/>
+		<setting id="time_zone" type="enum" values="GMT|GMT +1||GMT +2||GMT +3||GMT +3.5||GMT +4||GMT +4.5||GMT +5||GMT +5.5||GMT +5.75||GMT +6||GMT +7||GMT +8||GMT +9|GMT +10|GMT +11|GMT +11.3|GMT +11.5|GMT +12|GMT -1||GMT -2||GMT -3||GMT -3.5||GMT -4||GMT -4.5||GMT -5|GMT -6||GMT -7||GMT -8||GMT -9|GMT -9.5|GMT -10|GMT -11|GMT -12" label="Time Zone (Default-GMT)" default="0"/>
+	</category>
+</settings>
