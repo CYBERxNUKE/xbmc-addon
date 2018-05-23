@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.program.indigo" version="3.0.2" name="Indigo" author="tvaddons">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0"/>
