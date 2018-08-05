@@ -1,0 +1,28 @@
+<arrakis>
+    <motoarchive>
+        <dir>
+            <title>[COLOR yellow][ FM ][/COLOR] Archive</title>
+            <fullmatch>motor_replay/1</fullmatch>
+        </dir>
+
+        <dir>
+            <title>[COLOR yellow][ MRU ][/COLOR] Archive #1</title>
+            <sportshub>sh_moto_one/1/ZnVsbC5yYWNlc0BtYWlsLnJ1</sportshub>
+        </dir>
+
+        <dir>
+            <title>[COLOR yellow][ MRU ][/COLOR] Archive #2</title>
+            <sportshub>sh_moto_one/1/em9ja2VyZG9taW5pa0BpbmJveC5ydQ==</sportshub>
+        </dir>
+
+        <dir>
+            <title>[COLOR yellow][ MRU ][/COLOR] Archive #3</title>
+            <sportshub>sh_moto_one/1/N2J3N0BtYWlsLnJ1</sportshub>
+        </dir>
+
+        <dir>
+            <title>[COLOR yellow][ MRU ][/COLOR] Archive #4</title>
+            <sportshub>sh_moto_one/1/YnVybmluZ3doZWUxc0BtYWlsLnJ1</sportshub>
+        </dir>
+    </motoarchive>
+</arrakis>

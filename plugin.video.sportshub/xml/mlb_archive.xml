@@ -1,0 +1,9 @@
+<arrakis>
+    <sportsmain>
+        <dir>
+            <title>[COLOR yellow][ FM ][/COLOR] Archive</title>
+            <fullmatch>mlb_replay/1</fullmatch>
+            <thumbnail>https://raw.githubusercontent.com/muaddibttv/artwork/master/sportshub/mlbarchive.png</thumbnail>
+        </dir>
+    </sportsmain>
+</arrakis>

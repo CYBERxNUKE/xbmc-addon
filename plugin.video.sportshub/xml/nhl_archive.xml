@@ -1,0 +1,15 @@
+<arrakis>
+    <sportsmain>
+        <dir>
+            <title>[COLOR yellow][ FM ][/COLOR] Archive</title>
+            <fullmatch>nhl_replay/1</fullmatch>
+            <thumbnail>https://raw.githubusercontent.com/muaddibttv/artwork/master/sportshub/nhlarchive.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>[COLOR yellow][ NHLReplay ][/COLOR] Stanley Cup Archive</title>
+            <sportshub>sh_nhl_sc/1/YXRsMTdAYmsucnU=</sportshub>
+            <thumbnail>https://raw.githubusercontent.com/muaddibttv/artwork/master/sportshub/nhlarchive.png</thumbnail>
+        </dir>
+    </sportsmain>
+</arrakis>
