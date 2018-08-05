@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.tantrumtv" name="Tantrum.TV Repository" version="1.2.3" provider-name="MuadDib">
+    <requires>
+        <import addon="xbmc.addon" version="12.0.0"/>
+    </requires>
+    <extension point="xbmc.addon.repository" name="Tantrum.TV Repository">
+        <info compressed="false">https://raw.githubusercontent.com/muaddibttv/tantrumrepo/master/_zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/muaddibttv/tantrumrepo/master/_zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/muaddibttv/tantrumrepo/master/_zips/</datadir>
+        <hashes>false</hashes>
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/marcelveldt/repository.marcelveldt/master/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/marcelveldt/repository.marcelveldt/master/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/marcelveldt/repository.marcelveldt/master/</datadir>
+        </dir>
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/</datadir>
+            <hashes>false</hashes>
+        </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Tantrum.TV Official Repository</summary>
+        <description>Tantrum.TV Official Repository</description>
+        <platform>all</platform>
+        <genre>movies,usa</genre>
+    </extension>
+</addon>
