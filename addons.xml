@@ -962,23 +962,6 @@ This is a Non-profit resource, organized solely for educational purposes which i
 	</extension>
 </addon>
 
-<addon id="plugin.video.prosport" name="Pro Sport" version="0.83" provider-name="gerikss, podgod, iCanuck">
-  <requires>
-    <import addon="xbmc.python" version="2.1.0" />
-     <import addon="script.module.requests" version="2.9.1" />
-     <import addon="script.module.urlresolver" version="3.0.24" />
-  </requires>
-  <extension point="xbmc.python.pluginsource" provides="video" library="default.py">
-    <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary>Live HD sport streams from reddit</summary>
-    <description>Live HD sport streams from reddit</description>
-    <platform>all</platform>
-    <language>en</language>
-  </extension>
-</addon>
-
 <addon id="plugin.video.rd"
        name="AUTHORIZE RD"
        version="1.0.5"
@@ -1809,6 +1792,35 @@ Follow us on twitter: [COLOR blue]Whitecream_UWC[/COLOR]</description>
 		<description>Official Community StreamAddons.com Repo</description>
 		<platform>all</platform>
 	</extension>
+</addon>
+
+<addon id="repository.tantrumtv" name="Tantrum.TV Repository" version="1.2.3" provider-name="MuadDib">
+    <requires>
+        <import addon="xbmc.addon" version="12.0.0"/>
+    </requires>
+    <extension point="xbmc.addon.repository" name="Tantrum.TV Repository">
+        <info compressed="false">https://raw.githubusercontent.com/muaddibttv/tantrumrepo/master/_zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/muaddibttv/tantrumrepo/master/_zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/muaddibttv/tantrumrepo/master/_zips/</datadir>
+        <hashes>false</hashes>
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/marcelveldt/repository.marcelveldt/master/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/marcelveldt/repository.marcelveldt/master/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/marcelveldt/repository.marcelveldt/master/</datadir>
+        </dir>
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/</datadir>
+            <hashes>false</hashes>
+        </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Tantrum.TV Official Repository</summary>
+        <description>Tantrum.TV Official Repository</description>
+        <platform>all</platform>
+        <genre>movies,usa</genre>
+    </extension>
 </addon>
 
 <addon id="repository.tknorris.beta" name="tknorris Beta Testing Repository" version="1.0.5" provider-name="tknorris">
