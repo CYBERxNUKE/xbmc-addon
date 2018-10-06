@@ -1,0 +1,10 @@
+[B]Version 1.2[/B]
+- Updated server
+
+[B]Version 1.1[/B]
+- Updated server
+
+
+[B]Version 1.0[/B]
+- Initial version
+
