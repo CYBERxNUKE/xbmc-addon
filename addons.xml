@@ -467,7 +467,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
 
 <addon id="plugin.video.CYBERxNUKE"
        name="CYBERxNUKE"
-       version="1.2"
+       version="1.3"
        provider-name="CYBERxNUKE">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
