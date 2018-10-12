@@ -426,7 +426,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
     </extension>
 </addon>
 
-<addon id="plugin.video.covenant" version="2.0.0" name="Covenant" provider-name="HACKED CYBERxNUKE">
+<addon id="plugin.video.covenant" version="2.0.1" name="Neptune Rising" provider-name="HACKED CYBERxNUKE">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="plugin.video.neptune" version="1.3.9" />
