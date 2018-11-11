@@ -693,10 +693,10 @@ msgid "DEBRID-SERVICE"
 msgstr "SLUŽBA-DEBRID"
 
 msgctxt "#32539"
-msgid "Configure Debrid Services in URLResolver Settings."
+msgid "Configure Debrid Services in ResolveURL Settings."
 msgstr "Nastavte služby Debrid v nastavení URL dekodéru."
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
+msgid "ResolveURL Settings"
 msgstr "Nastavení URL dekodéru"
 

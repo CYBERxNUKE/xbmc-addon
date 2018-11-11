@@ -705,12 +705,12 @@ msgid "DEBRID-SERVICE"
 msgstr "שירות ריל-דבריד"
 
 msgctxt "#32539"
-msgid "Configure Debrid Services in URLResolver Settings."
-msgstr "קבע את תצורת שירותי ריל-דבריד בהגדרות URLResolver."
+msgid "Configure Debrid Services in ResolveURL Settings."
+msgstr "קבע את תצורת שירותי ריל-דבריד בהגדרות ResolveURL."
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
-msgstr "הגדרות URLResolver"
+msgid "ResolveURL Settings"
+msgstr "הגדרות ResolveURL"
 
 msgctxt "#32541"
 msgid "Library"

@@ -695,12 +695,12 @@ msgid "DEBRID-SERVICE"
 msgstr "DEBRID SZOLGÁLTATÁS"
 
 msgctxt "#32539"
-msgid "Configure Debrid Services in URLResolver Settings."
-msgstr "Debrid szolgáltatások konfigurálása az URLResolver beállíásokban"
+msgid "Configure Debrid Services in ResolveURL Settings."
+msgstr "Debrid szolgáltatások konfigurálása az ResolveURL beállíásokban"
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
-msgstr "URLResolver beállítások"
+msgid "ResolveURL Settings"
+msgstr "ResolveURL beállítások"
 
 msgctxt "#32541"
 msgid "Library"

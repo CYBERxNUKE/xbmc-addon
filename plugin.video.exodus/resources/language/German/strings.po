@@ -1,4 +1,5 @@
 # Translators:
+# Addon Name: Exodus
 # Addon id: plugin.video.exodus
 # Addon Provider: Exodus
 # Translators:
@@ -709,12 +710,12 @@ msgid "DEBRID-SERVICE"
 msgstr "DEBRID-DIENSTE"
 
 msgctxt "#32539"
-msgid "Configure Debrid Services in URLResolver Settings."
-msgstr "Konfiguriere Debrid-Dienste in den URLResolver-Einstellungen."
+msgid "Configure Debrid Services in ResolveURL Settings."
+msgstr "Konfiguriere Debrid-Dienste in den ResolveURL-Einstellungen."
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
-msgstr "URLResolver-Einstellungen"
+msgid "ResolveURL Settings"
+msgstr "ResolveURL-Einstellungen"
 
 msgctxt "#32541"
 msgid "Library"

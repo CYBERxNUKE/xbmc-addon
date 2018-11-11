@@ -688,6 +688,6 @@ msgid "Nothing found to play"
 msgstr "Для произведения ничего не найдено"
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
-msgstr "Настройки URLResolver"
+msgid "ResolveURL Settings"
+msgstr "Настройки ResolveURL"
 

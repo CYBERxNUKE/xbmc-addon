@@ -692,12 +692,12 @@ msgid "DEBRID-SERVICE"
 msgstr "DEBRID-TJÄNST"
 
 msgctxt "#32539"
-msgid "Configure Debrid Services in URLResolver Settings."
-msgstr "Konfigurera Debridtjänster i URLResolver inställningar."
+msgid "Configure Debrid Services in ResolveURL Settings."
+msgstr "Konfigurera Debridtjänster i ResolveURL inställningar."
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
-msgstr "URLResolver inställningar"
+msgid "ResolveURL Settings"
+msgstr "ResolveURL inställningar"
 
 msgctxt "#32541"
 msgid "Library"

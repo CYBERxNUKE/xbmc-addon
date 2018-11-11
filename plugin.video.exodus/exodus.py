@@ -19,6 +19,8 @@
 
 
 import urlparse,sys,urllib
+from resources.lib.modules import control
+import xbmcgui
 
 params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
 
@@ -67,6 +69,26 @@ if action == None:
     from resources.lib.modules import cache
     cache.cache_version_check()
     navigator.navigator().root()
+
+elif action == "furkNavigator":
+    from resources.lib.indexers import navigator
+    navigator.navigator().furk()
+
+elif action == "furkMetaSearch":
+    from resources.lib.indexers import furk
+    furk.furk().furk_meta_search(url)
+
+elif action == "furkSearch":
+    from resources.lib.indexers import furk
+    furk.furk().search()
+
+elif action == "furkUserFiles":
+    from resources.lib.indexers import furk
+    furk.furk().user_files()
+
+elif action == "furkSearchNew":
+    from resources.lib.indexers import furk
+    furk.furk().search_new()
 
 elif action == 'movieNavigator':
     from resources.lib.indexers import navigator
@@ -305,9 +327,9 @@ elif action == 'authTrakt':
     trakt.authTrakt()
 
 elif action == 'smuSettings':
-    try: import urlresolver
+    try: import resolveurl
     except: pass
-    urlresolver.display_settings()
+    resolveurl.display_settings()
 
 elif action == 'download':
     import json
@@ -386,6 +408,10 @@ elif action == 'moviesToLibrary':
     from resources.lib.modules import libtools
     libtools.libmovies().range(url)
 
+elif action == 'moviesToLibrarySilent':
+    from resources.lib.modules import libtools
+    libtools.libmovies().silent(url)
+
 elif action == 'tvshowToLibrary':
     from resources.lib.modules import libtools
     libtools.libtvshows().add(tvshowtitle, year, imdb, tvdb)
@@ -393,6 +419,10 @@ elif action == 'tvshowToLibrary':
 elif action == 'tvshowsToLibrary':
     from resources.lib.modules import libtools
     libtools.libtvshows().range(url)
+
+elif action == 'tvshowsToLibrarySilent':
+    from resources.lib.modules import libtools
+    libtools.libtvshows().silent(url)
 
 elif action == 'updateLibrary':
     from resources.lib.modules import libtools

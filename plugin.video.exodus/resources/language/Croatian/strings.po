@@ -695,11 +695,11 @@ msgid "DEBRID-SERVICE"
 msgstr "DEBRID-USLUGA"
 
 msgctxt "#32539"
-msgid "Configure Debrid Services in URLResolver Settings."
+msgid "Configure Debrid Services in ResolveURL Settings."
 msgstr "Podesi Debrid usluge u postavkama URL razrješitelja."
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
+msgid "ResolveURL Settings"
 msgstr "Postavke URL razrješitelja"
 
 msgctxt "#32541"
@@ -925,3 +925,7 @@ msgstr "Prem"
 msgctxt "#32607"
 msgid "Normal"
 msgstr "Normalno"
+
+msgctxt "#32608"
+msgid "Auto Updating Trakt Library"
+msgstr ""
