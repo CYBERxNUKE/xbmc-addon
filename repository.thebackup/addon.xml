@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="repository.thebackup" name="[COLOR orange]The Backup[/COLOR]" version="1.0.0" provider-name="thebackup">
+    <extension point="xbmc.addon.repository" name="[COLOR orange]The Backup Repository[/COLOR]">
+        <info compressed="false">https://raw.githubusercontent.com/thebackup/repository.thebackup/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/thebackup/repository.thebackup/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/thebackup/repository.thebackup/master/</datadir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Backup Kodi Addon Repository</summary>
+        <description>I'm Lovin' It</description>
+        <platform>all</platform>
+    </extension>
+</addon>
