@@ -1764,7 +1764,10 @@ Follow us on twitter: [COLOR blue]Whitecream_UWC[/COLOR]</description>
     </extension>
 </addon>
 
-<addon id="repository.kodibae" name="[COLOR pink]Kodi Bae Repository[/COLOR]" version="1.0.0" provider-name="kodibae">
+<addon id="repository.kodibae" name="[COLOR pink]Kodi Bae Repository[/COLOR]" version="2.0.0" provider-name="kodibae">
+    <requires>
+        <import addon="repository.thebackup" version="1.0.0"/>
+    </requires>
     <extension point="xbmc.addon.repository" name="[COLOR pink]Kodi Bae Repository[/COLOR]">
     <dir>
         <info compressed="false">https://github.com/tvaddonsco/tva-resolvers-repo/raw/master/addons.xml</info>
@@ -1899,6 +1902,19 @@ Follow us on twitter: [COLOR blue]Whitecream_UWC[/COLOR]</description>
         <description>Tantrum.TV Official Repository</description>
         <platform>all</platform>
         <genre>movies,usa</genre>
+    </extension>
+</addon>
+
+<addon id="repository.thebackup" name="[COLOR orange]The Backup[/COLOR]" version="1.0.0" provider-name="thebackup">
+    <extension point="xbmc.addon.repository" name="[COLOR orange]The Backup Repository[/COLOR]">
+        <info compressed="false">https://raw.githubusercontent.com/thebackup/repository.thebackup/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/thebackup/repository.thebackup/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/thebackup/repository.thebackup/master/</datadir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Backup Kodi Addon Repository</summary>
+        <description>I'm Lovin' It</description>
+        <platform>all</platform>
     </extension>
 </addon>
 
@@ -2197,6 +2213,26 @@ Kodi is a registered trademark of the XBMC Foundation. We are not connected to o
 		<platform>all</platform>
 		<summary lang="en">Covenant</summary>
 	</extension>
+</addon>
+
+<addon id="script.module.dateutil"
+       name="dateutil"
+       version="2.7.3"
+       provider-name="Gustavo Niemeyer, Tomi PievilÃ¤inen, Yaron de Leeuw, Razzeee">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+    <import addon="script.module.six" version="1.9.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">dateutil - powerful extensions to datetime</summary>
+    <description lang="en_GB">Packed for Kodi from https://github.com/dateutil/dateutil</description>
+    <platform>all</platform>
+    <license>Revised BSD License</license>
+    <website>https://dateutil.readthedocs.org/en/latest/</website>
+    <source>https://github.com/Razzeee/script.module.dateutil</source>
+  </extension>
 </addon>
 
 <addon id="script.module.deathstreams" name="Mr Blamos Common Libraries" version="1.1.2" provider-name="Mr Blamo">
