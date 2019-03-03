@@ -1,5 +1,5 @@
 ------------------------
-Kodi Bae Repo 1.0.0 (18-Jan-18)
+Kodi Bae Repo 2.0.0 (02-Mar-19)
 ------------------------
 
-- Hello World
+- Redundancy
