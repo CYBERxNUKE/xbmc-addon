@@ -801,7 +801,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
 	</extension>
 </addon>
 
-<addon id="plugin.video.nukewizardv2" version="2.3" name="Computertechs Installer" provider-name="computertechs.org">
+<addon id="plugin.video.nukewizardv2" version="2.3" name="Computertechs InstallerV2" provider-name="computertechs.org">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0"/>
 	</requires>
