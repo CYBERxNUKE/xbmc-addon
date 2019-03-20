@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.nukewizard" version="2.3" name="Computertechs Installer" provider-name="computertechs.org">
+<addon id="plugin.video.nukewizardv2" version="2.3" name="Computertechs Installer" provider-name="computertechs.org">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0"/>
-	</requires>
-		<requires>
-		<import addon="plugin.video.CYBERxNUKE" version="1.2"/>
 	</requires>
 	<extension point="xbmc.python.pluginsource" library="default.py">
 		<provides>executable</provides>
