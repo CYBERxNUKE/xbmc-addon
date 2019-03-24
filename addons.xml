@@ -782,9 +782,6 @@ This is a Non-profit resource, organized solely for educational purposes which i
 	<requires>
 		<import addon="xbmc.python" version="2.1.0"/>
 	</requires>
-		<requires>
-		<import addon="plugin.video.CYBERxNUKE" version="1.2"/>
-	</requires>
 	<extension point="xbmc.python.pluginsource" library="default.py">
 		<provides>executable</provides>
 	</extension>
