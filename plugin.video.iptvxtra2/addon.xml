@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.iptvxtra2"
+       name="IPTVXtra II"
+       version="7.7"
+       provider-name="/kens">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="pvr.iptvsimple" />
+    <import addon="script.module.requests" />
+    <import addon="plugin.video.youtube" />
+  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">IPTVXtra II - for Kodi v18</summary>
+    <language>en</language>
+    <description lang="en">The 2nd. Generation</description>
+     <platform>all</platform>
+  </extension>
+</addon>
