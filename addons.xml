@@ -678,6 +678,28 @@ Revert to stable code
 	</extension>
 </addon>
 
+<addon id="plugin.video.iptvxtra2"
+       name="IPTVXtra II"
+       version="7.7"
+       provider-name="/kens">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="pvr.iptvsimple" />
+    <import addon="script.module.requests" />
+    <import addon="plugin.video.youtube" />
+  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">IPTVXtra II - for Kodi v18</summary>
+    <language>en</language>
+    <description lang="en">The 2nd. Generation</description>
+     <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.jamzz" name="Jamzz" version="0.0.2" provider-name="Team MadDogg">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
