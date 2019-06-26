@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.Kens13" name="Kens Kodi Repository" version="1.0.0" provider-name="kens">
+	<extension point="xbmc.addon.repository" name="Kens Kodi Repository">
+		<info compressed="false">https://raw.githubusercontent.com/kens13/Kens13_Repo/master/Addons/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/kens13/Kens13_Repo/master/Addons/addons.xml.md5</checksum>
+		<datadir zip="true">https://github.com/kens13/Kens13_Repo/raw/master/Addons/zip</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Install add-ons by Kens Kodi Repository</summary>
+		<description>Download and install add-ons from kens</description>
+		<disclaimer>Add-ons for home usage in Kodi</disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>
