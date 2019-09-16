@@ -1,3 +1,120 @@
+[B]Version 1.1.64[/B]
+New site: YesPornPlease
+Fixed: Porntrex categories
+Fixed: Videomegaporn
+Fixed: Xtasie pagination and category listing
+Fixed: PornsLand channels pagination
+Fixed: Porndig
+Fixed: YourPorn top pornstars
+Fixed: deleting keywords
+
+
+[B]Version 1.1.63[/B]
+New site: Animeid Hentai
+New site: Pornvibe
+Fixed: Naked
+Fixed: ElReyX
+Fixed: Porntrex pagination when searching
+Fixed: PornHub search
+Favorites can be updated when adding them again with different pictures or names
+
+
+[B]Version 1.1.62[/B]
+New site: Datoporn
+Fixed: Porn00
+Fixed: XvideoSpanish
+Added minimal option to organize favorites: "Move favorite to end" is available from the context menu to move the video to the end of the favorites list
+Switch to ResolveURL XXX plugins from internally bundled ResolveURL plugins
+Keywords can now be cleared from the addon settings
+Added option to clear favorites from the addon settings
+Added option to backup and restore keywords and favorites
+
+
+[B]Version 1.1.61[/B]
+New site: YourPorn
+New site: JavWhores (thanks syknet69)
+Fixed: Xhamster
+Fixed: Cat3movie
+Fixed: milf.nl
+Fixed: Spankbang and added quality selector
+Removed: Sexix (site is down)
+
+
+[B]Version 1.1.60[/B]
+Fixed: Xtheatre pagination
+Fixed: Xhamster
+Fixed: Anybunny
+Fixed: HClips
+Changed to ResolveURL from URLResolver
+ResolveURL settings can now be opened directly from Ultimate Whitecream settings
+
+
+[B]Version 1.1.59[/B]
+New site: Vidz7
+Added: Porndig 4K support
+Added: Porntrex 4K support and quality selector
+Fixed: TubePornClassic
+Fixed: CamSoda
+Fixed: Porntrex images and category alphabetical order
+
+
+[B]Version 1.1.58[/B]
+Readded: HentaiHaven
+Fixed: Porntrex images
+Fixed: TubePornClassic
+Fixed: Cam4
+Usage of universal resolvers can now be enabled/disabled in addon settings (they should still be configured first in URLResolver).
+
+
+[B]Version 1.1.57[/B]
+New site: PornsLand
+Fixed: Freeomovie pagination
+Fixed: Czech3x pagination
+Fixed: Xtasie
+Fixed: PornHub
+Changed: Host detection is now done by URLResolver. This should result in more hosts to choose from.
+
+
+[B]Version 1.1.56[/B]
+Fixed: WatchXXXFree
+Fixed: Beeg
+Fixed: ElReyX
+Fixed: XvideoSpanish
+Fixed: HQPorner
+Fixed: StreamXXX
+Fixed: Xtasie
+Fixed: Ero-tik
+Fixed: K18
+Fixed: DaftSex
+Fixed: CzechHD (renamed to Czech3x)
+Fixed: Xtheatre
+Fixed: PelisxPorno
+Fixed: Eroticage
+Fixed: SpankBang
+Fixed: AmateurCool
+Fixed: Vporn
+Fixed: xHamster
+Fixed: Porndig
+Fixed: CamSoda
+Fixed: HDZog
+Fixed: TubePornClassic categories
+Fixed: PornHub video listing
+Fixed: Milf.nl video listing
+Fixed: HQPorner preview images
+Removed: HentaiHaven
+General video source fixes
+
+
+[B]Version 1.1.55[/B]
+Fixed: Porntrex listing - next page categories (private videos are hidden)
+Fixed: Porn00
+Fixed: Czechhd
+Fixed: HDZog
+Fixed: ParadiseHill
+Fixed: Other stuff I forgot
+Removed: Nudeflix
+
+
 [B]Version 1.1.54[/B]
 Added: Streamate and Bongacams (thanks hdgdl)
 Fixed: MrSexe, Pornhub, Rapidvideo
