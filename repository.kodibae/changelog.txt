@@ -1,5 +1,5 @@
 ------------------------
-Kodi Bae Repo 2.0.0 (02-Mar-19)
+Kodi Bae Repo 3.0.0 (05-Mar-19)
 ------------------------
 
-- Redundancy
+- Bugfix
