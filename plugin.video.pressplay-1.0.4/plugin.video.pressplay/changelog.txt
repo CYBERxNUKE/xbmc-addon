@@ -1,0 +1,24 @@
+[B][COLOR gold]v1.0.4[/COLOR][/B]
+- Re:sources filters tweaks
+- Fixed downloading to network shares
+- Kodi 19 fix
+- Re-arranged source fetching and filtering (internally) for more accuracy on source
+    counting, and pre-emptive termination to take into account more filters (WiP)
+- Personal Fanart.tv API key is now required to be entered in settings, in order to fetch
+    extra and hq artwork
+    That was done due to some add-ons cloning, along with the add-on's hard-coded API keys
+- Minor tweaks to previous commits
+
+[B][COLOR gold]v1.0.2[/COLOR][/B]
+- Added option to enable/disable size filtering
+    If you already use size filtering you'll have to enable this option, as it's off by default
+- Pre-emptive termination now takes size filters into account as well
+    That means that scraping will stop when enough sources that meet your max quality
+    and size filters criteria are found
+- Added function that tries to circumvent data mismatches between metadata sites and scene releases
+
+[B][COLOR gold]v1.0.1[/COLOR][/B]
+- Minor fixes
+
+[B][COLOR gold]v1.0.0[/COLOR][/B]
+- Public release
