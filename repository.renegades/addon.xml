@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <addon id="repository.renegades" name="Renegades Repo" version="1.40" provider-name="Ant, Podgod">
 	<extension point="xbmc.addon.repository" name="Renegades Addon Repository">
 		<info compressed="false">http://renegadestv.uk/Plugins/addons.xml</info>
