@@ -68,7 +68,7 @@ def main_menu():
         kodi.set_setting('hasran','false')
     try:
         if not os.path.exists(hubpath):
-            installer.HUBINSTALL('CYBERxNUKE.Repository','https://github.com/CYBERxNUKE/xbmc-addon/raw/master/repository.cyberxnuke/repository.cyberxnuke-1.2.zip','','addon','none')
+            installer.HUBINSTALL('CYBERxNUKE.Repository','https://github.com/CYBERxNUKE/xbmc-addon/raw/master/repository.cyberxnuke/repository.cyberxnuke-2.2.zip','','addon','none')
             xbmc.executebuiltin("XBMC.UpdateLocalAddons()")
             addon_able.set_enabled("repository.cyberxnuke")
     except:
