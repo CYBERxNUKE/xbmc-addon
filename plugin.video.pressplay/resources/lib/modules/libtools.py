@@ -29,7 +29,7 @@ import simplejson as json
 import os
 import re
 import sys
-import xbmc
+from kodi_six import xbmc
 
 import six
 from six.moves import urllib_parse
@@ -87,14 +87,14 @@ class lib_tools:
         else:
             return ''
 
-    @staticmethod
-    def check_sources(title, year, imdb, tvdb=None, season=None, episode=None, tvshowtitle=None, premiered=None):
-        try:
-            from resources.lib.modules import sources
-            src = sources.sources().getSources(title, year, imdb, tvdb, season, episode, tvshowtitle, premiered)
-            return src and len(src) > 5
-        except:
-            return False
+    # @staticmethod
+    # def check_sources(title, year, imdb, tvdb=None, season=None, episode=None, tvshowtitle=None, premiered=None):
+        # try:
+            # from resources.lib.modules import sources
+            # src = sources.sources().getSources(title, year, imdb, tvdb, season, episode, tvshowtitle, premiered)
+            # return src and len(src) > 5
+        # except:
+            # return False
 
     @staticmethod
     def legal_filename(filename):
@@ -121,7 +121,7 @@ class libmovies:
     def __init__(self):
         self.library_folder = os.path.join(control.transPath(control.setting('library.movie')), '')
 
-        self.check_setting = control.setting('library.check_movie') or 'false'
+        # self.check_setting = control.setting('library.check_movie') or 'false'
         self.library_setting = control.setting('library.update') or 'true'
         self.dupe_setting = control.setting('library.check') or 'true'
         self.silentDialog = False
@@ -131,7 +131,7 @@ class libmovies:
     def add(self, name, title, year, imdb, range=False):
         if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo')\
                 and self.silentDialog is False:
-            control.infoDialog(six.ensure_str(control.lang(32552)), time=10000000)
+            control.infoDialog(control.lang(32552), time=10000000)
             self.infoDialog = True
 
         try:
@@ -152,9 +152,9 @@ class libmovies:
         try:
             if not lib == []: raise Exception()
 
-            if self.check_setting == 'true':
-                src = lib_tools.check_sources(title, year, imdb, None, None, None, None, None)
-                if not src: raise Exception()
+            # if self.check_setting == 'true':
+                # src = lib_tools.check_sources(title, year, imdb, None, None, None, None, None)
+                # if not src: raise Exception()
 
             self.strmFile({'name': name, 'title': title, 'year': year, 'imdb': imdb})
             files_added += 1
@@ -164,7 +164,7 @@ class libmovies:
         if range == True: return
 
         if self.infoDialog == True:
-            control.infoDialog(six.ensure_str(control.lang(32554)), time=1)
+            control.infoDialog(control.lang(32554), time=1)
 
         if self.library_setting == 'true' and not control.condVisibility('Library.IsScanningVideo') and files_added > 0:
             control.execute('UpdateLibrary(video)')
@@ -173,7 +173,7 @@ class libmovies:
         control.idle()
 
         if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo'):
-            control.infoDialog(six.ensure_str(control.lang(32552)), time=10000000)
+            control.infoDialog(control.lang(32552), time=10000000)
             self.infoDialog = True
             self.silentDialog = True
 
@@ -195,11 +195,11 @@ class libmovies:
     def range(self, url):
         control.idle()
 
-        yes = control.yesnoDialog(six.ensure_str(control.lang(32555)))
+        yes = control.yesnoDialog(control.lang(32555))
         if not yes: return
 
         if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo'):
-            control.infoDialog(six.ensure_str(control.lang(32552)), time=10000000)
+            control.infoDialog(control.lang(32552), time=10000000)
             self.infoDialog = True
 
         from resources.lib.indexers import movies
@@ -214,7 +214,7 @@ class libmovies:
                 pass
 
         if self.infoDialog == True:
-            control.infoDialog(six.ensure_str(control.lang(32554)), time=1)
+            control.infoDialog(control.lang(32554), time=1)
 
         if self.library_setting == 'true' and not control.condVisibility('Library.IsScanningVideo'):
             control.execute('UpdateLibrary(video)')
@@ -247,7 +247,7 @@ class libtvshows:
 
         self.version = control.version()
 
-        self.check_setting = control.setting('library.check_episode') or 'false'
+        # self.check_setting = control.setting('library.check_episode') or 'false'
         self.include_unknown = control.setting('library.include_unknown') or 'true'
         self.include_special = control.setting('library.include_special')
         self.library_setting = control.setting('library.update') or 'true'
@@ -266,7 +266,7 @@ class libtvshows:
     def add(self, tvshowtitle, year, imdb, tvdb, range=False):
         if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo')\
                 and self.silentDialog is False:
-            control.infoDialog(six.ensure_str(control.lang(32552)), time=10000000)
+            control.infoDialog(control.lang(32552), time=10000000)
             self.infoDialog = True
 
         from resources.lib.indexers import episodes
@@ -304,12 +304,12 @@ class libtvshows:
             try:
                 if control.monitor.abortRequested(): return sys.exit()
 
-                if self.check_setting == 'true':
-                    if i['episode'] == '1':
-                        self.block = True
-                        src = lib_tools.check_sources(i['title'], i['year'], i['imdb'], i['tvdb'], i['season'], i['episode'], i['tvshowtitle'], i['premiered'])
-                        if src: self.block = False
-                    if self.block == True: raise Exception()
+                # if self.check_setting == 'true':
+                    # if i['episode'] == '1':
+                        # self.block = True
+                        # src = lib_tools.check_sources(i['title'], i['year'], i['imdb'], i['tvdb'], i['season'], i['episode'], i['tvshowtitle'], i['premiered'])
+                        # if src: self.block = False
+                    # if self.block == True: raise Exception()
 
                 premiered = i.get('premiered', '0')
                 if (premiered != '0' and int(re.sub('[^0-9]', '', str(premiered))) > int(self.date)) or (premiered == '0' and not self.include_unknown):
@@ -323,7 +323,7 @@ class libtvshows:
         if range == True: return
 
         if self.infoDialog is True:
-            control.infoDialog(six.ensure_str(control.lang(32554)), time=1)
+            control.infoDialog(control.lang(32554), time=1)
 
         if self.library_setting == 'true' and not control.condVisibility('Library.IsScanningVideo') and files_added > 0:
             control.execute('UpdateLibrary(video)')
@@ -332,7 +332,7 @@ class libtvshows:
         control.idle()
 
         if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo'):
-            control.infoDialog(six.ensure_str(control.lang(32608)), time=10000000)
+            control.infoDialog(control.lang(32608), time=10000000)
             self.infoDialog = True
             self.silentDialog = True
 
@@ -355,11 +355,11 @@ class libtvshows:
     def range(self, url):
         control.idle()
 
-        yes = control.yesnoDialog(six.ensure_str(control.lang(32555)))
+        yes = control.yesnoDialog(control.lang(32555))
         if not yes: return
 
         if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo'):
-            control.infoDialog(six.ensure_str(control.lang(32552)), time=10000000)
+            control.infoDialog(control.lang(32552), time=10000000)
             self.infoDialog = True
 
         from resources.lib.indexers import tvshows
@@ -374,7 +374,7 @@ class libtvshows:
                 pass
 
         if self.infoDialog == True:
-            control.infoDialog(six.ensure_str(control.lang(32554)), time=1)
+            control.infoDialog(control.lang(32554), time=1)
 
         if self.library_setting == 'true' and not control.condVisibility('Library.IsScanningVideo'):
             control.execute('UpdateLibrary(video)')
@@ -479,7 +479,7 @@ class libepisodes:
             return
 
         if info == 'true' and not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo'):
-            control.infoDialog(six.ensure_str(control.lang(32553)), time=10000000)
+            control.infoDialog(control.lang(32553), time=10000000)
             self.infoDialog = True
 
         try:
@@ -565,7 +565,7 @@ class libepisodes:
                     pass
 
         if self.infoDialog == True:
-            control.infoDialog(six.ensure_str(control.lang(32554)), time=1)
+            control.infoDialog(control.lang(32554), time=1)
 
         if self.library_setting == 'true' and not control.condVisibility('Library.IsScanningVideo') and files_added > 0:
             control.execute('UpdateLibrary(video)')

@@ -60,12 +60,12 @@ class movies:
         self.today_date = (self.datetime).strftime('%Y-%m-%d')
         self.trakt_user = control.setting('trakt.user').strip()
         self.imdb_user = control.setting('imdb.user').replace('ur', '')
-        self.tm_user = control.setting('tm.user')
-        if self.tm_user == '': self.tm_user = api_keys.tmdb_key
+        self.tm_user = control.setting('tm.user') or api_keys.tmdb_key
         self.fanart_tv_user = control.setting('fanart.tv.user')
         self.user = str(control.setting('fanart.tv.user')) + str(control.setting('tm.user'))
         self.lang = control.apiLanguage()['trakt']
-        self.hidecinema = control.setting('hidecinema')
+        self.hidecinema = control.setting('hidecinema') or 'false'
+        self.items_per_page = str(control.setting('items.per.page')) or '20'
 
         self.search_link = 'https://api.trakt.tv/search/movie?limit=20&page=1&query='
         self.fanart_tv_art_link = 'http://webservice.fanart.tv/v3/movies/%s'
@@ -75,39 +75,39 @@ class movies:
 
         self.persons_link = 'https://www.imdb.com/search/name?count=100&name='
         self.personlist_link = 'https://www.imdb.com/search/name?count=100&gender=male,female'
-        self.person_link = 'https://www.imdb.com/search/title?title_type=movie,short,tvMovie&production_status=released&role=%s&sort=year,desc&count=40&start=1'
-        self.keyword_link = 'https://www.imdb.com/search/title?title_type=movie,short,tvMovie,documentary&num_votes=100,&release_date=,date[0]&keywords=%s&sort=moviemeter,asc&count=40&start=1'
-        self.oscars_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&production_status=released&groups=oscar_best_picture_winners&sort=year,desc&count=40&start=1'
-        self.theaters_link = 'https://www.imdb.com/search/title?title_type=feature&num_votes=1000,&release_date=date[120],date[0]&sort=moviemeter,asc&count=40&start=1'
-        self.year_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=40&start=1'
-        self.decade_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=200,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=40&start=1'
+        self.person_link = 'https://www.imdb.com/search/title?title_type=movie,short,tvMovie&production_status=released&role=%s&sort=year,desc&count=%s&start=1' % ('%s', self.items_per_page)
+        self.keyword_link = 'https://www.imdb.com/search/title?title_type=movie,short,tvMovie,documentary&num_votes=100,&release_date=,date[0]&keywords=%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', self.items_per_page)
+        self.oscars_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&production_status=released&groups=oscar_best_picture_winners&sort=year,desc&count=%s&start=1' % self.items_per_page
+        self.theaters_link = 'https://www.imdb.com/search/title?title_type=feature&num_votes=1000,&release_date=date[120],date[0]&sort=moviemeter,asc&count=%s&start=1' % self.items_per_page
+        self.year_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', '%s', self.items_per_page)
+        self.decade_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=200,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', '%s', self.items_per_page)
 
         if self.hidecinema == 'true':
-            self.popular_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&groups=top_1000&release_date=,date[90]&sort=moviemeter,asc&count=40&start=1'
-            self.views_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&sort=num_votes,desc&release_date=,date[90]&count=40&start=1'
-            self.featured_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&release_date=date[365],date[90]&sort=moviemeter,asc&count=40&start=1'
-            self.genre_link = 'https://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&num_votes=100,&release_date=,date[90]&genres=%s&sort=moviemeter,asc&count=40&start=1'
-            self.language_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&primary_language=%s&sort=moviemeter,asc&release_date=,date[90]&count=40&start=1'
-            self.certification_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&certificates=us:%s&sort=moviemeter,asc&release_date=,date[90]&count=40&start=1'
-            self.boxoffice_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&production_status=released&sort=boxoffice_gross_us,desc&release_date=,date[90]&count=40&start=1'
+            self.popular_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&groups=top_1000&release_date=,date[90]&sort=moviemeter,asc&count=%s&start=1' % self.items_per_page
+            self.views_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&sort=num_votes,desc&release_date=,date[90]&count=%s&start=1' % self.items_per_page
+            self.featured_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&release_date=date[365],date[90]&sort=moviemeter,asc&count=%s&start=1' % self.items_per_page
+            self.genre_link = 'https://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&num_votes=100,&release_date=,date[90]&genres=%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', self.items_per_page)
+            self.language_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&primary_language=%s&sort=moviemeter,asc&release_date=,date[90]&count=%s&start=1' % ('%s', self.items_per_page)
+            self.certification_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&certificates=us:%s&sort=moviemeter,asc&release_date=,date[90]&count=%s&start=1' % ('%s', self.items_per_page)
+            self.boxoffice_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&production_status=released&sort=boxoffice_gross_us,desc&release_date=,date[90]&count=%s&start=1' % self.items_per_page
         else:
-            self.popular_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&groups=top_1000&sort=moviemeter,asc&count=40&start=1'
-            self.views_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&sort=num_votes,desc&count=40&start=1'
-            self.featured_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&release_date=date[365],date[60]&sort=moviemeter,asc&count=40&start=1'
-            self.genre_link = 'https://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&num_votes=100,&release_date=,date[0]&genres=%s&sort=moviemeter,asc&count=40&start=1'
-            self.language_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&primary_language=%s&sort=moviemeter,asc&count=40&start=1'
-            self.certification_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&certificates=us:%s&sort=moviemeter,asc&count=40&start=1'
-            self.boxoffice_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&production_status=released&sort=boxoffice_gross_us,desc&count=40&start=1'
+            self.popular_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&groups=top_1000&sort=moviemeter,asc&count=%s&start=1' % self.items_per_page
+            self.views_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&sort=num_votes,desc&count=%s&start=1' % self.items_per_page
+            self.featured_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=1000,&production_status=released&release_date=date[365],date[60]&sort=moviemeter,asc&count=%s&start=1' % self.items_per_page
+            self.genre_link = 'https://www.imdb.com/search/title?title_type=feature,tv_movie,documentary&num_votes=100,&release_date=,date[0]&genres=%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', self.items_per_page)
+            self.language_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&primary_language=%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', self.items_per_page)
+            self.certification_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&num_votes=100,&production_status=released&certificates=us:%s&sort=moviemeter,asc&count=%s&start=1' % ('%s', self.items_per_page)
+            self.boxoffice_link = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&production_status=released&sort=boxoffice_gross_us,desc&count=%s&start=1' % self.items_per_page
 
         self.added_link  = 'https://www.imdb.com/search/title?title_type=movie,tvMovie&languages=en&num_votes=500,&production_status=released&release_date=%s,%s&sort=release_date,desc&count=20&start=1' % (self.year_date, self.today_date)
-        self.trending_link = 'https://api.trakt.tv/movies/trending?limit=40&page=1'
+        self.trending_link = 'https://api.trakt.tv/movies/trending?limit=%s&page=1' % self.items_per_page
         self.traktlists_link = 'https://api.trakt.tv/users/me/lists'
         self.traktlikedlists_link = 'https://api.trakt.tv/users/likes/lists?limit=1000000'
         self.traktlist_link = 'https://api.trakt.tv/users/%s/lists/%s/items'
         self.traktcollection_link = 'https://api.trakt.tv/users/me/collection/movies'
         self.traktwatchlist_link = 'https://api.trakt.tv/users/me/watchlist/movies'
         self.traktfeatured_link = 'https://api.trakt.tv/recommendations/movies?limit=40'
-        self.trakthistory_link = 'https://api.trakt.tv/users/me/history/movies?limit=40&page=1'
+        self.trakthistory_link = 'https://api.trakt.tv/users/me/history/movies?limit=%s&page=1' % self.items_per_page
         self.onDeck_link = 'https://api.trakt.tv/sync/playback/movies?limit=20'
         self.imdblists_link = 'https://www.imdb.com/user/ur%s/lists?tab=all&sort=modified&order=desc&filter=titles' % self.imdb_user
         self.imdblist_link = 'https://www.imdb.com/list/%s/?view=detail&sort=date_added,desc&title_type=movie,short,tvMovie,video&start=1'
@@ -116,59 +116,59 @@ class movies:
         self.imdbwatchlist2_link = 'https://www.imdb.com/user/ur%s/watchlist?sort=alpha,asc' % self.imdb_user
 
 ################# Poseidon Playlists 1 (by Soulless) ####################
-        self.cyber_link = 'https://www.imdb.com/search/title?count=100&keywords=cyberpunk&num_votes=2000,&title_type=feature&ref_=gnr_kw_cy,desc&count=40&start=1'
-        self.epic_link = 'https://www.imdb.com/search/title?count=100&keywords=epic&num_votes=2000,&title_type=feature&ref_=gnr_kw_ep,desc&count=40&start=1'
-        self.espionage_link = 'https://www.imdb.com/search/title?count=100&keywords=espionage&num_votes=2000,&title_type=feature&ref_=gnr_kw_es,desc&count=40&start=1'
-        self.fairytale_link = 'https://www.imdb.com/search/title?count=100&keywords=fairy-tale&num_votes=2000,&title_type=feature&ref_=gnr_kw_ft,desc&count=40&start=1'
-        self.femme_link = 'https://www.imdb.com/search/title?count=100&keywords=femme-fatale&num_votes=2000,&title_type=feature&ref_=gnr_kw_ff,desc&count=40&start=1'
-        self.futuristic_link = 'https://www.imdb.com/search/title?count=100&keywords=futuristic&num_votes=2000,&title_type=feature&ref_=gnr_kw_fu,desc&count=40&start=1'
-        self.heist_link = 'https://www.imdb.com/search/title?count=100&keywords=heist&num_votes=2000,&title_type=feature&ref_=gnr_kw_he,desc&count=40&start=1'
-        self.highschool_link = 'https://www.imdb.com/search/title?count=100&keywords=high-school&num_votes=2000,&title_type=feature&ref_=gnr_kw_hs,desc&count=40&start=1'
-        self.kidnapped_link = 'https://www.imdb.com/search/title?count=100&keywords=kidnapping&num_votes=2000,&title_type=feature&ref_=gnr_kw_ki,desc&count=40&start=1'
-        self.kungfu_link = 'https://www.imdb.com/search/title?count=100&keywords=kung-fu&num_votes=2000,&title_type=feature&ref_=gnr_kw_kf,desc&count=40&start=1'
-        self.monster_link = 'https://www.imdb.com/search/title?count=100&keywords=monster&num_votes=2000,&title_type=feature&ref_=gnr_kw_mn,desc&count=40&start=1'
-        self.parenthood_link = 'https://www.imdb.com/search/title?count=100&keywords=parenthood&num_votes=2000,&title_type=feature&ref_=gnr_kw_ph,desc&count=40&start=1'
-        self.apocalypse_link = 'https://www.imdb.com/search/title?count=100&keywords=post-apocalypse&num_votes=2000,&title_type=feature&ref_=gnr_kw_pp,desc&count=40&start=1'
-        self.remake_link = 'https://www.imdb.com/search/title?count=100&keywords=remake&num_votes=2000,&title_type=feature&ref_=gnr_kw_re,desc&count=40&start=1'
-        self.road_link = 'https://www.imdb.com/search/title?count=100&keywords=road-movie&num_votes=2000,&title_type=feature&ref_=gnr_kw_rm,desc&count=40&start=1'
-        self.robot_link = 'https://www.imdb.com/search/title?count=100&keywords=robot&num_votes=2000,&title_type=feature&ref_=gnr_kw_ro,desc&count=40&start=1'
-        self.satire_link = 'https://www.imdb.com/search/title?count=100&keywords=satire&num_votes=2000,&title_type=feature&ref_=gnr_kw_sa,desc&count=40&start=1'
-        self.serial_link = 'https://www.imdb.com/search/title?count=100&keywords=serial-killer&num_votes=2000,&title_type=feature&ref_=gnr_kw_sk,desc&count=40&start=1'
-        self.slasher_link = 'https://www.imdb.com/search/title?count=100&keywords=slasher&num_votes=2000,&title_type=feature&ref_=gnr_kw_sl,desc&count=40&start=1'
-        self.spoof_link = 'https://www.imdb.com/search/title?count=100&keywords=spoof&num_votes=2000,&title_type=feature&ref_=gnr_kw_sf,desc&count=40&start=1'
-        self.superhero_link = 'https://www.imdb.com/search/title?count=100&keywords=superhero&num_votes=2000,&title_type=feature&ref_=gnr_kw_su,desc&count=40&start=1'
-        self.supernatural_link = 'https://www.imdb.com/search/title?count=100&keywords=supernatural&num_votes=2000,&title_type=feature&ref_=gnr_kw_sn,desc&count=40&start=1'
-        self.tech_link = 'https://www.imdb.com/search/title?count=100&keywords=tech-noir&num_votes=2000,&title_type=feature&ref_=gnr_kw_tn,desc&count=40&start=1'
-        self.time_link = 'https://www.imdb.com/search/title?count=100&keywords=time-travel&num_votes=2000,&title_type=feature&ref_=gnr_kw_tt,desc&count=40&start=1'
-        self.zombie_link = 'https://www.imdb.com/search/title?count=100&keywords=zombie&num_votes=2000,&title_type=feature&ref_=gnr_kw_zo,desc&count=40&start=1'
-        self.parody_link = 'https://www.imdb.com/search/title?count=100&keywords=parody&num_votes=2000,&title_type=feature&ref_=gnr_kw_pd,desc&count=40&start=1'
-        self.vampire_link = 'https://www.imdb.com/search/title?count=100&keywords=vampire&num_votes=2000,&title_type=feature&ref_=gnr_kw_va,desc&count=40&start=1'
-        self.biker_link = 'https://www.imdb.com/search/title?count=100&keywords=biker&num_votes=2000,&title_type=feature&ref_=gnr_kw_bi,desc&count=40&start=1'
-        self.caper_link = 'https://www.imdb.com/search/title?count=100&keywords=caper&num_votes=2000,&title_type=feature&ref_=gnr_kw_ca,desc&count=40&start=1'
-        self.business_link = 'https://www.imdb.com/search/title?count=100&keywords=business&num_votes=2000,&title_type=feature&ref_=gnr_kw_bu,desc&count=40&start=1'
-        self.car_link = 'https://www.imdb.com/search/title?count=100&keywords=car-chase&num_votes=2000,&title_type=feature&ref_=gnr_kw_cc,desc&count=40&start=1'
-        self.chick_link = 'https://www.imdb.com/search/title?count=100&keywords=chick-flick&num_votes=2000,&title_type=feature&ref_=gnr_kw_cf,desc&count=40&start=1'
-        self.spiritual_link = 'https://www.imdb.com/search/title?count=100&keywords=spirituality&num_votes=2000,&title_type=feature&ref_=gnr_kw_st,desc&count=40&start=1'
-        self.steampunk_link = 'https://www.imdb.com/search/title?count=100&keywords=steampunk&num_votes=2000,&title_type=feature&ref_=gnr_kw_sk,desc&count=40&start=1'
-        self.mock_link = 'https://www.imdb.com/search/title?count=100&keywords=mockumentary&num_votes=2000,&title_type=feature&ref_=gnr_kw_mo,desc&count=40&start=1'
-        self.coming_link = 'https://www.imdb.com/search/title?count=100&keywords=coming-of-age&num_votes=2000,&title_type=feature&ref_=gnr_kw_co,desc&count=40&start=1'
-        self.competition_link = 'https://www.imdb.com/search/title?count=100&keywords=competition&num_votes=2000,&title_type=feature&ref_=gnr_kw_cp,desc&count=40&start=1'
-        self.cult_link = 'https://www.imdb.com/search/title?count=100&keywords=cult&num_votes=2000,&title_type=feature&ref_=gnr_kw_cu,desc&count=40&start=1'
-        self.breaking_link = 'https://www.imdb.com/search/title?count=100&keywords=breaking-the-fourth-wall&num_votes=2000,&title_type=feature&ref_=gnr_kw_bw,desc&count=40&start=1'
-        self.bmovie_link = 'https://www.imdb.com/search/title?count=100&keywords=b-movie&num_votes=2000,&title_type=feature&ref_=gnr_kw_bm,desc&count=40&start=1'
-        self.anime_link = 'https://www.imdb.com/search/title?count=100&genres=animation&keywords=anime&num_votes=1000,&explore=title_type&ref_=gnr_kw_an,desc&count=40&start=1'
-        self.neo_link = 'https://www.imdb.com/search/title?count=100&keywords=neo-noir&num_votes=2000,&title_type=feature&ref_=gnr_kw_nn,desc&count=40&start=1'
-        self.expiremental_link = 'https://www.imdb.com/search/title?count=100&keywords=experimental-film&num_votes=2000,&title_type=feature&ref_=gnr_kw_ef,desc&count=40&start=1'
-        self.farce_link = 'https://www.imdb.com/search/title?count=100&keywords=farce&num_votes=2000,&title_type=feature&ref_=gnr_kw_fa,desc&count=40&start=1'
-        self.vr_link = 'https://www.imdb.com/search/title?count=100&keywords=virtual-reality&num_votes=2000,&title_type=feature&ref_=gnr_kw_vr,desc&count=40&start=1'
-        self.wilhelm_link = 'https://www.imdb.com/search/title?count=100&keywords=wilhelm-scream&num_votes=2000,&title_type=feature&ref_=gnr_kw_ws,desc&count=40&start=1'
-        self.dystopia_link = 'https://www.imdb.com/search/title?count=100&keywords=dystopia&num_votes=2000,&title_type=feature&ref_=gnr_kw_dy,desc&count=40&start=1'
-        self.avant_link = 'https://www.imdb.com/search/title?count=100&keywords=avant-garde&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=40&start=1'
-        self.newyear_link = 'https://www.imdb.com/search/title?count=100&keywords=new-year&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=40&start=1'
-        self.easter_link = 'https://www.imdb.com/search/title?count=100&keywords=easter&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=40&start=1'
-        self.halloween_link = 'https://www.imdb.com/search/title?count=100&keywords=halloween&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=40&start=1'
-        self.thanx_link = 'https://www.imdb.com/search/title?count=100&keywords=thanksgiving&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=40&start=1'
-        self.xmass_link = 'https://www.imdb.com/search/title?count=100&keywords=christmas&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=40&start=1'
+        self.cyber_link = 'https://www.imdb.com/search/title?keywords=cyberpunk&num_votes=2000,&title_type=feature&ref_=gnr_kw_cy,desc&count=%s&start=1' % self.items_per_page
+        self.epic_link = 'https://www.imdb.com/search/title?keywords=epic&num_votes=2000,&title_type=feature&ref_=gnr_kw_ep,desc&count=%s&start=1' % self.items_per_page
+        self.espionage_link = 'https://www.imdb.com/search/title?keywords=espionage&num_votes=2000,&title_type=feature&ref_=gnr_kw_es,desc&count=%s&start=1' % self.items_per_page
+        self.fairytale_link = 'https://www.imdb.com/search/title?keywords=fairy-tale&num_votes=2000,&title_type=feature&ref_=gnr_kw_ft,desc&count=%s&start=1' % self.items_per_page
+        self.femme_link = 'https://www.imdb.com/search/title?keywords=femme-fatale&num_votes=2000,&title_type=feature&ref_=gnr_kw_ff,desc&count=%s&start=1' % self.items_per_page
+        self.futuristic_link = 'https://www.imdb.com/search/title?keywords=futuristic&num_votes=2000,&title_type=feature&ref_=gnr_kw_fu,desc&count=%s&start=1' % self.items_per_page
+        self.heist_link = 'https://www.imdb.com/search/title?keywords=heist&num_votes=2000,&title_type=feature&ref_=gnr_kw_he,desc&count=%s&start=1' % self.items_per_page
+        self.highschool_link = 'https://www.imdb.com/search/title?keywords=high-school&num_votes=2000,&title_type=feature&ref_=gnr_kw_hs,desc&count=%s&start=1' % self.items_per_page
+        self.kidnapped_link = 'https://www.imdb.com/search/title?keywords=kidnapping&num_votes=2000,&title_type=feature&ref_=gnr_kw_ki,desc&count=%s&start=1' % self.items_per_page
+        self.kungfu_link = 'https://www.imdb.com/search/title?keywords=kung-fu&num_votes=2000,&title_type=feature&ref_=gnr_kw_kf,desc&count=%s&start=1' % self.items_per_page
+        self.monster_link = 'https://www.imdb.com/search/title?keywords=monster&num_votes=2000,&title_type=feature&ref_=gnr_kw_mn,desc&count=%s&start=1' % self.items_per_page
+        self.parenthood_link = 'https://www.imdb.com/search/title?keywords=parenthood&num_votes=2000,&title_type=feature&ref_=gnr_kw_ph,desc&count=%s&start=1' % self.items_per_page
+        self.apocalypse_link = 'https://www.imdb.com/search/title?keywords=post-apocalypse&num_votes=2000,&title_type=feature&ref_=gnr_kw_pp,desc&count=%s&start=1' % self.items_per_page
+        self.remake_link = 'https://www.imdb.com/search/title?keywords=remake&num_votes=2000,&title_type=feature&ref_=gnr_kw_re,desc&count=%s&start=1' % self.items_per_page
+        self.road_link = 'https://www.imdb.com/search/title?keywords=road-movie&num_votes=2000,&title_type=feature&ref_=gnr_kw_rm,desc&count=%s&start=1' % self.items_per_page
+        self.robot_link = 'https://www.imdb.com/search/title?keywords=robot&num_votes=2000,&title_type=feature&ref_=gnr_kw_ro,desc&count=%s&start=1' % self.items_per_page
+        self.satire_link = 'https://www.imdb.com/search/title?keywords=satire&num_votes=2000,&title_type=feature&ref_=gnr_kw_sa,desc&count=%s&start=1' % self.items_per_page
+        self.serial_link = 'https://www.imdb.com/search/title?keywords=serial-killer&num_votes=2000,&title_type=feature&ref_=gnr_kw_sk,desc&count=%s&start=1' % self.items_per_page
+        self.slasher_link = 'https://www.imdb.com/search/title?keywords=slasher&num_votes=2000,&title_type=feature&ref_=gnr_kw_sl,desc&count=%s&start=1' % self.items_per_page
+        self.spoof_link = 'https://www.imdb.com/search/title?keywords=spoof&num_votes=2000,&title_type=feature&ref_=gnr_kw_sf,desc&count=%s&start=1' % self.items_per_page
+        self.superhero_link = 'https://www.imdb.com/search/title?keywords=superhero&num_votes=2000,&title_type=feature&ref_=gnr_kw_su,desc&count=%s&start=1' % self.items_per_page
+        self.supernatural_link = 'https://www.imdb.com/search/title?keywords=supernatural&num_votes=2000,&title_type=feature&ref_=gnr_kw_sn,desc&count=%s&start=1' % self.items_per_page
+        self.tech_link = 'https://www.imdb.com/search/title?keywords=tech-noir&num_votes=2000,&title_type=feature&ref_=gnr_kw_tn,desc&count=%s&start=1' % self.items_per_page
+        self.time_link = 'https://www.imdb.com/search/title?keywords=time-travel&num_votes=2000,&title_type=feature&ref_=gnr_kw_tt,desc&count=%s&start=1' % self.items_per_page
+        self.zombie_link = 'https://www.imdb.com/search/title?keywords=zombie&num_votes=2000,&title_type=feature&ref_=gnr_kw_zo,desc&count=%s&start=1' % self.items_per_page
+        self.parody_link = 'https://www.imdb.com/search/title?keywords=parody&num_votes=2000,&title_type=feature&ref_=gnr_kw_pd,desc&count=%s&start=1' % self.items_per_page
+        self.vampire_link = 'https://www.imdb.com/search/title?keywords=vampire&num_votes=2000,&title_type=feature&ref_=gnr_kw_va,desc&count=%s&start=1' % self.items_per_page
+        self.biker_link = 'https://www.imdb.com/search/title?keywords=biker&num_votes=2000,&title_type=feature&ref_=gnr_kw_bi,desc&count=%s&start=1' % self.items_per_page
+        self.caper_link = 'https://www.imdb.com/search/title?keywords=caper&num_votes=2000,&title_type=feature&ref_=gnr_kw_ca,desc&count=%s&start=1' % self.items_per_page
+        self.business_link = 'https://www.imdb.com/search/title?keywords=business&num_votes=2000,&title_type=feature&ref_=gnr_kw_bu,desc&count=%s&start=1' % self.items_per_page
+        self.car_link = 'https://www.imdb.com/search/title?keywords=car-chase&num_votes=2000,&title_type=feature&ref_=gnr_kw_cc,desc&count=%s&start=1' % self.items_per_page
+        self.chick_link = 'https://www.imdb.com/search/title?keywords=chick-flick&num_votes=2000,&title_type=feature&ref_=gnr_kw_cf,desc&count=%s&start=1' % self.items_per_page
+        self.spiritual_link = 'https://www.imdb.com/search/title?keywords=spirituality&num_votes=2000,&title_type=feature&ref_=gnr_kw_st,desc&count=%s&start=1' % self.items_per_page
+        self.steampunk_link = 'https://www.imdb.com/search/title?keywords=steampunk&num_votes=2000,&title_type=feature&ref_=gnr_kw_sk,desc&count=%s&start=1' % self.items_per_page
+        self.mock_link = 'https://www.imdb.com/search/title?keywords=mockumentary&num_votes=2000,&title_type=feature&ref_=gnr_kw_mo,desc&count=%s&start=1' % self.items_per_page
+        self.coming_link = 'https://www.imdb.com/search/title?keywords=coming-of-age&num_votes=2000,&title_type=feature&ref_=gnr_kw_co,desc&count=%s&start=1' % self.items_per_page
+        self.competition_link = 'https://www.imdb.com/search/title?keywords=competition&num_votes=2000,&title_type=feature&ref_=gnr_kw_cp,desc&count=%s&start=1' % self.items_per_page
+        self.cult_link = 'https://www.imdb.com/search/title?keywords=cult&num_votes=2000,&title_type=feature&ref_=gnr_kw_cu,desc&count=%s&start=1' % self.items_per_page
+        self.breaking_link = 'https://www.imdb.com/search/title?keywords=breaking-the-fourth-wall&num_votes=2000,&title_type=feature&ref_=gnr_kw_bw,desc&count=%s&start=1' % self.items_per_page
+        self.bmovie_link = 'https://www.imdb.com/search/title?keywords=b-movie&num_votes=2000,&title_type=feature&ref_=gnr_kw_bm,desc&count=%s&start=1' % self.items_per_page
+        self.anime_link = 'https://www.imdb.com/search/title?genres=animation&keywords=anime&num_votes=1000,&explore=title_type&ref_=gnr_kw_an,desc&count=%s&start=1' % self.items_per_page
+        self.neo_link = 'https://www.imdb.com/search/title?keywords=neo-noir&num_votes=2000,&title_type=feature&ref_=gnr_kw_nn,desc&count=%s&start=1' % self.items_per_page
+        self.expiremental_link = 'https://www.imdb.com/search/title?keywords=experimental-film&num_votes=2000,&title_type=feature&ref_=gnr_kw_ef,desc&count=%s&start=1' % self.items_per_page
+        self.farce_link = 'https://www.imdb.com/search/title?keywords=farce&num_votes=2000,&title_type=feature&ref_=gnr_kw_fa,desc&count=%s&start=1' % self.items_per_page
+        self.vr_link = 'https://www.imdb.com/search/title?keywords=virtual-reality&num_votes=2000,&title_type=feature&ref_=gnr_kw_vr,desc&count=%s&start=1' % self.items_per_page
+        self.wilhelm_link = 'https://www.imdb.com/search/title?keywords=wilhelm-scream&num_votes=2000,&title_type=feature&ref_=gnr_kw_ws,desc&count=%s&start=1' % self.items_per_page
+        self.dystopia_link = 'https://www.imdb.com/search/title?keywords=dystopia&num_votes=2000,&title_type=feature&ref_=gnr_kw_dy,desc&count=%s&start=1' % self.items_per_page
+        self.avant_link = 'https://www.imdb.com/search/title?keywords=avant-garde&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=%s&start=1' % self.items_per_page
+        self.newyear_link = 'https://www.imdb.com/search/title?keywords=new-year&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=%s&start=1' % self.items_per_page
+        self.easter_link = 'https://www.imdb.com/search/title?keywords=easter&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=%s&start=1' % self.items_per_page
+        self.halloween_link = 'https://www.imdb.com/search/title?keywords=halloween&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=%s&start=1' % self.items_per_page
+        self.thanx_link = 'https://www.imdb.com/search/title?keywords=thanksgiving&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=%s&start=1' % self.items_per_page
+        self.xmass_link = 'https://www.imdb.com/search/title?keywords=christmas&num_votes=2000,&title_type=feature&ref_=gnr_kw_ag,desc&count=%s&start=1' % self.items_per_page
         self.loners_link = 'https://www.imdb.com/search/title?count=100&keywords=loner&sort=moviemeter,asc&mode=detail&page=1&title_type=movie&ref_=kw_ref_typ'
         self.true_link = 'https://www.imdb.com/search/title?count=100&keywords=based-on-true-story&sort=moviemeter,asc&mode=detail&page=1&title_type=movie&ref_=kw_ref_typ'
         self.racist_link = 'https://www.imdb.com/search/title?count=100&keywords=racism&sort=moviemeter,asc&mode=detail&page=1&title_type=movie&ref_=kw_ref_typ'
@@ -243,18 +243,18 @@ class movies:
 ################# /Poseidon Playlists 2 ####################
 
 ################# Movie Mosts ####################
-        self.played1_link = 'https://api.trakt.tv/movies/played/weekly?limit=40&page=1'
-        self.played2_link = 'https://api.trakt.tv/movies/played/monthly?limit=40&page=1'
-        self.played3_link = 'https://api.trakt.tv/movies/played/yearly?limit=40&page=1'
-        self.played4_link = 'https://api.trakt.tv/movies/played/all?limit=40&page=1'
-        self.collected1_link = 'https://api.trakt.tv/movies/collected/weekly?limit=40&page=1'
-        self.collected2_link = 'https://api.trakt.tv/movies/collected/monthly?limit=40&page=1'
-        self.collected3_link = 'https://api.trakt.tv/movies/collected/yearly?limit=40&page=1'
-        self.collected4_link = 'https://api.trakt.tv/movies/collected/all?limit=40&page=1'
-        self.watched1_link = 'https://api.trakt.tv/movies/watched/weekly?limit=40&page=1'
-        self.watched2_link = 'https://api.trakt.tv/movies/watched/monthly?limit=40&page=1'
-        self.watched3_link = 'https://api.trakt.tv/movies/watched/yearly?limit=40&page=1'
-        self.watched4_link = 'https://api.trakt.tv/movies/watched/all?limit=40&page=1'
+        self.played1_link = 'https://api.trakt.tv/movies/played/weekly?limit=%s&page=1' % self.items_per_page
+        self.played2_link = 'https://api.trakt.tv/movies/played/monthly?limit=%s&page=1' % self.items_per_page
+        self.played3_link = 'https://api.trakt.tv/movies/played/yearly?limit=%s&page=1' % self.items_per_page
+        self.played4_link = 'https://api.trakt.tv/movies/played/all?limit=%s&page=1' % self.items_per_page
+        self.collected1_link = 'https://api.trakt.tv/movies/collected/weekly?limit=%s&page=1' % self.items_per_page
+        self.collected2_link = 'https://api.trakt.tv/movies/collected/monthly?limit=%s&page=1' % self.items_per_page
+        self.collected3_link = 'https://api.trakt.tv/movies/collected/yearly?limit=%s&page=1' % self.items_per_page
+        self.collected4_link = 'https://api.trakt.tv/movies/collected/all?limit=%s&page=1' % self.items_per_page
+        self.watched1_link = 'https://api.trakt.tv/movies/watched/weekly?limit=%s&page=1' % self.items_per_page
+        self.watched2_link = 'https://api.trakt.tv/movies/watched/monthly?limit=%s&page=1' % self.items_per_page
+        self.watched3_link = 'https://api.trakt.tv/movies/watched/yearly?limit=%s&page=1' % self.items_per_page
+        self.watched4_link = 'https://api.trakt.tv/movies/watched/all?limit=%s&page=1' % self.items_per_page
 ################# /Movie Mosts ####################
 
     def get(self, url, idx=True, create_directory=True):
@@ -353,7 +353,7 @@ class movies:
     def search_new(self):
         control.idle()
 
-        t = six.ensure_str(control.lang(32010))
+        t = control.lang(32010)
         k = control.keyboard('', t) ; k.doModal()
         q = k.getText() if k.isConfirmed() else None
 
@@ -367,7 +367,7 @@ class movies:
         dbcon.commit()
         dbcur.close()
         url = self.search_link + urllib_parse.quote_plus(q)
-        if int(control.getKodiVersion()) >= 18:
+        if control.getKodiVersion() >= 18:
             self.get(url)
         else:
             url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib_parse.quote_plus(url))
@@ -384,7 +384,7 @@ class movies:
         dbcon.commit()
         dbcur.close()
         url = self.search_link + urllib_parse.quote_plus(q)
-        if int(control.getKodiVersion()) >= 18:
+        if control.getKodiVersion() >= 18:
             self.get(url)
         else:
             url = '%s?action=moviePage&url=%s' % (sys.argv[0], urllib_parse.quote_plus(url))
@@ -394,7 +394,7 @@ class movies:
         try:
             control.idle()
 
-            t = six.ensure_str(control.lang(32010))
+            t = control.lang(32010)
             k = control.keyboard('', t);
             k.doModal()
             q = k.getText() if k.isConfirmed() else None
@@ -402,7 +402,7 @@ class movies:
             if (q == None or q == ''): return
 
             url = self.persons_link + urllib_parse.quote_plus(q)
-            if int(control.getKodiVersion()) >= 18:
+            if control.getKodiVersion() >= 18:
                 self.persons(url)
             else:
                 url = '%s?action=moviePersons&url=%s' % (sys.argv[0], urllib_parse.quote_plus(url))
@@ -577,7 +577,7 @@ class movies:
             u = url.replace('?' + urllib_parse.urlparse(url).query, '') + '?' + q
 
             result = trakt.getTraktAsJson(u)
-            result = control.six_decode(result)
+            #result = control.six_decode(result)
 
             items = []
             for i in result:
@@ -931,7 +931,7 @@ class movies:
             imdb = self.list[i]['imdb']
 
             item = trakt.getMovieSummary(imdb)
-            item = control.six_decode(item)
+            #item = control.six_decode(item)
 
             title = item.get('title')
             title = client.replaceHTMLCodes(title)
@@ -1002,7 +1002,7 @@ class movies:
             except:
                 pass
 
-            if hq_artwork == 'true' and not self.fanart_tv_user == '':
+            if hq_artwork == 'true':# and not self.fanart_tv_user == '':
 
                 try:
                     artmeta = True
@@ -1118,25 +1118,25 @@ class movies:
         #indicators = playcount.getMovieIndicators(refresh=True) if action == 'movies' else playcount.getMovieIndicators() #fixme
         indicators = playcount.getMovieIndicators()
 
-        playbackMenu = six.ensure_str(control.lang(32063)) if control.setting('hosts.mode') == '2' else six.ensure_str(control.lang(32064))
+        playbackMenu = control.lang(32063) if control.setting('hosts.mode') == '2' else control.lang(32064)
 
-        watchedMenu = six.ensure_str(control.lang(32068)) if trakt.getTraktIndicatorsInfo() == True else six.ensure_str(control.lang(32066))
+        watchedMenu = control.lang(32068) if trakt.getTraktIndicatorsInfo() == True else control.lang(32066)
 
-        unwatchedMenu = six.ensure_str(control.lang(32069)) if trakt.getTraktIndicatorsInfo() == True else six.ensure_str(control.lang(32067))
+        unwatchedMenu = control.lang(32069) if trakt.getTraktIndicatorsInfo() == True else control.lang(32067)
 
-        queueMenu = six.ensure_str(control.lang(32065))
+        queueMenu = control.lang(32065)
 
-        traktManagerMenu = six.ensure_str(control.lang(32070))
+        traktManagerMenu = control.lang(32070)
 
-        nextMenu = six.ensure_str(control.lang(32053))
+        nextMenu = control.lang(32053)
 
-        addToLibrary = six.ensure_str(control.lang(32551))
+        addToLibrary = control.lang(32551)
 
-        clearProviders = six.ensure_str(control.lang(32081))
+        clearProviders = control.lang(32081)
 
-        findSimilar = six.ensure_str(control.lang(32100))
+        findSimilar = control.lang(32100)
 
-        infoMenu = six.ensure_str(control.lang(32101))
+        infoMenu = control.lang(32101)
 
         for i in items:
             try:
@@ -1278,11 +1278,11 @@ class movies:
 
         addonFanart, addonThumb, artPath = control.addonFanart(), control.addonThumb(), control.artPath()
 
-        queueMenu = six.ensure_str(control.lang(32065))
+        queueMenu = control.lang(32065)
 
-        playRandom = six.ensure_str(control.lang(32535))
+        playRandom = control.lang(32535)
 
-        addToLibrary = six.ensure_str(control.lang(32551))
+        addToLibrary = control.lang(32551)
 
         for i in items:
             try:

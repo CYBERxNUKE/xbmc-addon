@@ -106,7 +106,7 @@ class furk:
     def search_new(self):
             control.idle()
 
-            t = six.ensure_str(control.lang(32010))
+            t = control.lang(32010)
             k = control.keyboard('', t) ; k.doModal()
             q = k.getText() if k.isConfirmed() else None
 

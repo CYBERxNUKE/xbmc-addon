@@ -20,7 +20,7 @@
 
 import sys
 from six.moves import urllib_parse
-import xbmcgui
+from kodi_six import xbmcgui
 
 params = dict(urllib_parse.parse_qsl(sys.argv[2].replace('?','')))
 
@@ -67,11 +67,7 @@ windowedtrailer = int(windowedtrailer) if windowedtrailer in ("0","1") else 0
 if action == None:
     from resources.lib.indexers import navigator
     from resources.lib.modules import cache
-    from resources.lib.modules import control
     cache.cache_version_check()
-    if control.setting('startup.sync.trakt.status') == 'true':
-        from resources.lib.modules import trakt
-        trakt.syncTraktStatus()
     navigator.navigator().root()
 
 elif action == "furkNavigator":

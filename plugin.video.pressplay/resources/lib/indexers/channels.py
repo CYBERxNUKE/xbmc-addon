@@ -214,13 +214,13 @@ class channels:
 
         isPlayable = 'true' if not 'plugin' in control.infoLabel('Container.PluginName') else 'false'
 
-        playbackMenu = six.ensure_str(control.lang(32063)) if control.setting('hosts.mode') == '2' else six.ensure_str(control.lang(32064))
+        playbackMenu = control.lang(32063) if control.setting('hosts.mode') == '2' else control.lang(32064)
 
-        queueMenu = six.ensure_str(control.lang(32065))
+        queueMenu = control.lang(32065)
 
-        refreshMenu = six.ensure_str(control.lang(32072))
+        refreshMenu = control.lang(32072)
 
-        infoMenu = six.ensure_str(control.lang(32101))
+        infoMenu = control.lang(32101)
 
 
         for i in items:

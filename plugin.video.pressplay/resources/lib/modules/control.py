@@ -20,16 +20,11 @@
 
 
 import os
-import base64
 import sys
 import six
 from six.moves import urllib_parse
 
-import xbmc
-import xbmcaddon
-import xbmcgui
-import xbmcplugin
-import xbmcvfs
+from kodi_six import xbmc, xbmcaddon, xbmcgui, xbmcplugin, xbmcvfs
 
 def six_encode(txt, char='utf-8'):
     if six.PY2 and isinstance(txt, six.text_type):
@@ -42,7 +37,7 @@ def six_decode(txt, char='utf-8'):
     return txt
 
 def getKodiVersion():
-    return xbmc.getInfoLabel("System.BuildVersion").split(".")[0]
+    return int(xbmc.getInfoLabel("System.BuildVersion").split(".")[0])
 
 integer = 1000
 
@@ -104,7 +99,7 @@ playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
 
 resolve = xbmcplugin.setResolvedUrl
 
-legalFilename = xbmc.makeLegalFilename if int(getKodiVersion()) < 19 else xbmcvfs.makeLegalFilename
+legalFilename = xbmc.makeLegalFilename if getKodiVersion() < 19 else xbmcvfs.makeLegalFilename
 
 openFile = xbmcvfs.File
 
@@ -116,7 +111,7 @@ deleteDir = xbmcvfs.rmdir
 
 listDir = xbmcvfs.listdir
 
-transPath = xbmc.translatePath if int(getKodiVersion()) < 19 else xbmcvfs.translatePath
+transPath = xbmc.translatePath if getKodiVersion() < 19 else xbmcvfs.translatePath
 
 skinPath = transPath('special://skin/')
 
@@ -152,6 +147,7 @@ def sleep(time):
     while time > 0 and not monitor.abortRequested():
         xbmc.sleep(min(100, time))
         time = time - 100
+
 
 def autoTraktSubscription(tvshowtitle, year, imdb, tvdb):
     from resources.lib.modules import libtools
@@ -208,8 +204,7 @@ def get_plugin_url(queries):
         query = urllib_parse.urlencode(queries)
     except UnicodeEncodeError:
         for k in queries:
-            if isinstance(queries[k], six.text_type):
-                queries[k] = six_encode(queries[k])
+            queries[k] = six.ensure_str(queries[k])
         query = urllib_parse.urlencode(queries)
     addon_id = sys.argv[0]
     if not addon_id: addon_id = addonId()
@@ -241,7 +236,7 @@ def infoDialog(message, heading=addonInfo('name'), icon='', time=3000, sound=Fal
 
 
 def yesnoDialog(message, heading=addonInfo('name'), nolabel='', yeslabel=''):
-    if int(getKodiVersion()) < 19: return dialog.yesno(heading, message, '', '', nolabel, yeslabel)
+    if getKodiVersion() < 19: return dialog.yesno(heading, message, '', '', nolabel, yeslabel)
     else: return dialog.yesno(heading, message, nolabel, yeslabel)
 
 
@@ -297,7 +292,7 @@ def cdnImport(uri, name):
     from resources.lib.modules import client
 
     path = os.path.join(dataPath, 'py' + name)
-    path = six_decode(path)
+    path = six.ensure_text(path)
 
     deleteDir(os.path.join(path, ''), force=True)
     makeFile(dataPath) ; makeFile(path)
@@ -317,7 +312,7 @@ def openSettings(query=None, id=addonInfo('id')):
         execute('Addon.OpenSettings(%s)' % id)
         if query == None: raise Exception()
         c, f = query.split('.')
-        if int(getKodiVersion()) >= 18:
+        if getKodiVersion() >= 18:
             execute('SetFocus(%i)' % (int(c) - 100))
             execute('SetFocus(%i)' % (int(f) - 80))
         else:
@@ -337,12 +332,12 @@ def refresh():
 
 
 def busy():
-    if int(getKodiVersion()) >= 18: return execute('ActivateWindow(busydialognocancel)')
+    if getKodiVersion() >= 18: return execute('ActivateWindow(busydialognocancel)')
     else: return execute('ActivateWindow(busydialog)')
 
 
 def idle():
-    if int(getKodiVersion()) >= 18: return execute('Dialog.Close(busydialognocancel)')
+    if getKodiVersion() >= 18: return execute('Dialog.Close(busydialognocancel)')
     else: return execute('Dialog.Close(busydialog)')
 
 
@@ -366,9 +361,8 @@ def installAddon(addon_id):
 
 def clean_settings():#PressPlay code
     import xml.etree.ElementTree as ET
-    kodi_version = int(getKodiVersion())
     def _make_content(dict_object):
-        if kodi_version >= 18:
+        if getKodiVersion() >= 18:
             content = '<settings version="2">'
             for item in dict_object:
                 if item['id'] in active_settings:
@@ -407,7 +401,7 @@ def clean_settings():#PressPlay code
                 dict_item = {}
                 setting_id = item.get('id')
                 setting_default = item.get('default')
-                if kodi_version >= 18: setting_value = item.text
+                if getKodiVersion() >= 18: setting_value = item.text
                 else: setting_value = item.get('value')
                 dict_item['id'] = setting_id
                 if setting_value: dict_item['value'] = setting_value
@@ -417,7 +411,7 @@ def clean_settings():#PressPlay code
             nfo_file = xbmcvfs.File(settings_xml, 'w')
             nfo_file.write(new_content)
             nfo_file.close()
-            infoDialog(six_encode(lang(32110)).format(str(len(removed_settings))), heading=addon_name)
+            infoDialog(lang(32110).format(str(len(removed_settings))), heading=addon_name)
     except:
         infoDialog('Error Cleaning Settings.xml. Old settings.xml files Restored.', heading=addon_name)
     sleep(200)

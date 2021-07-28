@@ -21,7 +21,7 @@
 import base64
 import hashlib
 import re
-
+from kodi_six import xbmc
 import six
 from six.moves import urllib_parse
 
@@ -37,6 +37,10 @@ RES_720 = [' 720', ' 720p', ' 720i', ' hd720', ' 720hd', ' 72o', ' 72op']
 RES_SD = [' 576', ' 576p', ' 576i', ' sd576', ' 576sd', ' 480', ' 480p', ' 480i', ' sd480', ' 480sd', ' 360', ' 360p', ' 360i', ' sd360', ' 360sd', ' 240', ' 240p', ' 240i', ' sd240', ' 240sd']
 SCR = [' scr', ' screener', ' dvdscr', ' dvd scr', ' r5', ' r6']
 CAM = [' camrip', ' tsrip', ' hdcam', ' hd cam', ' cam rip', ' hdts', ' dvdcam', ' dvdts', ' cam', ' telesync', ' ts']
+
+def supported_video_extensions():
+    supported_video_extensions = xbmc.getSupportedMedia('video').split('|')
+    return [i for i in supported_video_extensions if i != '' and i != '.zip']
 
 def get_qual(term):
     if any(i in term for i in RES_4K):
@@ -256,10 +260,10 @@ def label_to_quality(label):
 
 def strip_domain(url):
     try:
+        url = six.ensure_str(url)
         if url.lower().startswith('http') or url.startswith('/'):
             url = re.findall('(?://.+?|)(/.+)', url)[0]
         url = client.replaceHTMLCodes(url)
-        url = six.ensure_str(url)
         return url
     except:
         return
@@ -267,11 +271,11 @@ def strip_domain(url):
 
 def is_host_valid(url, domains):
     try:
-        if any(x in url.lower() for x in ['.rar.', '.zip.', '.iso.']) or any(url.lower().endswith(x) for x in ['.rar', '.zip']):
-            raise Exception()
-
-        if any(x in url.lower() for x in ['youtube', 'sample', 'trailer', 'zippyshare', 'facebook']):
-            raise Exception()
+        url = six.ensure_str(url).lower()
+        if any(x in url for x in ['.rar.', '.zip.', '.iso.']) or any(url.endswith(x) for x in ['.rar', '.zip', '.idx', '.sub', '.srt']):
+            return False, ''
+        if any(x in url for x in ['sample', 'trailer', 'zippyshare', 'facebook', 'youtu']):
+            return False, ''
         host = __top_domain(url)
         hosts = [domain.lower() for domain in domains if host and host in domain.lower()]
 

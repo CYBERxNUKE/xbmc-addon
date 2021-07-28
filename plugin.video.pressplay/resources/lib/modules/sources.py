@@ -43,8 +43,8 @@ except: from pysqlite2 import dbapi2 as database
 try: import urlresolver
 except: pass
 
-try: import xbmc
-except: pass
+from kodi_six import xbmc
+
 
 class sources:
     def __init__(self):
@@ -147,7 +147,7 @@ class sources:
 
         sysimage = urllib_parse.quote_plus(six.ensure_str(poster))
 
-        downloadMenu = six.ensure_str(control.lang(32403))
+        downloadMenu = control.lang(32403)
 
 
         for i in list(range(len(items))):
@@ -174,7 +174,7 @@ class sources:
 
                 else:
                     item.setArt({'thumb': thumb})
-                    item.setInfo(type='video', infoLabels=None)
+                    item.setInfo(type='video', infoLabels={})
 
                 control.addItem(handle=syshandle, url=sysurl, listitem=item, isFolder=False)
             except:
@@ -321,7 +321,7 @@ class sources:
 
         sourceDict = self.sourceDict
 
-        progressDialog.update(0, six.ensure_str(control.lang(32600)))
+        progressDialog.update(0, control.lang(32600))
         content = 'movie' if tvshowtitle == None else 'episode'
         if content == 'movie':
             sourceDict = [(i[0], i[1], getattr(i[1], 'movie', None)) for i in sourceDict]
@@ -353,14 +353,14 @@ class sources:
 
         if content == 'movie':
             #title = self.getTitle(title)
-            title, year = cleantitle.scene_rls(title, year)
+            title, year = cleantitle.scene_title(title, year)
             #log_utils.log('movtitle is '+title+' year is '+year)
             localtitle = self.getLocalTitle(title, imdb, tvdb, content)
             aliases = self.getAliasTitles(imdb, localtitle, content)
             for i in sourceDict: threads.append(workers.Thread(self.getMovieSource, title, localtitle, aliases, year, imdb, i[0], i[1]))
         else:
             #tvshowtitle = self.getTitle(tvshowtitle)
-            tvshowtitle, year, season, episode = cleantitle.scene_tvrls(tvshowtitle, year, season, episode)
+            tvshowtitle, year, season, episode = cleantitle.scene_tvtitle(tvshowtitle, year, season, episode)
             #log_utils.log('tvtitle is '+tvshowtitle+' year is '+year+' season is '+season)
             localtvshowtitle = self.getLocalTitle(tvshowtitle, imdb, tvdb, content)
             aliases = self.getAliasTitles(imdb, localtvshowtitle, content)
@@ -390,21 +390,21 @@ class sources:
         start_time = time.time()
         end_time = start_time + timeout
 
-        string1 = six.ensure_str(control.lang(32404))
-        string2 = six.ensure_str(control.lang(32405))
-        string3 = six.ensure_str(control.lang(32406))
-        string4 = six.ensure_str(control.lang(32601))
-        string5 = six.ensure_str(control.lang(32602))
-        string6 = six.ensure_str(control.lang(32606))
-        string7 = six.ensure_str(control.lang(32607))
+        string1 = control.lang(32404)
+        string2 = control.lang(32405)
+        string3 = control.lang(32406)
+        string4 = control.lang(32601)
+        string5 = control.lang(32602)
+        string6 = control.lang(32606)
+        string7 = control.lang(32607)
 
         source_4k = source_1080 = source_720 = source_sd = total = source_filtered_out = 0
 
         line1 = line3 = ""
 
         total_format = '[COLOR %s][B]%s[/B][/COLOR]'
-        pdiag_format = '4K: %s  |  1080P: %s  |  720P: %s  |  SD: %s %s: %s  |  (Filtered-out: %s)' % ('%s','%s','%s','%s','[CR]TOTAL','%s','%s') if not progressDialog == control.progressDialogBG else \
-                       '4K: %s | 1080P: %s | 720P: %s | SD: %s %s: %s (-%s)' % ('%s','%s','%s','%s','| T','%s','%s')
+        pdiag_format = '4K: %s | 1080P: %s | 720P: %s | SD: %s | TOTAL: %s[CR][I] Filtered-out: %s[/I]' if not progressDialog == control.progressDialogBG else \
+                       '4K: %s | 1080P: %s | 720P: %s | SD: %s | T: %s (-%s)'
 
         # for i in list(range(0, 4 * timeout)):
         for i in list(range(0, 2 * timeout)):
@@ -682,7 +682,7 @@ class sources:
         try:
             control.idle()
 
-            yes = control.yesnoDialog(six.ensure_str(control.lang(32407)))
+            yes = control.yesnoDialog(control.lang(32407))
             if not yes: return
 
             control.makeFile(control.dataPath)
@@ -693,7 +693,7 @@ class sources:
             dbcur.execute("VACUUM")
             dbcon.commit()
 
-            control.infoDialog(six.ensure_str(control.lang(32408)), sound=True, icon='INFO')
+            control.infoDialog(control.lang(32408), sound=True, icon='INFO')
         except:
             pass
 
@@ -1250,7 +1250,7 @@ class sources:
         return u
 
     def errorForSources(self):
-        control.infoDialog(six.ensure_str(control.lang(32401)), sound=False, icon='INFO')
+        control.infoDialog(control.lang(32401), sound=False, icon='INFO')
 
 
     def getLanguage(self):
@@ -1349,7 +1349,7 @@ class sources:
             self.hostDict = []
 
         self.hostprDict = ['1fichier.com', 'dailyuploads.net', 'ddl.to', 'ddownload.com', 'dropapk.to', 'earn4files.com', 'filefactory.com', 'hexupload.net', 'mega.nz', 'multiup.org', 'nitroflare.com', 'oboom.com',
-                           'rapidgator.net', 'rg.to', 'rockfile.co', 'rockfile.eu', 'speed-down.org', 'turbobit.net', 'ul.to', 'uploaded.net', 'uploaded.to', 'uploadgig.com', 'uploadrocket.net', 'usersdrive.com']
+                           'rapidgator.net', 'rg.to', 'rockfile.co', 'rockfile.eu', 'turbobit.net', 'ul.to', 'uploaded.net', 'uploaded.to', 'uploadgig.com', 'uploadrocket.net', 'usersdrive.com']
 
         self.hostcapDict = ['openload.io', 'openload.co', 'oload.tv', 'oload.stream', 'oload.win', 'oload.download', 'oload.info', 'oload.icu', 'oload.fun', 'oload.life', 'openload.pw',
                             'vev.io', 'vidup.me', 'vidup.tv', 'vidup.io', 'vshare.io', 'vshare.eu', 'flashx.tv', 'flashx.to', 'flashx.sx', 'flashx.bz', 'flashx.cc',
@@ -1358,9 +1358,8 @@ class sources:
         self.hosthqDict = ['gvideo', 'google.com', 'thevideo.me', 'raptu.com', 'filez.tv', 'uptobox.com', 'uptostream.com',
                            'xvidstage.com', 'xstreamcdn.com', 'idtbox.com']
 
-        self.hostblockDict = ['zippyshare.com', 'youtube.com', 'facebook.com', 'twitch.tv', 'streamango.com', 'streamcherry.com',
-                              'openload.io', 'openload.co', 'openload.pw', 'oload.tv', 'oload.stream', 'oload.win', 'oload.download', 'oload.info', 'oload.icu', 'oload.fun', 'oload.life', 'oload.space', 'oload.monster',
-                              'rapidvideo.com', 'rapidvideo.is', 'rapidvid.to']
+        self.hostblockDict = ['youtube.com', 'youtu.be', 'youtube-nocookie.com', 'zippyshare.com', 'facebook.com', 'twitch.tv', 'streamango.com', 'streamcherry.com', 'rapidvideo.com', 'rapidvideo.is', 'rapidvid.to',
+                              'openload.io', 'openload.co', 'openload.pw', 'oload.tv', 'oload.stream', 'oload.win', 'oload.download', 'oload.info', 'oload.icu', 'oload.fun', 'oload.life', 'oload.space', 'oload.monster',]
 
         self.sourcecfDict = ['123123movies', '123movieshubz', 'extramovies', 'movie4kis', 'projectfree', 'rapidmoviez', 'rlsbb', 'scenerls', 'timewatch', 'tvmovieflix', '1337x', 'btdb', 'ytsam',
                              'animebase', 'filmpalast', 'hdfilme', 'iload', 'movietown', '1putlocker', 'animetoon', 'azmovie', 'cartoonhdto', 'cmoviestv', 'freefmovies', 'ganoolcam', 'projectfreetv', 'putlockeronl',

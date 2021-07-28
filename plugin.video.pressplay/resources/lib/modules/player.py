@@ -19,9 +19,10 @@
 """
 
 
-import re,sys,time,xbmc
+import re,sys,time
 import simplejson as json
 import hashlib,os,base64,codecs,gzip#,urllib,xmlrpclib, StringIO
+from kodi_six import xbmc
 
 import six
 from six.moves import urllib_parse, xmlrpc_client
@@ -272,7 +273,7 @@ class player(xbmc.Player):
                 minutes, seconds = divmod(float(self.offset), 60);
                 hours, minutes = divmod(minutes, 60)
                 label = '%02d:%02d:%02d' % (hours, minutes, seconds)
-                label = (control.lang2(12022).format(label))
+                label = control.lang2(12022).format(label)
                 if control.setting('rersume.source') == '1' and trakt.getTraktCredentialsInfo() == True:
                     yes = control.yesnoDialog(label + '[CR]  (Trakt scrobble)', heading=control.lang2(13404))
                 else:
@@ -286,7 +287,7 @@ class player(xbmc.Player):
 
 
     def onPlayBackStarted(self):
-        if int(control.getKodiVersion()) < 18:
+        if control.getKodiVersion() < 18:
             control.execute('Dialog.Close(all,true)')
 
             if control.setting('bookmarks') == 'true' and not self.offset == '0' and self.isPlayingVideo(): 
@@ -297,11 +298,11 @@ class player(xbmc.Player):
                     minutes, seconds = divmod(float(self.offset), 60);
                     hours, minutes = divmod(minutes, 60)
                     label = '%02d:%02d:%02d' % (hours, minutes, seconds)
-                    label = (six.ensure_str(control.lang2(12022).format(label)))
+                    label = six.ensure_str(control.lang2(12022).format(label))
                     if control.setting('rersume.source') == '1' and trakt.getTraktCredentialsInfo() == True:
                         yes = control.yesnoDialog(label + '[CR]  (Trakt scrobble)', heading=control.lang2(13404))
                     else:
-                        yes = control.yesnoDialog(label, heading=six.ensure_str(control.lang2(13404)))
+                        yes = control.yesnoDialog(label, heading=control.lang2(13404))
                     if yes:
                         self.seekTime(float(self.offset))
                     self.pause()

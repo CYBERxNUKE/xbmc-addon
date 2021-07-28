@@ -63,15 +63,16 @@ def __getTrakt(url, post=None):
         resp_header = result[2]
         result = result[0]
 
-        if resp_code in ['423', '429', '500', '502', '503', '504', '520', '521', '522', '524']:
-            log_utils.log('Temporary Trakt Error: %s' % resp_code, log_utils.LOGWARNING)
+        if resp_code in ['423', '500', '502', '503', '504', '520', '521', '522', '524']:
+            log_utils.log('Trakt Error: %s' % str(resp_code), log_utils.LOGWARNING)
             control.infoDialog('Trakt Error: ' + str(resp_code), sound=True)
             return
-        elif resp_code in ['404']:
-            log_utils.log('Object Not Found : %s' % resp_code, log_utils.LOGWARNING)
-            return
         elif resp_code in ['429']:
-            log_utils.log('Trakt Rate Limit Reached: %s' % resp_code, log_utils.LOGWARNING)
+            log_utils.log('Trakt Rate Limit Reached: %s' % str(resp_code), log_utils.LOGWARNING)
+            control.infoDialog('Trakt Rate Limit Reached: ' + str(resp_code), sound=True)
+            return
+        elif resp_code in ['404']:
+            log_utils.log('Object Not Found : %s' % str(resp_code), log_utils.LOGWARNING)
             return
 
         if resp_code not in ['401', '405']:
@@ -202,11 +203,11 @@ def manager(name, imdb, tvdb, content):
     try:
         post = {"movies": [{"ids": {"imdb": imdb}}]} if content == 'movie' else {"shows": [{"ids": {"tvdb": tvdb}}]}
 
-        items = [(six.ensure_str(control.lang(32516)), '/sync/collection')]
-        items += [(six.ensure_str(control.lang(32517)), '/sync/collection/remove')]
-        items += [(six.ensure_str(control.lang(32518)), '/sync/watchlist')]
-        items += [(six.ensure_str(control.lang(32519)), '/sync/watchlist/remove')]
-        items += [(six.ensure_str(control.lang(32520)), '/users/me/lists/%s/items')]
+        items = [(control.lang(32516), '/sync/collection')]
+        items += [(control.lang(32517), '/sync/collection/remove')]
+        items += [(control.lang(32518), '/sync/watchlist')]
+        items += [(control.lang(32519), '/sync/watchlist/remove')]
+        items += [(control.lang(32520), '/users/me/lists/%s/items')]
 
         result = getTraktAsJson('/users/me/lists')
         lists = [(i['name'], i['ids']['slug']) for i in result]
@@ -217,26 +218,26 @@ def manager(name, imdb, tvdb, content):
             lists[i] = ((six.ensure_str(control.lang(32522) % lists[i][0])), '/users/me/lists/%s/items/remove' % lists[i][1])
         items += lists
 
-        select = control.selectDialog([i[0] for i in items], six.ensure_str(control.lang(32515)))
+        select = control.selectDialog([i[0] for i in items], control.lang(32515))
 
         if select == -1:
             return
         elif select == 4:
-            t = six.ensure_str(control.lang(32520))
+            t = control.lang(32520)
             k = control.keyboard('', t) ; k.doModal()
             new = k.getText() if k.isConfirmed() else None
             if (new == None or new == ''): return
             result = __getTrakt('/users/me/lists', post={"name": new, "privacy": "private"})[0]
 
             try: slug = utils.json_loads_as_str(result)['ids']['slug']
-            except: return control.infoDialog(six.ensure_str(control.lang(32515)), heading=str(name), sound=True, icon='ERROR')
+            except: return control.infoDialog(control.lang(32515), heading=str(name), sound=True, icon='ERROR')
             result = __getTrakt(items[select][1] % slug, post=post)[0]
         else:
             result = __getTrakt(items[select][1], post=post)[0]
 
         icon = control.infoLabel('ListItem.Icon') if not result == None else 'ERROR'
 
-        control.infoDialog(six.ensure_str(control.lang(32515)), heading=str(name), sound=True, icon=icon)
+        control.infoDialog(control.lang(32515), heading=str(name), sound=True, icon=icon)
     except:
         return
 
@@ -344,6 +345,7 @@ def cachesyncTVShows(timeout=0):
 
 def timeoutsyncTVShows():
     timeout = cache.timeout(syncTVShows, control.setting('trakt.user').strip())
+    if not timeout: timeout = 0
     return timeout
 
 
@@ -374,7 +376,7 @@ def syncTraktStatus():
     try:
         cachesyncMovies()
         cachesyncTVShows()
-        control.infoDialog(six.ensure_str(control.lang(32092)))
+        control.infoDialog(control.lang(32092))
     except:
         control.infoDialog('Trakt sync failed')
         pass
@@ -468,7 +470,7 @@ def getTVShowSummary(id, full=True):
         return
 
 
-def getPeople(id, content_type, full=True):
+def getPeople(id, content_type, full=False):
     try:
         url = '/%s/%s/people' % (content_type, id)
         if full: url += '?extended=full'

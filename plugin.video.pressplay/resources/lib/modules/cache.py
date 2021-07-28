@@ -309,7 +309,7 @@ def cache_version_check():
         cache_clear()
         cache_clear_providers()
         #control.execute('RunPlugin(plugin://%s)' % 'plugin.video.pressplay/?action=cleanSettings')
-        control.infoDialog(six.ensure_str(control.lang(32057)), sound=True, icon='INFO')
+        control.infoDialog(control.lang(32057), sound=True, icon='INFO')
 
 
 def _find_cache_version():

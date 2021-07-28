@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
-import os, xbmcgui
+import os
+from kodi_six import xbmcgui
 from resources.lib.modules import control
 
 def get():

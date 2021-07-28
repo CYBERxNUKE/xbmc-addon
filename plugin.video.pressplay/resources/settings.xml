@@ -14,7 +14,8 @@
         <setting id="hq.artwork" type="bool" label="32129" default="false" />
         <setting id="hq.art.text" type="text" label="32130" enable="false" visible="eq(-1,true)" />
         <setting id="hidecinema" type="bool" label="32571" default="false" />
-        <setting id="trailer.select" type="enum" label="Trailers" lvalues="32334|32119|32120" default="2" />
+        <setting id="items.per.page" type="slider" label="32138" default="20" range="10,40" option="int" />
+        <setting id="trailer.select" type="enum" label="Trailers" lvalues="32334|32119|32120" default="1" />
         <setting type="lsep" label="32319" />
         <setting id="movie.widget" type="enum" label="32320" lvalues="32302|32321|32322|32323|32324|32580" default="1" />
         <setting id="channels" type="enum" label="32007" lvalues="32302|32301" default="0" />
@@ -25,9 +26,9 @@
         <setting id="showunaired" type="bool" label="32570" default="true" />
         <setting id="tv.specials" type="bool" label="32613" default="true" />
         <setting id="ep.ratings" type="bool" label="32128" default="false" />
-        <setting id="tv.widget.alt" type="enum" label="32325" lvalues="32302|32326|32327|32328" default="2" visible="!eq(-16,)" />
-        <setting id="tv.widget" type="enum" label="32325" lvalues="32302|32326" default="1" visible="eq(-17,)" />
-        <setting id="prgr.sortorder" type="enum" label="32584" lvalues="32585|32586" default="1" visible="!eq(-18,)" />
+        <setting id="tv.widget.alt" type="enum" label="32325" lvalues="32302|32326|32327|32328" default="2" visible="!eq(-21,)" />
+        <setting id="tv.widget" type="enum" label="32325" lvalues="32302|32326" default="1" visible="eq(-22,)" />
+        <setting id="prgr.sortorder" type="enum" label="32584" lvalues="32585|32586" default="1" visible="!eq(-23,)" />
     </category>
 
     <category label="32330">
@@ -68,7 +69,7 @@
         <setting id="check.torr.cache" type="bool" label="32114" default="true" />
         <setting id="remove.uncached" type="bool" label="32126" default="false" enable="eq(-1,true)" subsetting="true" />
         <setting id="debrid.text" type="text" label="32115" enable="false" subsetting="true" />
-        <setting id="torrent.min.seeders" type="slider" label="Minimum Seeders" visible="false" default="1" range="1,100" option="int" />
+        <setting id="torrent.min.seeders" type="slider" label="Minimum Seeders" visible="false" default="0" range="0,100" option="int" />
     </category>
 
     <category label="32345">
@@ -97,14 +98,13 @@
         <setting id="trakt.client_id" type="text" label="32609" default="" />
         <setting id="trakt.client_secret" type="text" label="32610" default="" />
         <setting type="sep" />
-        <setting id="startup.sync.trakt.status" type="bool" label="32091" default="false" enable="!eq(-6,)"/>
-        <setting id="trakt.scrobble" type="bool" label="32097" default="false" enable="!eq(-7,)"/>
+        <setting id="trakt.scrobble" type="bool" label="32097" default="false" enable="!eq(-6,)"/>
         <setting id="scrobble.text" type="text" label="32098" enable="false" />
-        <setting id="trakt.scrobble.notify" type="bool" label="32099" default="false" enable="!eq(-9,)+eq(-2,true)"/>
-        <setting id="rersume.source" type="enum" label="32095" lvalues="32314|32096" default="0" enable="!eq(-10,)" />
+        <setting id="trakt.scrobble.notify" type="bool" label="32099" default="false" enable="!eq(-8,)+eq(-2,true)"/>
+        <setting id="rersume.source" type="enum" label="32095" lvalues="32314|32096" default="0" enable="!eq(-9,)" />
         <setting type="lsep" label="32614" />
-        <setting id="autoTraktOnStart" type="bool" label="32615" default="false" enable="!eq(-12,)"/>
-        <setting id="schedTraktTime" type="slider" label="32616" default="0" range="0,24" option="int" enable="!eq(-13,)" />
+        <setting id="autoTraktOnStart" type="bool" label="32615" default="false" enable="!eq(-11,)"/>
+        <setting id="schedTraktTime" type="slider" label="32616" default="0" range="0,24" option="int" enable="!eq(-12,)" />
         <setting id="sched.text" type="text" label="32617" enable="false" />
     </category>
 
@@ -137,8 +137,6 @@
         <setting id="library.check" type="bool" label="32548" default="true" />
         <setting type="sep" />
         <setting id="library.importdelay" type="bool" label="32612" default="false" />
-        <setting id="library.check_movie" type="bool" label="32549" default="false" />
-        <setting id="library.check_episode" type="bool" label="32550" default="false" />
         <setting id="library.include_unknown" type="bool" label="32565" default="true" />
         <setting id="library.include_special" type="bool" label="32566" default="true" />
     </category>

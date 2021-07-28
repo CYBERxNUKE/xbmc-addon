@@ -21,13 +21,10 @@
 
 import re
 import simplejson as json
-import xbmc
-import xbmcgui
-import xbmcplugin
-import xbmcvfs
 import os
 import inspect
 import sys
+from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcvfs
 #from io import open
 
 from six.moves import urllib_parse, urllib_request

@@ -575,6 +575,10 @@ msgctxt "#32137"
 msgid "Enable size filtering"
 msgstr "Ενεργοποίηση περιορισμών μεγέθους"
 
+msgctxt "#32138"
+msgid "Items per page"
+msgstr "Αντικείμενα ανά σελίδα"
+
 msgctxt "#32200"
 msgid "No Color"
 msgstr "Χωρίς Χρώμα"
@@ -1186,7 +1190,7 @@ msgstr "Πληροφορίες πηγής"
 
 msgctxt "#32588"
 msgid "Premium Source Identifier Color"
-msgstr "Επιλογή Xρώματος Προβολής Premium"
+msgstr "Επιλογή χρώματος προβολής Premium"
 
 msgctxt "#32580"
 msgid "Films/TV Movies"
@@ -1197,8 +1201,8 @@ msgid "Results Limit"
 msgstr "Όριο Αποτελεσμάτων"
 
 msgctxt "#32582"
-msgid "Personal API keys provide quicker API responses.[CR]Please support the metadata sites however you can (tmdb, tvdb, fanart.tv)"
-msgstr "Τα Προσωπικά Κλειδιά API παρέχουν πιο γρήγορα API αποτελέσματα.[CR]Υποστηρίξτε τα metadata sites (tmdb, tvdb, fanart.tv) όπως μπορείτε."
+msgid "Personal API keys provide quicker API responses.[CR]Please support the metadata sites however you can (tmdb, tvdb, trakt, fanart.tv)"
+msgstr "Τα προσωπικά κλειδιά API παρέχουν πιο γρήγορα API αποτελέσματα.[CR]Υποστηρίξτε τα metadata sites (tmdb, tvdb, trakt, fanart.tv) όπως μπορείτε."
 
 msgctxt "#32583"
 msgid "Become a VIP member for many benefits at: https://fanart.tv/vip"
@@ -1206,15 +1210,15 @@ msgstr "Γίνε VIP μέλος για πολλά πλεονεκτήματα σ�
 
 msgctxt "#32584"
 msgid "Sort order for Trakt Watched Progress"
-msgstr "Σειρά Ταξινόμησης για Trakt Watched Progress"
+msgstr "Σειρά ταξινόμησης για Trakt Watched Progress"
 
 msgctxt "#32585"
 msgid "Recently aired"
-msgstr "Πρόσφατη Προβολή "
+msgstr "Πρόσφατη μετάδοση"
 
 msgctxt "#32586"
 msgid "Recently watched"
-msgstr "Πρόσφατη Παρακολούθηση"
+msgstr "Πρόσφατη παρακολούθηση"
 
 msgctxt "#32604"
 msgid "[B]PressPlay[/B] : Clear search history..."
@@ -1270,7 +1274,7 @@ msgstr "Αυτόματη συνέχιση"
 
 msgctxt "#32626"
 msgid "Secondary Color"
-msgstr "Δευτερεύον Χρώμα"
+msgstr "Δευτερεύον χρώμα"
 
 msgctxt "#32628"
 msgid "Source selection appearance"

@@ -18,8 +18,7 @@ import time
 import sys
 import os
 import re
-import xbmc
-import xbmcvfs
+from kodi_six import xbmc, xbmcvfs
 
 from six.moves import urllib_parse
 

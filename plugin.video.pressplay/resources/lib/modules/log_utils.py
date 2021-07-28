@@ -22,7 +22,7 @@ import os
 import pstats
 import time
 from datetime import datetime
-import xbmc
+from kodi_six import xbmc
 
 import six
 
@@ -33,7 +33,7 @@ LOGERROR = xbmc.LOGERROR
 LOGFATAL = xbmc.LOGFATAL
 LOGINFO = xbmc.LOGINFO
 LOGNONE = xbmc.LOGNONE
-LOGNOTICE = xbmc.LOGNOTICE if int(control.getKodiVersion()) < 19 else xbmc.LOGINFO
+LOGNOTICE = xbmc.LOGNOTICE if control.getKodiVersion() < 19 else xbmc.LOGINFO
 LOGWARNING = xbmc.LOGWARNING
 
 name = control.addonInfo('name')
