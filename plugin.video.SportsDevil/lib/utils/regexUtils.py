@@ -7,12 +7,20 @@ def findall(data,regex):
     result = p_reg.findall(data)
     return result
 
+def findallIgnoreCase(data,regex):
+    p_reg = re.compile(regex, re.DOTALL + re.MULTILINE + re.UNICODE + re.IGNORECASE)
+    result = p_reg.findall(data)
+    return result
+
 def parseTextToGroups(txt, regex):
-    p = re.compile(regex, re.DOTALL + re.MULTILINE + re.UNICODE)
-    m = p.match(txt)
-    if m:
-        return m.groups()
-    else:
+    try:
+        p = re.compile(regex, re.DOTALL + re.MULTILINE + re.UNICODE)
+        m = p.match(txt)
+        if m:
+            return m.groups()
+        else:
+            return None
+    except:
         return None
     
 def parseText(txt, regex, variables=[]):

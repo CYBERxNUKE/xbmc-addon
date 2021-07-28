@@ -7,10 +7,14 @@ item_info_from=@PARAM1@
 item_info_convert=parseText('%s','.*zmid\s*=\s*[\'"]([^\'"]+).*?pid\s*=\s*(\d+).*?edm\s*=\s*["\']([^"\']+).*?src\s*=\s*["\']([^"\']+)','id|pp|zm|pv')
 item_info_build=%s
 
+item_info_name=org
+item_info_from=zm
+item_info_build=https://%s
+
 item_info_name=zm_
 item_info_from=zm+'/sdembed?v='+id
 #item_info_convert=debug
-item_info_build=http://%s
+item_info_build=https://%s
 
 item_info_name=zmhost
 item_info_from=zm_
@@ -25,14 +29,36 @@ item_info_name=postUrl
 item_info_from=zmhost + '|' + postData
 item_info_build=%s
 
+item_info_name=cookie1
+item_info_from=postUrl
+item_info_convert=getCookies(PHPSESSID)
+#item_info_convert=debug
+item_info_build=%s
+
+#item_info_name=cookie2
+#item_info_from=postUrl
+#item_info_convert=getCookies(rmmad)
+#item_info_convert=debug
+#item_info_build=%s
+
+item_info_name=cookies
+item_info_from=PHPSESSID='+cookie1+'2bfd_unique_user=1; noprpkedvhozafiwrcnt=1; noprpkedvhozafiwrexp=Sat, 18 Aug 2018 01:57:10 GMT'
+#item_info_from=2bfd_unique_user=1; a=' + cookie1 + '; token=1515646365,dd38af7c5189e2ee6088cbe3746ecd68; rmmad='+cookie2+'
+#item_info_convert=debug
+item_info_convert=quote(%s)
+#item_info_convert=quote(%s)
+item_info_build=%s
+
 item_info_name=data0
 item_info_from=postUrl
-item_info_convert=getInfo('%s','.*(Clappr\.Player.*?<style>)','@REFERER@')
+item_info_convert=getInfo('%s','.*var\s+(player\s*=.*?<\/script>)','@REFERER@')
+#item_info_convert=debug
 item_info_build=%s
 
 item_info_name=hls_
 item_info_from=data0
-item_info_convert=parseText('%s','.*\w+\s*=\s*"(/.*?m3u[^"]+)')
+item_info_convert=parseText('%s','.*\w+\s*=\s*"(.*m3u8.*?)"')
+#item_info_convert=debug
 item_info_build=%s
 
 item_info_name=tmp_
@@ -47,11 +73,25 @@ item_info_convert=decodeBase64
 item_info_build=%s
 
 item_info_name=hls
-item_info_from=http://'+zm+hls_+'|Referer='+zmhost+'&User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
-item_info_convert=ifEmpty('@hls_@','','%s')
-item_info_convert=replaceRegex('%s','/(\w+)/\d+','@ts@')
+#item_info_from=hls_+'|Referer='+zmhost+'&User-Agent=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML,%20like%20Gecko)%20Chrome%2F67.0.3396.99%20Safari%2F537.36&Origin=https://www.seelive.me
+item_info_from=hls_+'|Referer='+zmhost+'&Origin='+org+'&User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+item_info_convert=replaceRegex('%s','/((?!zmelive)\w+)/\d+','@ts@')
+#item_info_convert=quote('%s')
+item_info_convert=quote('%s')
+item_info_convert=ifEmpty('@hls_@','','hls://%s')
 #item_info_convert=debug
 item_info_build=%s
+
+#item_info_name=hls2_
+#item_info_from=postUrl
+#item_info_convert=getInfo('%s', '.*jwplayer.*?"(http.*m3u8.*?)"', '@REFERER@')
+#item_info_convert=debug
+#item_info_build=%s
+
+#item_info_name=ref
+#item_info_from=zmhost
+#item_info_convert=quote(%s)
+#item_info_build=%s
 
 item_info_name=file1
 item_info_from=postUrl
@@ -92,7 +132,7 @@ item_info_name=ip
 item_info_from=data
 item_info_convert=parseText('%s','.*:window\.atob\("([^"]+)')
 item_info_convert=decodeBase64
-item_info_build=%s
+item_info_build=185.196.9.130
 
 item_info_name=rtmp_1
 item_info_from=req2
@@ -132,15 +172,27 @@ item_info_name=pageUrl
 item_info_from=@REFERER@
 item_info_build=%s
 
+item_info_name=offline
+item_info_from=postUrl
+item_info_convert=getInfo('%s','.*(offline|Offline)','@REFERER@')
+item_info_build=%s
+
+item_info_name=auth
+item_info_from=https://auth.livecamtv.me/'+
+item_info_convert=getInfo('%s','(.*)','@zmhost@')
+#item_info_convert=debug
+item_info_build=%s
+
 #flash player params
 # this._application = this._application.replace(config.hle7iAp,config.Zo7frlA);
 #this._connection.connect(this._application,config.qoeFrl2,config.TRiexl4,config.hlUDia0,config.g2ajieQ);
 
 item_info_name=rtmp
-item_info_from=rtmp_ + ' playpath=' + file + ' swfVfy=1 swfUrl=http://sts.livecamtv.me/player/7.12/jwplayer.flash.swf flashVer=WIN\27,0,0,117 conn=S:' + file + ' conn=S:'+num+' conn=S:'+tok+' conn=S:V&gt;JWhui^@2ESdu0?}&gt;AN live=1 token=Q!lrB@G1)ww(-dQ4J4 pageUrl=' + zmhost
+item_info_from=rtmp_ + ' playpath=' + file + ' swfVfy=1 swfUrl=http://sts.seelive.me/player/7.12/jwplayer.flash.swf flashVer=WIN\2028,0,0,126 conn=S:' + file + ' conn=S:'+num+' conn=S:'+tok+' conn=S:V&gt;JWhui^@2ESdu0?}&gt;AN live=1 token=Q!lrB@G1)ww(-dQ4J4 pageUrl=' + zmhost
+item_info_convert=ifEmpty('@rtmp_@','','%s')
+#item_info_convert=debug
 item_info_build=%s
 
-
 item_info_name=url
-item_info_from=hls||rtmp
+item_info_from=hls||rtmp||offline
 item_info_build=%s

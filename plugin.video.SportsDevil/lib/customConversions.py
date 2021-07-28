@@ -181,13 +181,14 @@ def getInfo(item, params, src, xml=False, mobile=False):
         parts = (paramPage.split('|', 1) + [None] * 2)[:2]
         paramPage, form_data = parts
         form_data = urlparse.parse_qsl(form_data)
+        
     except: 
         pass
-
     common.log('Get Info from: "'+ paramPage + '" from "' + referer + '"')
-    #common.log('JairoX1:' + paramRegex)
+    #common.log('JairoX_GETINFO1:' + paramRegex)
     data = common.getHTML(paramPage, form_data, referer, xml, mobile, ignoreCache=False, demystify=True)
-    #common.log('JairoX2:' + str(data.encode('ascii', 'ignore').decode('ascii')))
+    #common.log('JairoX_GETINFO2:' + data)
+    #common.log('JairoX_GETINFO2:' + repr(data))
     return reg.parseText(data, paramRegex, variables)
 
 def hex2ascii(src):
@@ -304,6 +305,8 @@ def replace(item, params, src):
     paramstr = paramArr[0].replace('%s', src)
     paramSrch = paramArr[1]
     paramRepl = paramArr[2]
+    if paramSrch.startswith('@') and paramSrch.endswith('@'):
+        paramSrch = item.getInfo(paramSrch.strip('@'))
     if paramRepl.startswith('@') and paramRepl.endswith('@'):
         paramRepl = item.getInfo(paramRepl.strip('@'))
     return paramstr.replace(paramSrch,paramRepl)
@@ -314,6 +317,8 @@ def replaceRegex(item, params, src):
     paramStr = paramArr[0].replace('%s', src)
     paramSrch = paramArr[1]
     paramRepl = paramArr[2]
+    if paramSrch.startswith('@') and paramSrch.endswith('@'):
+        paramSrch = item.getInfo(paramSrch.strip('@'))
     if paramRepl.startswith('@') and paramRepl.endswith('@'):
         paramRepl = item.getInfo(paramRepl.strip('@'))
     
@@ -324,6 +329,16 @@ def replaceRegex(item, params, src):
             paramStr = paramStr.replace(m, paramRepl,1)
         return paramStr
     return src
+
+def subRegex(item, params, src):
+    paramArr = __parseParams(params)
+    paramStr = paramArr[0].replace('%s', src)
+    paramSrch = paramArr[1]
+    paramRepl = paramArr[2]
+    if paramRepl.startswith('@') and paramRepl.endswith('@'):
+        paramRepl = item.getInfo(paramRepl.strip('@'))
+    
+    return re.sub(paramSrch, paramRepl, paramStr, count=1)
 
 
 def resolveVariable(item, param):
@@ -339,7 +354,7 @@ def ifEmpty(item, params, src):
     paramTrue = resolveVariable(item, paramArr[1].replace('%s', src))
     paramFalse = resolveVariable(item, paramArr[2].replace('%s', src))
 
-    if paramSource == '':
+    if paramSource is None or paramSource == 'None' or paramSource == '':
         return paramTrue
     else:
         return paramFalse
@@ -353,6 +368,18 @@ def isEqual(item, params, src):
     paramFalse = resolveVariable(item, paramArr[3].replace('%s', src))
 
     if (paramSource == paramComp):
+        return paramTrue
+    else:
+        return paramFalse
+
+def ifContains(item, params, src):
+    paramArr = __parseParams(params)
+    paramSource = resolveVariable(item, paramArr[0].replace('%s', src))
+    paramComp = resolveVariable(item, paramArr[1].replace('%s', src))
+    paramTrue = resolveVariable(item, paramArr[2].replace('%s', src))
+    paramFalse = resolveVariable(item, paramArr[3].replace('%s', src))
+
+    if (paramComp in paramSource):
         return paramTrue
     else:
         return paramFalse
@@ -416,7 +443,7 @@ def bcast64(src):
         n = s << 2 | o >> 4
         r = (o & 15) << 4 | u >> 2
         i = (u & 3) << 6 | a
-        t = t + chr(n);
+        t = t + chr(n)
         if (u != 64):
             t = t + chr(r)
         if (a != 64):

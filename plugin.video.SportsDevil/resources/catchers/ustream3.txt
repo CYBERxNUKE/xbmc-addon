@@ -105,7 +105,7 @@ item_info_build=%s
 item_info_name=file3
 item_info_from=jsUrl
 item_info_convert=parseText('%s','.*\?\w=([^&]+)&')
-item_info_convert=debug
+#item_info_convert=debug
 item_info_build=%s
 
 item_info_name=rtmp3

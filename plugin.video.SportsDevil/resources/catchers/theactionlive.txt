@@ -1,7 +1,6 @@
-
 item_info_name=ch
 item_info_from=@PARAM1@
-item_info_convert=parseText('%s','.*id=['"]([^'"]+)')
+item_info_convert=parseText('%s','.*f?id=['"]([^'"]+)')
 #item_info_convert=debug
 item_info_build=%s
 
@@ -11,9 +10,9 @@ item_info_convert=parseText('%s','.*src=['"]([^'"]+)')
 #item_info_convert=debug
 item_info_build=%s
 
-item_info_name=title
-item_info_from=ch
-item_info_build=TheActionLive - %s
+# item_info_name=title
+# item_info_from=ch
+# item_info_build=TheActionLive - %s
 
 item_info_name=phpUrl
 item_info_from=jsUrl

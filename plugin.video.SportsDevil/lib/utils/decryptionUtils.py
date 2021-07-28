@@ -10,6 +10,7 @@ except ImportError: import simplejson as json
 try: from Crypto.Cipher import AES
 except ImportError: import pyaes as AES
 import lib.common
+from pyaes_new import openssl_aes
 
 def encryptDES_ECB(data, key):
     data = data.encode()
@@ -33,6 +34,14 @@ def cjsAesDec(data, key):
     ciphertext = 'Salted__' + enc_data['s'].decode('hex') + enc_data['ct'].decode('base-64')
     return json.loads(decrypt(key,ciphertext.encode('base-64')))
 
+def jsCryptoAESDec(data, key):
+    #lib.common.log("JairoX_Decrypt:" + key)
+    from jscrypto import decode
+    var = json.loads(data.decode('base-64'))
+    ct = var['ct']
+    salt = var['s'].decode('hex')    
+    return json.loads(decode(ct, key, salt))
+
 def m3u8AesDec(data, key):
     try:
         _in = data.split('.')
@@ -47,6 +56,7 @@ def drenchDec(data, key):
 
 def zadd(data):
     if re.search(".*\w+\s*=\s*eval\(\"\(\"\+\w+\+", data):
+        
         jsvar = re.findall(".*\w+\s*=\s*eval\(\"\(\"\+(\w+)\+", data)[0]
         matches = re.findall(jsvar+'\s+\+=\s*(\w+)',data)
         jsall = ''
@@ -56,6 +66,7 @@ def zadd(data):
                 tmp = re.findall(match+'\s*=\s*[\'\"](.*?)[\"\'];',data)
                 if len(tmp)>0:
                     jsall += tmp[0]
+            
             tmp_ = re.sub(firstword+r".*eval\(\"\(\"\+\w+\+\"\)\"\);", jsall, data, count=1, flags=re.DOTALL)
             data = tmp_
         except:
@@ -87,10 +98,12 @@ def zadd(data):
 #     return data
 
 def zadd2(data):
-    #lib.common.log("JairoXZADD:" + data)
-    if re.search(".*\w+\s*=\s*eval\(\"\(\"\s*\+\s*\w+",data):
+    #lib.common.log("JairoXZADD2:" + data)
+    if re.search(r"\w+\s*=\s*eval\(\"\(\"\s*\+\s*\w+",data):
         #jsvar = re.findall(".*\w+\s*=\s*eval\(\"\(\"\+(\w+)\+", data)[0]
-        matches = re.findall('\w+\s*=\s*\w+\s*\+\s*(\w+)',data)
+        matches = re.findall(r'\w+\s+=\s+\w+\s+\+\s+(\w+);',data)
+        if len(matches)==0:
+            matches = re.findall(r'\w+\s+=\s+\w+\s+\+\s+\'\'\s+\+\s+(\w+);',data)
         jsall = ''
         try:
             firstword = matches[0]
@@ -100,19 +113,24 @@ def zadd2(data):
                     tmp = re.findall(r";(%s)\s*=\s*'(.*?)';"%match,data)
                 if len(tmp)>0:
                     jsall += tmp[0][1]
-            #lib.common.log("JairoXZADD:" + jsall)
-            if re.compile(r"jwplayer\(\'\w+.*eval\(\"\(\"\s*\+\s*\w+\s*\+\s*\"\)\"\);", flags=re.DOTALL).findall(data):
-                    tmp_ = re.sub(r"jwplayer\(\'\w+.*eval\(\"\(\"\s*\+\s*\w+\s*\+\s*\"\)\"\);", jsall, data, count=1, flags=re.DOTALL)
-            if re.compile(r"\w+\.\w+\({.*}\s+</script>(.*)</script>", flags=re.DOTALL).findall(data):
+            
+            #lib.common.log("JairoXZADD2:" + jsall)
+            if re.compile(r"(jwplayer\(['\"]\w+.*?\}\);).*?eval\(\"\(\"", flags=re.DOTALL).findall(data):
+                tmp_ = re.sub(r"(jwplayer\(['\"]\w+.*?\}\);).*?eval\(\"\(\"", '\\1'+jsall, data, count=1, flags=re.DOTALL)
+            elif re.compile(r"\w+\.\w+\({.*}\s+</script>(.*)</script>", flags=re.DOTALL).findall(data):
                 tmp_ = re.sub(r"\w+.\w+\({.*}\s+</script>(.*)</script>", jsall, data, count=1, flags=re.DOTALL)
-            if re.search(r'player.attach.*?<\/script>', data, re.DOTALL) != None:
+            elif re.search(r'player.attach.*?<\/script>', data, re.DOTALL) != None:
                 tmp_ = re.sub(r'player.attach.*?<\/script>', jsall, data, count=1, flags=re.DOTALL)
-            data = tmp_
+            else: tmp_ = None
+            
+            if not tmp_ is None: data = tmp_
         except:
+            import traceback
+            traceback.print_exc()
             data = data
             pass
+        return data
 
-    return data
 
 def zdecode(data):
     import csv
@@ -180,7 +198,7 @@ def onetv(playpath):
     out_hash = b64encode(md5.new(to_hash).digest()).replace("+", "-").replace("/", "_").replace("=", "")
     server = random.choice(servers)
     
-    url = "hls://http://{0}/p2p/{1}?st={2}&e={3}".format(server,playpath,out_hash,time_stamp)
+    url = "http://{0}/p2p/{1}?st={2}&e={3}".format(server,playpath,out_hash,time_stamp)
     return '{url}|User-Agent={user_agent}&referer={referer}'.format(url=url,user_agent=user_agent,referer='6d6f6264726f2e6d65'.decode('hex'))
     
 
@@ -268,6 +286,18 @@ def unFuckFirst(data):
     except:
         return data
 
+
+def decryptMarioCS(strurl, key):
+    #lib.common.log("JairoDemyst: " + strurl)
+    #if re.search(r".*clappr\(MarioCSdecrypt.dec\(.*", data):        
+    #strurl = re.findall(r'clappr\((?:MarioCSdecrypt.dec\()*"([^"]+)',data)[0]
+    if 'http' not in strurl:
+        OpenSSL_AES = openssl_aes.AESCipher()
+        strurl = OpenSSL_AES.decrypt(strurl, str(key))
+        #data = re.sub(r'(?:MarioCSdecrypt.dec\()[^\)]+', strurl, data)
+    #return data
+    return strurl
+
 def doDemystify(data):
     from base64 import b64decode
     escape_again=False
@@ -342,29 +372,38 @@ def doDemystify(data):
             #r2 = re.compile('(?:eval\(decodeURIComponent\(|window\.)atob\([\'"]([^\'"]+)[\'"]\)+')
             #for base64_data in r2.findall(g):
                 #data = data.replace(g, urllib.unquote(base64_data.decode('base-64')))
-                
-    #jairox: ustreamix -- Obfuscator HTML : https://github.com/BlueEyesHF/Obfuscator-HTML
-    r = re.compile(r"var\s*(\w+)\s*=\s*\[([A-Za-z0-9+=\/\",\s]+)\];\s*\1\.forEach.*-\s*(\d+)")
-    if r.findall(data):
-        try:
-            matches = re.compile(r"var\s*(\w+)\s*=\s*\[([A-Za-z0-9+=\/\",\s]+)\];\s*\1\.forEach.*-\s*(\d+)").findall(data)
-            chunks = matches[0][1].split(',')
-            op = int(matches[0][2])
-            dec_data = r""
-            for chunk in chunks:
-                try:
-                    tmp = chunk.replace('"','')
-                    tmp = str(b64decode(tmp))
-                    dig = int(re.sub('[\D\s\n]','',tmp))
-                    dig = dig - op
-                    dec_data += chr(dig)
-                except:
-                    pass
-            data = re.sub(r"(?s)<script>\s*var\s*\w+\s*=.*?var\s*(\w+)\s*=\s*\[.*<\/script>[\"']?", dec_data, data)
 
-        except:
-            pass
-    
+
+    #jairox: ustreamix/liveonlinetv247 -- Obfuscator HTML : https://github.com/BlueEyesHF/Obfuscator-HTML
+    r = re.compile(r'var\s*(\w+)\s*=\s*\[([A-Za-z0-9+=\/\",\s]+)\];\s*\1\.forEach.*?parseInt\(value\)([^\)]+)')
+    if r.findall(data, re.DOTALL):
+        matches = re.findall(r'var\s*(\w+)\s*=\s*\[([A-Za-z0-9+=\/\",\s]+)\];\s*\1\.forEach.*?parseInt\(value\)([^\)]+)', data, re.DOTALL)
+        chunks = matches[0][1].split(',')
+        op = matches[0][2]
+        if 'liveonlinetv247' in data:       
+            try:
+                vals = [v.strip() for v in chunks]
+                vals = [chr(int(eval(v + op))) for v in vals]
+                dec_data = "".join(vals)
+                data = re.sub(r'(?s)<script>\s+var\s+\w+.*?var\s+\w+\s*=\s*\[.*?<\/script>', dec_data.decode('utf-8'), data)                            
+            except:
+                pass
+        else:
+            try:
+                dec_data = r""
+                for chunk in chunks:
+                    try:
+                        tmp = chunk.replace('"','')
+                        tmp = str(b64decode(tmp))
+                        dig = int(re.sub('[\D\s\n]','',tmp))
+                        dig = dig - op
+                        dec_data += chr(dig)
+                    except:
+                        raise Exception
+                data = re.sub(r"(?s)<script>\s*var\s*\w+\s*=.*?var\s*(\w+)\s*=\s*\[.*<\/script>[\"']?", dec_data, data)
+            except:
+                pass
+
     r = re.compile('(<script.*?str=\'@.*?str.replace)')
     while r.findall(data):
         for g in r.findall(data):
@@ -467,15 +506,19 @@ def doDemystify(data):
     if re.search(r'hiro":".*?[\(\)\[\]\!\+]+', data) != None:
         data = unFuckFirst(data)
         #lib.common.log("JairoDemyst: " + data)
+
+    #if re.search(r".*clappr\(MarioCSdecrypt.dec\(.*", data) != None:
+        #data = decryptMarioCS(data)
+        #lib.common.log("JairoDemyst: " + data)
     
-    if re.search(r"zoomtv", data, re.IGNORECASE) != None:
+    if re.search(r"zoomtv|seelive|realtimetv", data, re.IGNORECASE) != None:
         #lib.common.log("JairoZoom:" + data)
-        data = zadd(data)
+        #data = zadd(data)
         data = zadd2(data)
-        try: 
-            data = zdecode(data)
-            escape_again=True
-        except: pass
+        #try: 
+            #data = zdecode(data)
+            #escape_again=True
+        #except: pass
     # unescape again
     if escape_again:
         data = doDemystify(data)

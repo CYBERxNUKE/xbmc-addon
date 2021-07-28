@@ -8,6 +8,7 @@ import urllib
 import urlparse
 import string
 import xbmc
+import json
 from string import lower
 
 from entities.CList import CList
@@ -52,7 +53,7 @@ class Parser(object):
         ext = getFileExtension(url)
 
         successfullyScraped = True
-
+        
         tmpList = None
         if lItem['catcher']:
             catcher = lItem['catcher']
@@ -62,7 +63,7 @@ class Parser(object):
                 successfullyScraped = self.__loadRemote(tmpList, lItem)
         else:
             if ext == 'cfg':
-                tmpList = self.__loadLocal(url, lItem)
+                tmpList = self.__loadLocal(url, lItem)                
                 if tmpList and tmpList.start != '' and len(tmpList.rules) > 0:
                     lItem['url'] = tmpList.start
                     successfullyScraped = self.__loadRemote(tmpList, lItem)
@@ -70,6 +71,7 @@ class Parser(object):
                 tmpList = self.__loadLocal(cfg, lItem)
                 if tmpList and len(tmpList.rules) > 0:
                     successfullyScraped = self.__loadRemote(tmpList, lItem)
+            
 
         # autoselect
         if tmpList and tmpList.skill.find('autoselect') != -1 and len(tmpList.items) == 1:
@@ -80,6 +82,7 @@ class Parser(object):
                 common.log('Autoselect - ' + m['title'])
                 lItem = m
                 tmpList = self.parse(lItem).list
+
 
         if not tmpList:
             return ParsingResult(ParsingResult.Code.CFGSYNTAX_INVALID, None)
@@ -138,7 +141,7 @@ class Parser(object):
                                 return None
 
         #load file and apply parameters
-        data = getFileContent(cfg)
+        data = getFileContent(cfg)        
         data = cr.CustomReplacements().replace(os.path.dirname(cfg), data, lItem, params)
 
         #log
@@ -147,7 +150,6 @@ class Parser(object):
             msg += ' with Parameter(s): '
             msg += ",".join(params)
         common.log(msg)
-
         outputList = self.__parseCfg(filename, data, lItem)
 
         return outputList
@@ -157,9 +159,7 @@ class Parser(object):
      scrape items according to rules and add them to the list
     """
     def __loadRemote(self, inputList, lItem):
-
-        try:
-            
+        try:            
             form_data = None
             postData = ''
             if re.compile(r'\|[\w&=]+').findall(lItem['url']): #jairox: added for post in menu cfgs
@@ -169,6 +169,7 @@ class Parser(object):
                 if len(parts) > 1:
                     postData = parts[1]
                     form_data = urlparse.parse_qsl(postData)
+                    
             inputList.curr_url = lItem['url']
             count = 0
             i = 1
@@ -200,6 +201,7 @@ class Parser(object):
 
                     msg = 'Remote URL ' + inputList.curr_url + ' opened'
                     #common.log("JairoXparserPY: " + data)
+                    
                     if demystify:
                         msg += ' (demystified)'
                     common.log(msg)
@@ -217,7 +219,9 @@ class Parser(object):
                     items = self.__parseHtml(inputList.curr_url, data, inputList.rules, inputList.skill, inputList.cfg, lItem)
                     count = len(items)
                     common.log('    -> ' + str(count) + ' item(s) found')
-                    #common.log("JairoXparserPY: " + items[0]['url'])
+                    # for item in items:
+                    #     common.log("JairoXparserPY: " + item['url'])
+                    
                     
                     
 
@@ -430,6 +434,7 @@ class Parser(object):
                             tmp['videoTitle'] = value 
                     elif key == 'url':
                         tmp['url'] = value
+                        
                         if lItem:
                             tmp.merge(lItem)
                             
@@ -439,6 +444,8 @@ class Parser(object):
                                 tmp['catcher'] = tmpList.catcher
                             
                         tmp['definedIn'] = cfgFile
+                        if 'plugin://' in tmp['url']:
+                            tmp['type'] = 'virtualdir'
                         items.append(tmp)
                         tmp = None
                     elif tmp != None:
@@ -454,14 +461,18 @@ class Parser(object):
 
     def __parseHtml(self, url, data, rules, skills, definedIn, lItem):          
 
-        #common.log('_parseHtml called' + url)
+        common.log('_parseHtml called: ')
         items = []
 
         for item_rule in rules:            
             
             #precheck attribute is used to filter correct rule from _streams.cfg
             if not hasattr(item_rule, 'precheck') or (item_rule.precheck in data):
-                #common.log('rule: ' + item_rule.infos)
+                #common.log('Parser rule: ' + str(item_rule.infos))
+                try:
+                    common.log('Parser rule precheck: %s'%str(item_rule.precheck))
+                except:
+                    pass
 
                 revid = re.compile(item_rule.infos, re.IGNORECASE + re.DOTALL + re.MULTILINE + re.UNICODE)
                 for reinfos in revid.findall(data):
@@ -480,7 +491,7 @@ class Parser(object):
                     else:
                         tmp[item_rule.order] = reinfos
 
-                    for info in item_rule.info_list:
+                    for info in item_rule.info_list:                                             
                         info_value = tmp[info.name]
                         if info_value:
                             if info.build.find('%s') != -1:
@@ -498,9 +509,11 @@ class Parser(object):
                                         src = src + t.strip('\'')
                                     else:
                                         src = src + (tmp[t] or '')
+                                        
                             elif info.src.__contains__('||'):
                                 variables = info.src.split('||')
                                 src = firstNonEmpty(tmp, variables)
+                                
                             else:
                                 src = tmp[info.src]
 
@@ -534,13 +547,14 @@ class Parser(object):
                         tmp['videoTitle'] = tmp['title']
 
                     tmp['definedIn'] = definedIn
+                    #common.log('JairoXYZParserPy: ' + str(tmp))
                     items.append(tmp)
 
         return items
 
 
     def __parseCommands(self, item, src, convCommands):
-        common.log('_parseCommands called')
+        common.log('_parseCommands called ')
         # helping function
         def parseCommand(txt):
             command = {"command": txt, "params": ""}
@@ -657,9 +671,15 @@ class Parser(object):
 
             elif command == 'replaceRegex':
                 src = cc.replaceRegex(item, params, src)
+            
+            elif command == 'subRegex':
+                src = cc.subRegex(item, params, src)
 
             elif command == 'ifEmpty':
                 src = cc.ifEmpty(item, params, src)
+
+            elif command == 'ifContains':
+                src = cc.ifContains(item, params, src)
 
             elif command == 'isEqual':
                 src = cc.isEqual(item, params, src)
@@ -678,10 +698,15 @@ class Parser(object):
                 
             elif command == 'cjsAesDec':
                 src = crypt.cjsAesDec(src,item.infos[params])
+
+            elif command == 'jsCryptoAESDec':
+                src = crypt.jsCryptoAESDec(src, item.infos[params])
+            
+            elif command == 'decryptMarioCS':
+                src = crypt.decryptMarioCS(src, item.infos[params])
                 
             elif command == 'm3u8AesDec':
                 src = crypt.m3u8AesDec(src,item.infos[params])
-
             
             elif command == 'drenchDec':
                 src = crypt.drenchDec(src,item.infos[params])
@@ -760,17 +785,17 @@ class Parser(object):
             #     if not proxyIsRunning:
             #         xbmc.executebuiltin('RunScript(' + serverPath + ')')
 
-            elif command == 'startLivestreamerProxy':
-                libPath = os.path.join(common.Paths.rootDir, 'service')
-                serverPath = os.path.join(libPath, 'livestreamerXBMCLocalProxy.py')
-                try:
-                    import requests
-                    requests.get('http://127.0.0.1:19000/version')
-                    proxyIsRunning = True
-                except:
-                    proxyIsRunning = False
-                if not proxyIsRunning:
-                    xbmc.executebuiltin('RunScript(' + serverPath + ')')
+            # elif command == 'startLivestreamerProxy':
+            #     libPath = os.path.join(common.Paths.rootDir, 'service')
+            #     serverPath = os.path.join(libPath, 'livestreamerXBMCLocalProxy.py')
+            #     try:
+            #         import requests
+            #         requests.get('http://127.0.0.1:19000/version')
+            #         proxyIsRunning = True
+            #     except:
+            #         proxyIsRunning = False
+            #     if not proxyIsRunning:
+            #         xbmc.executebuiltin('RunScript(' + serverPath + ')')
                     #xbmc.sleep(500)                
             #     common.log('Debug from cfg file: ' + requests.get('http://127.0.0.1:19001/version').text)      
 
@@ -803,6 +828,7 @@ def resolveVariable(varStr, item):
 
 
 def firstNonEmpty(tmp, variables):
+    
     for v in variables:
         vClean = v.strip()
         if vClean.find("'") != -1:
@@ -810,7 +836,7 @@ def firstNonEmpty(tmp, variables):
         else:
             vClean = tmp.getInfo(vClean)
 
-        if vClean != '':
+        if vClean is not None and vClean != '':
             return vClean
 
     return ''

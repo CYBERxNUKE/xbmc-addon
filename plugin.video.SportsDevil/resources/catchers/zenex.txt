@@ -13,7 +13,7 @@ item_info_build=%s
 
 item_info_name=rtmp
 item_info_from=http://www.zenexpublisher.com:1935/loadbalancer?' + id
-item_info_convert=getInfo('%s','.*redirect=([\.\d]+).*','http://www.zenexplayer.com/data/scripts/fplayer.swf')
+item_info_convert=getInfo('%s','.*redirect=(.*)\s*','http://www.zenexplayer.com/data/scripts/fplayer.swf')
 item_info_build=rtmp://%s/zenex/
 
 item_info_name=url

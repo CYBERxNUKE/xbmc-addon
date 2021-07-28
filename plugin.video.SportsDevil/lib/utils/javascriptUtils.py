@@ -94,11 +94,11 @@ class JsUnpacker:
                 in_data=in_data.replace('\\\'','\'')
             return in_data
         except: 
-            traceback.print_exc(file=sys.stdout)
+            #traceback.print_exc(file=sys.stdout)
             return in_data
 
     def containsPacked(self, data):
-        return 'p,a,c,k,e,d' in data or 'p,a,c,k,e,r' in data
+        return 'eval(function(p,a,c,k,e,d' in data or 'eval(function(p,a,c,k,e,r' in data
 
 
 class JsUnpackerV2:
@@ -126,7 +126,7 @@ class JsUnpackerV2:
     def containsPacked(self, data):
         return ('String.fromCharCode(c+29)' in data and 'p,a,c,k' in data)
         
-    def unpack(self,sJavascript,iteration=1, totaliterations=1  ):
+    def unpack(self, sJavascript,iteration=1, totaliterations=1):
 
         aSplit = sJavascript.split("rn p}('")
 

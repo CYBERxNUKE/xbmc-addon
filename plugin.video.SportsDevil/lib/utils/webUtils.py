@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import re
+import re, json
 import urllib
 import urlparse
 import requests
@@ -13,6 +13,7 @@ from HTMLParser import HTMLParser
 from fileUtils import fileExists, setFileContent, getFileContent
 
 import lib.common
+
 
 #------------------------------------------------------------------------------
 socket.setdefaulttimeout(30)
@@ -41,8 +42,8 @@ class BaseRequest(object):
         self.s.cookies = LWPCookieJar(self.cookie_file)
         if fileExists(self.cookie_file):
             self.s.cookies.load(ignore_discard=True)
-        self.s.headers.update({'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'})
-        self.s.headers.update({'Accept-Language' : 'en-US,en;q=0.8,de;q=0.6,es;q=0.4'})
+        self.s.headers.update({'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'})
+        self.s.headers.update({'Accept-Language' : 'en-US,en;q=0.9,de;q=0.8,es;q=0.7'})
         self.s.headers.update({'Upgrade-Insecure-Requests': '1'})
         
 
@@ -100,6 +101,9 @@ class BaseRequest(object):
             referer = self.fixurl(referer.replace('wizhdsports.be','wizhdsports.is').replace('ibrod.tv','www.ibrod.tv').replace('livetv123.net','livetv.sx'))
         
         headers = {'Referer': referer}
+        
+        if 'liveonlinetv247' in urlparse.urlsplit(url).netloc: mobile = True
+
         if mobile:
             self.s.headers.update({'User-Agent' : 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1'})
             
@@ -125,11 +129,29 @@ class BaseRequest(object):
         if 'streamlive.to' in urlparse.urlsplit(url).netloc:
             self.s.verify = False
 
-        if 'vipleague' in url or 'strikeout' in url or 'homerun' or 'nbastreams' in url:
+        if 'vipleague' in url or 'strikeout' in url or 'homerun' or 'nbastream' in url:
+            self.s.verify = False
+        
+        if 'bypassed' in url or 'livecamtv.me' in url or 'seelive.me' in url:
             self.s.verify = False
 
-        if 'firstonetv' in url:
+        if 'firstonetv' in url: 
             self.s.verify = False
+
+        if 'vaughnlive.tv' in url:
+            self.s.verify = False
+        
+        if 'ustreamix' in url:
+            self.s.verify = False
+
+        if 'vergol' in url or 'vercanales' in url:
+            self.s.verify = False
+
+        if 'telerium' in url or 'cdn4.us' in url:
+            self.s.verify = False
+
+        if 'auth.livecamtv' in url:
+            self.s.headers['Origin'] = 'https://www.seelive.me'
 
         
         #if 'strikeout' in urlparse.urlsplit(url).netloc:
@@ -143,7 +165,6 @@ class BaseRequest(object):
             # self.s.headers.update({'Content-Type': 'application/x-www-form-urlencoded'})
             
         
-
         if form_data:
             #zo**tv
             #if 'uagent' in form_data[0]:
@@ -155,12 +176,28 @@ class BaseRequest(object):
                 #headers['Content-Type'] = 'application/x-www-form-urlencoded'
                 #headers['User-Agent'] = self.s.headers['User-Agent']
                 #lib.common.log("JairoX10:" + form_data[0][1])
-               
+            if 'firstonetv' in url and len(form_data) > 0:    
+                # tmp_data = dict(form_data)
+                # cookies = str(tmp_data['cookie'])
+                # cookies = cookies.replace('___', ';')
+                cookies = requests.utils.dict_from_cookiejar(self.s.cookies)
+                evercookie = {'evercookie_cache': '', 'evercookie_etag': '', 'evercookie_png': '', 'f1tvuvid': ''}
+                cookies.update(evercookie)
+                cookiestr = "; ".join(["=".join([key, str(val)]) for key, val in cookies.items()])
+                headers['cookie'] = cookiestr
+                # tmp_data.pop('cookie')
+                # form_data = tmp_data.items()
 
             r = self.s.post(url, headers=headers, data=form_data, timeout=20)
+  
         else:
             try:
                 r = self.s.get(url, headers=headers, timeout=20)
+                if r.status_code == 503:
+                    import cfscrape
+                    scraper = cfscrape.create_scraper(sess=self.s)
+                    r = scraper.get(url, headers=headers)
+                    #lib.common.log("JairoWebUtils:    %d"%r.status_code)
             except (requests.exceptions.MissingSchema):
                 return 'pass'
         
@@ -171,6 +208,7 @@ class BaseRequest(object):
         or 'vipleague' in urlparse.urlsplit(url).netloc \
         or 'cinestrenostv.tv' in urlparse.urlsplit(url).netloc \
         or 'batmanstream.com' in urlparse.urlsplit(url).netloc \
+        or 'dailydeports.pw' in urlparse.urlsplit(url).netloc \
         or 'sportcategory.com' in urlparse.urlsplit(url).netloc:
             r.encoding = 'utf-8'
         if 'lfootball.ws' in urlparse.urlsplit(url).netloc:
@@ -178,7 +216,20 @@ class BaseRequest(object):
             
         response  = r.text
 
-       
+        # if 'dailydeports.pw' in urlparse.urlsplit(url).netloc and 'Schedule' in response:
+        #     try:
+        #         #page = unicode(response, 'utf-8')
+        #         page = response #.decode('utf8')
+        #         items = re.findall(r'(?s)<font.+?b>(http[^<]+).+?font>([^<]+)', page)
+        #         res = ""
+        #         for item in items:
+        #             titles = re.findall(r'(\d+:\d+)\s+([^\n]+)', item[1])
+        #             for title in titles:
+        #                 res+='<url>%s</url><time>%s</time><event>%s</event>\n'%(item[0],title[0],title[1])
+        #         response = res
+        #     except:
+        #          pass
+            #lib.common.log("JairoWebUtils:    %s"%response)
 
         if 'beget=begetok' in response: # av
             _cookie = requests.cookies.create_cookie('beget','begetok',domain=urlparse.urlsplit(url).netloc,path='/')
@@ -273,4 +324,58 @@ class CachedWebRequest(DemystifiedWebRequest):
                 self.__setLastUrl(url)
                 # Cache page
                 setFileContent(self.cachedSourcePath, data)
+        
         return data
+
+class WSCLient:
+    #websocket client ... maybe implement parser command for this later
+    def __init__(self):
+        #super(WSCLient, self).__init__()
+        self.s = requests.Session()
+        self.s.headers.update({'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'})
+        self.s.headers.update({'Accept-Encoding': 'gzip, deflate'})
+
+
+    def getSS365(self, url):
+        #solution for ss365
+        try:
+            #import websocket
+            from websocket import create_connection
+            #websocket.enableTrace(True)         
+            url_ = urlparse.urlsplit(url)
+            sport_ = url_.query.split('=')[1]
+            r = self.s.get('http://sportstream-365.com/').content
+            tagz = re.findall(r'tagz\s*=\s*"([^"]+)', r)[0]
+            self.s.headers['X-Requested-With'] = 'XMLHttpRequest'
+            neg = self.s.post('http://sportstream-365.com/signcon/negotiate', data=None).content
+            neg = json.loads(neg)
+            connid = neg['connectionId']
+            wsurl = "ws://sportstream-365.com/signcon?id=%s"%connid
+            ws = create_connection(wsurl)
+            ws.send('{"protocol":"json","version":1}\x1E')
+            ws.recv()
+            ws.send('{"arguments":[{"partner":2,"lng":"en","typegame":3}],"invocationId":"0","target":"ConnectClient","type":1}\x1E')
+            ws.recv()
+            ws.send('{"arguments":["%s","en",24],"invocationId":"1","target":"GetFeed","type":1}\x1E'%sport_)
+            result =  ws.recv()      
+            
+        except:
+            # import traceback,sys
+            # traceback.print_exc(file = sys.stdout)
+            result = ''
+            
+        finally:
+            ws.close()
+            self.s.close()
+            result = result.replace('\x1E','')
+            try:
+                result = json.loads(result)
+                result = result['arguments'][0] #.encode('utf8')
+            except:                
+                result = result.replace('\\','')
+            
+            result = result.replace('"isAuth":false},','"isAuth":false,"tagz":"%s"},'%tagz)
+            result = result.replace('"isAuth":false}]','"isAuth":false,"tagz":"%s"}]'%tagz)
+            #lib.common.log("JairoooooX_WS:    %s"%repr(result))
+            return result
+

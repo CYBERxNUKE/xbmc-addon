@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
+import os, json
 
 
 #------------------------------------------------------------------------------
@@ -13,12 +13,20 @@ __icon__ = xbmcaddon.Addon(id='plugin.video.SportsDevil').getAddonInfo('icon')
 translate = __settings__.getLocalizedString
 enable_debug = True
 language = xbmc.getLanguage
+xbmcVersion = float(xbmc.getInfoLabel('System.BuildVersion')[0:4])
 
 def log(msg, level=xbmc.LOGDEBUG):
     plugin = "SportsDevil"
     msg = msg.encode('utf-8')
 
     xbmc.log("[%s] %s" % (plugin, msg.__str__()), level)
+
+def json_rpc_request(payload):
+        """Kodi JSON-RPC request. Return the response in a dictionary."""
+        xbmc.log('jsonrpc payload: {0}'.format(payload))
+        response = xbmc.executeJSONRPC(json.dumps(payload))
+        xbmc.log('jsonrpc response: {0}'.format(response))
+        return json.loads(response)
 
 def getSetting(name):
     return __settings__.getSetting(name)
@@ -75,17 +83,26 @@ def showOSK(defaultText='', title='', hidden=False):
 #------------------------------------------------------------------------------
 from utils.regexUtils import parseTextToGroups
 from utils.webUtils import CachedWebRequest
+
 import cookielib
 
 def getHTML(url, form_data='', referer='', xml=False, mobile=False, ignoreCache=False, demystify=False):
-    if url == 'http://www.streamlive.to':
-            url = xbmc.translatePath(os.path.join(Paths.imgDir, 'live.xml'))
-    if url == 'http://www.tvone1.tv':
-            url = xbmc.translatePath(os.path.join(Paths.imgDir, 'tvone.xml'))
-            
-    cookiePath = xbmc.translatePath(os.path.join(Paths.cacheDir, 'cookies.lwp'))
-    request = CachedWebRequest(cookiePath, Paths.cacheDir)
-    return request.getSource(url, form_data, referer, xml, mobile, ignoreCache, demystify)
+    
+    if 'ws://' in url:
+        from utils.webUtils import WSCLient
+        wsc = WSCLient()
+        return wsc.getSS365(url)
+        
+    else:
+        if url == 'http://www.streamlive.to':
+                url = xbmc.translatePath(os.path.join(Paths.imgDir, 'live.xml'))
+        if url == 'http://www.tvone1.tv':
+                url = xbmc.translatePath(os.path.join(Paths.imgDir, 'tvone.xml'))
+                
+        cookiePath = xbmc.translatePath(os.path.join(Paths.cacheDir, 'cookies.lwp'))
+        request = CachedWebRequest(cookiePath, Paths.cacheDir)
+        return request.getSource(url, form_data, referer, xml, mobile, ignoreCache, demystify)
+
 
 def getLocation(url): #get 302 response location    
     if 'tinyurl' in url:
@@ -164,3 +181,4 @@ class Paths:
     customModulesRepo = ''
     
     xbmcFavouritesFile = xbmc.translatePath( 'special://profile/favourites.xml' )
+    
