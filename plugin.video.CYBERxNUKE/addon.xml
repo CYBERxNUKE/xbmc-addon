@@ -24,11 +24,6 @@
 		<checksum>https://github.com/CYBERxNUKE/xbmc-addon/raw/master/addons.xml</checksum>
 		<datadir zip="true">https://github.com/CYBERxNUKE/xbmc-addon/raw/master/</datadir>
 	</extension>
-    <extension point="xbmc.addon.repository" name=".Kodil  Repository ">
-        <info compressed="false">https://raw.githubusercontent.com/kodil/kodil/master/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/kodil/kodil/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/kodil/kodil/master/repo</datadir>
-    </extension>
   <extension point="xbmc.addon.metadata">
     <summary>based on livestreamspro 2.3.4 by Shani</summary>
     <description>Private Live Channels by CYBERxNUKE.</description>
