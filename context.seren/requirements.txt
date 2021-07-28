@@ -1,0 +1,3 @@
+kodistubs==18.0.0; python_version<"3.7"
+kodistubs==19.0.1; python_version>="3.7"
+future~=0.17.1
