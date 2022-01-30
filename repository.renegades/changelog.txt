@@ -1,2 +1,0 @@
-[B]Version 1.0[/B]
-- New version, new host
