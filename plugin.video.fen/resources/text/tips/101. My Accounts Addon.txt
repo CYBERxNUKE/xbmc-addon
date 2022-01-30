@@ -1,0 +1,6 @@
+
+[COLOR dodgerblue][B]My Accounts Addon[/B][/COLOR]
+
+Fen uses the dependency addon "My Accounts" to handle most account details within Fen. Instead of entering your account details and authorizing your debrid/trakt services in each addon, My Accounts allows you to do that in one place, and then addons you use will access those settings from My Accounts if they are set up to do so.
+
+Access My Accounts through Fen by either navigating to Settings->My Accounts (External), or accessing through the settings dialog of Fen under the Accounts tab. You can also access My Accounts through the Kodi addon browser under the Programs category.
