@@ -1,3 +1,0 @@
-[B]0.0.19[/B] Wouldnt you like to know Cypher!
-[B]0.0.1[/B] Tweaked Scrapers
-[B]0.0.1[/B] initial commit
