@@ -1,7 +1,0 @@
-1.1 Initial Release 11/27/2018
-.
-.
-Lots of fixes/ additions
-.
-.
-2.5 Public Release 02/19/2019
