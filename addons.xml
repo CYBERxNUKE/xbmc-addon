@@ -49,12 +49,12 @@
 	</extension>
 </addon>
 
-<addon id="repository.cyberxnuke" name="CYBERxNUKE's Repository" version="1.3.0" provider-name="CYBERxNUKE">
+<addon id="repository.cyberxnuke" name="CYBERxNUKE's Repository" version="1.3" provider-name="CYBERxNUKE">
     <extension point="xbmc.addon.repository" name="CYBERxNUKE's Repository">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/CYBERxNUKE/xbmc-addon/master/addons.xml</info>
             <checksum>https://raw.githubusercontent.com/CYBERxNUKE/xbmc-addon/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/CYBERxNUKE/xbmc-addon/master/zips</datadir>
+            <datadir zip="true">https://raw.githubusercontent.com/CYBERxNUKE/xbmc-addon/master/</datadir>
         </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
