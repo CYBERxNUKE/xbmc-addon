@@ -1,0 +1,24 @@
+[COLOR red][B]Version 1.0.5[/B][/COLOR]
+- Changes made to cleantitle to allow country codes in parenthesis.
+- Updated bitcq
+- Updated glodls
+- Updated kickass
+- Updated magnetdl
+- Updated torrentgalaxy
+- Updated torrentz
+
+[COLOR red][B]Version 1.0.4[/B][/COLOR]
+- Kodi 19 settings format.
+
+[COLOR red][B]Version 1.0.3[/B][/COLOR]
+- Google Drive Re-Added.
+
+[COLOR red][B]Version 1.0.2[/B][/COLOR]
+- Plexshares Added.
+
+[COLOR red][B]Version 1.0.1[/B][/COLOR]
+- Some fixes to scenerls scraper.
+- Re-added FilePursuit scraper.
+
+[COLOR red][B]Version 1.0.0[/B][/COLOR]
+- Initial release.

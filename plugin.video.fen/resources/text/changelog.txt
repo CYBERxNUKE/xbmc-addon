@@ -1,0 +1,174 @@
+[COLOR dodgerblue][B]All forks are free to use any new code if they so wish.[CR]At your own risk of it breaking your fork of course.[/B][/COLOR]
+
+[B]Please utilize Fen Tips (Tools->Tips for Fen Use) to catch up on any important new features. New features will be highlighted with a [COLOR chartreuse]NEW!!![/COLOR] label.[/B]
+
+[COLOR dodgerblue][B]Version 3.0.19[/B][/COLOR]
+- Substantial re-write of resolving code. Please report any isues to github.
+- Re-write of Artwork Choice custom window.
+- Partial re-write of metadata caching, including changing Fen's window property ids for non-persistent cached meta so as to fix any co-existence issues with Fen forks. Forks are encouraged to do the same. Reach out if you need help.
+- Added "Check for Corrupt Databases" in Tools->Clear Databases and Clean Settings Files. This function will check for missing or malformed Fen databases and hopefully repair them.
+- Added skip forward (right) and skip back (left) to Fen custom video player window (trailers/videos from Fen's Extra Info). 10sec skip forward/backward possible now during playback.
+- Fixed RD Cloud access to some files due to RD API changes.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.17/18[/B][/COLOR]
+- Removed Playback success check in Fen Settings->Playback->Playback Utilities. Didn't work well on (mainly) Android devices.
+- Re-added option to have a Kodi notification upon Next Episode Autoplay, instead of a custom window. Settings->Playback->Next Episode Alert Method.
+- Added option for behavior when Next Episode alert window is not interacted with. Choose either Cancel next playback or Play next playback.
+- Some changes to hopefully accommodate tvOS issues.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.16[/B][/COLOR]
+- Root Menu item "Settings" merged into "Tools" menu.
+[COLOR red]The Settings menu item will no longer work, so either remove it from the Root Menu (Edit Menu->Remove Settings from the List), or restore the Root Menu (Edit Menu->Restore Root Menu to Default)[/COLOR].
+- Added "Decades" menu items to both Movies and TV Shows menus. Refresh these menus to see this new item.
+- Added "Movie Sets" to Trakt Collection menu. Shows the sets of any movies in your Trakt Collection.
+- Extended Movie Set functionality as a result. Now will pull fanarttv art if set in settings.
+- Removed Still Watching check for auto next episode playback. If you don't interact with the next ep window, Fen will assume you are not still watching and cancel the next ep's playback.
+- Removed "Show Next Episode Window" option. Next Episode window will now always show.
+- Changes to "Favourites" code. Please report any issues.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.15[/B][/COLOR]
+- Added custom window for Artwork Choice.
+- Re-added "Link Media to Debrid Cloud" feature. Allows you to set what Movie/TV Show a particular item in your Cloud is. Please read Fen Tips for more info.
+- Re-added "Mark Watched After (Playback %)" and "Set Resume Point After (Playback %)" to Settings->Playback->Playback Utilities. This will allow you to control at what percentage of playback Fen will mark media as watched and at what percentage before a progress point is marked.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.13/14[/B][/COLOR]
+- Quick fix for Pack Downloads.
+- Limited amount of results to try for playback from 41 to 7. Since Fen mainly deals with cached torrents, this should be enough to get successful playback.
+- Added "Ignore Quality and Size Filters" setting for "Folder" scrapers.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.12[/B][/COLOR]
+- Added option to turn the "Jump To..." list item OFF when Paginate is activated.
+- Re-wrote TMDb artwork chooser. Apologies, but you may need to re-set any custom artwork choices.
+- Fixed "Next Episodes" showing future episodes more than a week away when show unaired enabled.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.11[/B][/COLOR]
+- Quick fix for Next Episode sorting.
+
+[COLOR dodgerblue][B]Version 3.0.10[/B][/COLOR]
+- Added ability to choose TMDb artwork (Poster, Fanart and Clearlogo) for Movies/TV Shows. "Set Artwork", found in "Options..." menu. Re-cache the Movie/TV Show to return to default artwork. Not available if fanart.tv is set as default art provider.
+- Added "Results Progress Style" to Settings->Results->Display. Options are Fullscreen/Dialog. Default "Fullscreen".
+- Added "Trending Recent" to Movie & TV Show menus. Bring to your menus by either context menu->Edit Menu->Check if Menu has New Menu items or simply restore the menu to default.
+- Removed "Default" source result formats. Source results windows will now only show the former "Details" formats. Some other changes to Source Results window.
+- Removed "Enable Animations for Extras Window" setting. Animations ON always now.
+- Limited concurrent downloads of pack files to 2.
+- Fixed error when fetching API value for Furk on new user/pass. Guess no one uses Furk these days, because this is an old error. :)
+- Changes to match new Cocoscrapers code.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.09[/B][/COLOR]
+- [COLOR red][EXPERIMENTAL...DISABLE IF CAUSING ISSUES.][/COLOR] Added "Open Fen Options Window Instead of Kodi Context Menu" to Settings->General->General. When enabled, Fen will attempt to open it's "Options..." dialog in place of Kodi's regular context menu. This will allow one-click access to items in the Options dialog. Only works on Fen media items, so a regular context menu will still appear at all other times. OFF by default.
+- [COLOR red][EXPERIMENTAL...DISABLE IF CAUSING ISSUES.][/COLOR] Added "Open Fen Extras Window Instead of Kodi Info Dialog" to Settings->General->General. When enabled, Fen will attempt to open it's "Extras" window in place of Kodi's regular Info Dialog. Only works on Fen media items, so a regular info dialog will still appear at all other times. OFF by default.
+- Re-added support for mixed Trakt lists. Mixed Movie/TV Show lists are supported.
+- Added new source results view type "Media List". Change source results viewtypes in Settings->Results->Display->"Results Display", or within the "Options..." menu.
+- Added "Jump To Navigation Display" setting to Settings->Navigation->Content->Paginate Lists When Possible. Choose between Page No./Alphanum/Both.
+- Added "Max. HEVC Quality" & "Max. Autoplay HEVC Quality" to Results->Sorting & Filtering->HEVC Files Filter. If you choose to "Include" or "Prefer" HEVC files, you can now set the maximum quality for both Source Select & Autoplay. This will allow hardware with a maximum limit of software decoding HEVC files to limit the quality returned. Default is "4K".
+- Fixed PACK browsing/downloading through Real Debrid.
+- A reworking of aspects of the Extras and People custom windows.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.08[/B][/COLOR]
+- Added "Include Unaired Media in Trakt Watchlists" to Settings->Navigation->Content. Default ON. Turn OFF to exclude unreleased/unaired media from your watchlist.
+- Added check as to whether "script.trakt" is enabled, as well as installed, before deciding on Trakt scrobbling options.
+- Fixed Trakt Cache not clearing when authorization is revoked.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.07[/B][/COLOR]
+- Added startup task to hopefully clean settings file of offending setting and stop Kodi crashing.
+- Fixed Autoplay Next Episode and Random play bug.
+- "In Progress TV Shows" will now honor your Trakt hidden list if you are using trakt. Meaning if you have hidden a show's progress on Trakt, it will no longer display in this menu.
+
+[COLOR dodgerblue][B]Version 3.0.06[/B][/COLOR]
+- Looks like Kodi decided on some installs that it doesn't like a setting type being changed. Changed name of setting to hopefully fix this.
+
+[COLOR dodgerblue][B]Version 3.0.05[/B][/COLOR]
+- Added "Include Adult Content" setting to Settings->Metadata->Filter. ON by default. The presumption of whether a piece of media is defined as "adult content" is determined by the metadata provider, TMDb.
+- "Ignore All Filters When No Results Available" in Settings->Results has changed. You can now choose between "Off", "Auto" or "Prompt".
+- Fixed Premiumize Cloud results playback.
+- Fixed rating value in Extras window not rounding to 1 decimal place. No idea when this started.
+- "Scraper Timeout" setting given a new id, so will need to be re-set.
+- Code changes to all auth methods to hopefully shore them up a little more.
+- Other changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.04[/B][/COLOR]
+- Re-added "Hide Watched Items in Widgets" to Settings->Navigation->Widgets.
+- Other small changes/fixes.
+
+[COLOR dodgerblue][B]Version 3.0.01/02/03[/B][/COLOR]
+- Fixed Years bug in Discover menu.
+- Fixed "Sources Folder Manager" bug.
+- Fixed RD issues (hopefully).
+- Fixed crashing when returning to Home window for some users when the "Reuse Language Invoker" is ON (hopefully).
+- Added "AV1 Files Filter" to Results->Sorting & Filtering.
+- Added recognition for "Opus" audio to extra info in results.
+- Added check to see if all enabled internal scrapers are also set to "Prescrape". Don't run prescrape dialog if that's the case. No need.
+- Added choice for filtering based on size. Can choose between "Line Speed" or "Maximum Size". Apologies for forgetting this. :)
+- Other changes/fixes.
+
+[COLOR=red][B]Changes during the downtime of Fen.[/B][/COLOR]
+- Moved "Trakt Lists Manager" and "Favorites Manager" to within the "Options..." context menu list.
+- Changed "Trakt" button in Extras Window to open "Options" instead. As above, the Trakt Lists Manager is now within the Options list.
+- Changed a decent amount of resolving code. Let me know if any issues.
+- Increased Reviews in "Extras" window to 75 items, if available.
+- Fixed "Discover", which had a few errors floating about. Also, partial re-write performed.
+- Fixed Uncached results not showing if enabled in settings, but no cached results found. Also added yes/no dialog to see uncached results if no cached results found and show uncached setting disabled.
+- Added options for "Add Resolved Torrents to Cloud" for RD/PM & AD. Options are "None", "All" and "Show Packs Only".
+- Added clearlogos from TMDb as either the main, or as a fallback when fanart.tv has no clearlogo.
+- "Recommended" & ("Play Random", "Browse" & "Browse Season" for TV Shows) moved to "Options..." context menu item.
+- Made some changes to Next Episode "On Deck" notification window.
+- Made some under the hood changes to marking watched and marking progress behavior.
+- Removed ability to set "Alphabet" to be used with Jump To...". Jumping to a certain page is now the only way to use "Jump To...".
+- Removed multi-year search string from Easynews. Caused issues with some movie titles.
+- Added "Use Fanart Background for Scraper Progress Display" to Settings->Results->Display.
+- Added "Scrape with an Alias" to Playback Options. If aliases are available from the metadata, then you can choose for Fen to scrape using one of the aliases.
+- Added "keyart" to metadata from fanart.tv. You will need to clear the metacache if you wish to see keyart immediately.
+- Sources Folders now managed through Tools->Sources Folders Manager.
+- Some minor changes to Extras window animations.
+- Quick fix "In Progress Episodes".
+- Added "Recently Watched" to Movies menu and "Recently Watched Episodes" to TV Show menu. Either select Edit Menu->Check If Menu has New Menu Items or Edit Menu->Restore Menu to Default in the Movie and TV Show menus to load the new menu items.
+- Added "Scrape with DEFAULT external scrapers" to Options. Use this if you have only a couple of scrapers enabled, don't get any results, but also don't want to enable ALL scrapers to get results. This will load the FenomScrapers "default" scrapers for that single scrape.
+- Added ability to scroll through Reviews/Trivia/Blunders in Extras window when viewing fullscreen.
+- Added "Disable Content Lookup Before Playback". If this is enabled, it will prevent Kodi from asking for file info from Headers before starting playback. The hope is this will help with Easynews playback..
+- Added "Release Date" to Trakt Collection & Watchlist sorting options in Navigation->Sorting.
+- Added the ability to choose an icon for a shortcut folder when adding it to a list.
+- Added "Custom Fen Windows Highlight Color" to Settings->General. Here you can set the color Fen custom windows use for highlights. Default "dodgerblue". If you know the HEX value of the color you want to use, you can input that instead of a default color.
+- Moved all icons that Fen uses to online to decrease the size of the addon. Kodi caches all images after first download, so there will be no decrease in performance.
+- Contents of Trakt user lists (other people's) now cleared on each Trakt Sync. Previously the cache was only cleared on each Kodi start.
+- Fixed TV Shows. Oops.
+- Fixed certain Trakt lists not working.
+- Some code changes to "Monitor Successful Playback".
+- Added Settings->Playback->"Monitor Successful Playback" for video playback. This will mainly be advantageous to users running Easynews, which often resolves but Kodi cannot start playback of the resolved file. If enabled, there will be a setting for the amount of time to wait for success before deeming it a failed playback.
+- Added setting "Disable SSL Connections" to Settings->Providers->Furk. Furk seems to be having issues with some of their server's SSL Certificates. Setting this to ON will force Fen to use a "http" connection when attempting playback of Fen sources.
+- Added "Discovery+" to TV Show Networks.
+- Fixed "Scrape With Filters Disabled" to include not running Title Checks on Internal Scrapers when selected.
+- Changes to Hybrid and HDR source detection, thanks to 123Venom and Gaiaaaiaai.
+- Merged some modules together.
+- Added "Check for Updates" to Tools menu. Here you can manually check, and install if available, updates for Fen, My Accounts & FenomScrapers.
+- Removed SSL Cert check on Furk URLS whilst they figure out their certification issues.
+- Certain images moved online so as to decrease Fen's size.
+- Fixed My Accounts Sync error when My Accounts settings already set and Fen installed new.
+- Fixed "Multiselect..." Genres item when used through a widget.
+- Added "Size Sort Order" setting for Results. Set to Descending (smallest to largest) or Ascending (largest to smallest).
+- Added "Limit Concurrent Threads" setting in General. Use this to set the number of concurrent threads Fen uses.
+- Added "Hide Next Page Item in Widgets" setting in General->Widgets.
+- Added "Enable Animations for Extras Window" setting to General->Extras. Enable/disable opening animations in the Extras and People Windows.
+- Added "Trivia" to People Window.
+- Re-added Season and Episode inputs for "Scrape with Custom Values". Autoplay Next Episode will not work if custom season/episode values are set for the scrape, and will be temporarily disabled.
+- Changed some settings locations around.
+- Small tweaks to "Extras" window.
+- Other changes/fixes of course.
+
+
+
+
+
+
+
+
+
+++

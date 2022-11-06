@@ -1,0 +1,814 @@
+[B][COLOR gold]v4.11.09[/COLOR][/B]
+- Added new list under My Services, that'll show popular items from all
+  enabled Official providers.
+  Menu will be visible if more than 1 official providers are enabled
+
+[B][COLOR gold]v4.11.08[/COLOR][/B]
+- Crackle official provider: try to fetch episode id from alternative source
+- Code cleanup
+
+[B][COLOR gold]v4.11.07[/COLOR][/B]
+- Code cleanup
+
+[B][COLOR gold]v4.11.06[/COLOR][/B]
+- BBC IPlayer official provider: try to fetch episode url if API returned season
+
+[B][COLOR gold]v4.11.05[/COLOR][/B]
+- Added Crackle to supported official providers/add-ons
+- Subtitles: do not convert to utf-8 if sub is already
+- Some metadata cacheing fixes - thx 123venom
+
+[B][COLOR gold]v4.11.04[/COLOR][/B]
+- Added My Services category under My Movies/My TV Shows.
+  This category is activated only if there are any Official providers enabled,
+  and contains items by those providers (sorted by popularity) that are available
+  to stream on the country that is defined on Providers/Country code setting.
+
+[B][COLOR gold]v4.11.03[/COLOR][/B]
+- Downloading fix
+
+[B][COLOR gold]v4.11.02[/COLOR][/B]
+- Try to pass correct meta to the player when playing random file from pack
+
+[B][COLOR gold]v4.11.01[/COLOR][/B]
+- Added "Browse" context menu option on torrent pack sources
+- Removed "Autoplay sd-only" option
+- Other minor fixes
+
+[B][COLOR gold]v4.11.00[/COLOR][/B]
+- Added basic torrent packs support
+  (ResolveURL now supports multi-file torrent resolving via RD, AD, PM, DL)
+
+[B][COLOR gold]v4.10.10[/COLOR][/B]
+- Scrape title tweaks
+- Library scraper fixes
+
+[B][COLOR gold]v4.10.09[/COLOR][/B]
+- Removed "Hide spoilers" feature, as this can be handled by Kodi itself:
+  Kodi settings/Media/Videos/Show information for unwatched items
+- Added Dolby-Vision sources filter
+
+[B][COLOR gold]v4.10.08[/COLOR][/B]
+- Added option to hide spoilers for unwatched episodes (plot and/or thumb)
+- Remove uncached torrents from sources list when autoplay is on,
+  regardless of setting
+- Other minor fixes
+
+[B][COLOR gold]v4.10.07[/COLOR][/B]
+- Cacheing fixes
+
+[B][COLOR gold]v4.10.06[/COLOR][/B]
+- Minor fixes
+
+[B][COLOR gold]v4.10.05[/COLOR][/B]
+- Alternative (faster) database for Netflix episode ids
+- Adjust to Rd API changes that removed their 100-hashes-per-request limit
+  upon magnet instant availability check
+
+[B][COLOR gold]v4.10.04[/COLOR][/B]
+- Fixed Netflix official provider returning show id instead of episode id
+- Bookmarks database initialisation fix
+- Duplicate magnet hashes filtering tweak
+
+[B][COLOR gold]v4.10.03[/COLOR][/B]
+- Official providers cleanup
+- Library scraper transfered from Ninescrapers to built-in
+
+[B][COLOR gold]v4.10.02[/COLOR][/B]
+- Added Paramount+ on supported official providers
+
+[B][COLOR gold]v4.10.01[/COLOR][/B]
+- Added Hulu on supported official providers
+- Some cleanup
+
+[B][COLOR gold]v4.10.00[/COLOR][/B]
+- Added official streams providers.
+  For these providers to work, their equivalent Kodi add-on is required
+  to be installed and configured (with active accounts etc).
+  (Thanks to a fellow veteran add-on developer for the suggestion and help)
+- Orion scraper now moved onto the Ninescrapers package - enable and
+  configure it there
+
+[B][COLOR gold]v4.03.09[/COLOR][/B]
+- Cleanup unused modules
+- Furk fixes/tweaks
+
+[B][COLOR gold]v4.03.08[/COLOR][/B]
+- Added support for Easynews
+
+[B][COLOR gold]v4.03.07[/COLOR][/B]
+- Fixed non-en language title/aliases parsing for scraping
+- Fixed sources sorting issue
+
+[B][COLOR gold]v4.03.06[/COLOR][/B]
+- Fixed some performance issues with scraping
+
+[B][COLOR gold]v4.03.05[/COLOR][/B]
+- Sources appearance/filtering tweaks
+
+[B][COLOR gold]v4.03.04[/COLOR][/B]
+- Code cleanup
+- Minor cosmetic fix
+
+[B][COLOR gold]v4.03.03[/COLOR][/B]
+- Added People category on main menu (and removed from Movies menu). Opens
+  select dialog with options Movies/TV Shows/Biography
+- Added saving of people searches
+- Removed "Hide movies in cinema" setting/ability. Redundant as releases
+  on streaming platforms are usually instantly available, and unreleased titles
+  are labelled accordingly
+- Better platform detection
+
+[B][COLOR gold]v4.03.02[/COLOR][/B]
+- Made some changes to the magnet cached status check function to hopefully
+  prevent it from locking the scraping process when a debrid service is down
+
+[B][COLOR gold]v4.03.00-1[/COLOR][/B]
+- Cosmetic updates
+- Default trailer search method changed to IMDb, as it doesn't require the
+  YouTube add-on (and all the burden it carries). One drawback is that it
+  doesn't supply season/episode specific related videos
+
+[B][COLOR gold]v4.02.05[/COLOR][/B]
+- Added yet another trailer/related videos source to choose: IMDb
+  This source does not require the YouTube add-on to work
+
+[B][COLOR gold]v4.02.04[/COLOR][/B]
+- Fixed clearing movies saved search terms through search menu clearing out
+  tvshows' too (and vice-versa). Action through tools menu still clears all.
+- Other minor fixes
+
+[B][COLOR gold]v4.02.03[/COLOR][/B]
+- Internal changes to hopefully make things a bit faster
+- TV calendar/New episodes loading fix and caching fix
+- Minor compatibility adjustment for... spmc (lol)
+
+[B][COLOR gold]v4.02.02[/COLOR][/B]
+- Added biography info on 'Cast' context menu action
+
+[B][COLOR gold]v4.02.01[/COLOR][/B]
+- Channels fix
+- Fixed some issues with Trakt (hopefully)
+
+[B][COLOR gold]v4.02.00[/COLOR][/B]
+- Added new "Cast" context menu item, which can list
+  all the movies & shows an actor has appeared in
+- Fixed issue with "Play random"
+- Altered "Find similar" context menu's source from Trakt to TMDb
+- Updated debrid hosts list
+- Fixed some issues with caching on py3
+
+[B][COLOR gold]v4.01.11[/COLOR][/B]
+- Code cleanup
+
+[B][COLOR gold]v4.01.10[/COLOR][/B]
+- Fixed TMDb trailers listed twice
+- Tweaked YouTube trailers search query
+
+[B][COLOR gold]v4.01.07-9[/COLOR][/B]
+- Trailers:
+    Added new trailer searching method through TMDb.
+    This method does not require a YouTube API key to be set.
+    Can be enabled as default trailer search method in settings,
+    but add-on will also fallback to it if YouTube method fails.
+- Channels category fixes/enhancements - thx JewBMX for the help
+
+[B][COLOR gold]v4.01.06[/COLOR][/B]
+- Logging tweaks
+- Indexers tweaks
+
+[B][COLOR gold]v4.01.05[/COLOR][/B]
+- Fixed seasons not loading for some shows
+
+[B][COLOR gold]v4.01.04[/COLOR][/B]
+- Indexers tweaks
+
+[B][COLOR gold]v4.01.03[/COLOR][/B]
+- Code cleanup
+
+[B][COLOR gold]v4.01.02[/COLOR][/B]
+- Size filtering changes:
+    Min/Max movie/episode size settings removed, and replaced with new Min/Max
+    GB per hour setting, that applies to both movies & episodes
+- Added new [I]Scrape Filterless[/I] context menu entry, that when triggered the add-on
+  starts scraping with all sources filters (incl. pre-emptive termination) ignored
+
+[B][COLOR gold]v4.01.01[/COLOR][/B]
+- Fixed some py2/Kodi pre-19 encoding issues
+- Removed Cloudflare protected scrapers disableing option
+  (cloudflare anti-bot protection bypassing doesn't work anymore so
+   relevant scrapers get removed from package)
+- Source quality/type identification tweaks
+
+[B][COLOR gold]v4.01.00[/COLOR][/B]
+- Movies metadata main indexer altered from Trakt to TMDb
+- Changes to metadata to ensure we always use the international title for scraping
+
+[B][COLOR gold]v4.00.36[/COLOR][/B]
+- Fixed some issues with special episodes
+- Fixed notification on failed download attempt
+
+[B][COLOR gold]v4.00.35[/COLOR][/B]
+- Subtitles: workaround Kodi's issue with forced Greek subtitles setting
+
+[B][COLOR gold]v4.00.34[/COLOR][/B]
+- Minor metadata and playback fixes
+
+[B][COLOR gold]v4.00.33[/COLOR][/B]
+- Subtitles fix for Kodi 19
+
+[B][COLOR gold]v4.00.32[/COLOR][/B]
+- Changes to the settings cleaning function
+
+[B][COLOR gold]v4.00.31[/COLOR][/B]
+- Fixed Resume dialogue sometimes popping-up twice
+- Fixed sources occasionally getting filtered-out for no reason
+
+[B][COLOR gold]v4.00.30[/COLOR][/B]
+- Revert some changes that broke certain streams resolving
+
+[B][COLOR gold]v4.00.29[/COLOR][/B]
+- Updated premium hosts
+
+[B][COLOR gold]v4.00.28[/COLOR][/B]
+- Fixed some TV shows scraping issues when metadata language is other than En
+- Addition to TMDb/"scene" data mismatch workaround
+
+[B][COLOR gold]v4.00.27[/COLOR][/B]
+- Fixed "Find similar" list backing out to add-on's initial menu
+
+[B][COLOR gold]v4.00.26[/COLOR][/B]
+- IMDb lists tweaks/fixes
+- Various API requests alterations
+
+[B][COLOR gold]v4.00.25[/COLOR][/B]
+- Removed Nine Metadata dependency - can now be safely uninstalled
+- Changed TV shows search API call from Trakt to TMDb
+
+[B][COLOR gold]v4.00.24[/COLOR][/B]
+- Fixed "Play from here" Kodi's context menu item not appearing on Kodi 19
+
+[B][COLOR gold]v4.00.23[/COLOR][/B]
+- Fixed some issues with cache-ing under py3
+- Fixed minor source counting issue
+
+[B][COLOR gold]v4.00.22[/COLOR][/B]
+- Fixed sources messed-up order
+
+[B][COLOR gold]v4.00.21[/COLOR][/B]
+- Fixed unfiltered sources sneaking into pre-emptive results
+- Removed unsupported scraper language settings
+
+[B][COLOR gold]v4.00.20[/COLOR][/B]
+- Fixed Library source not appearing when "Primal sorting parameter" is set to Premium
+
+[B][COLOR gold]v4.00.19[/COLOR][/B]
+- Source info parsing tweaks
+
+[B][COLOR gold]v4.00.18[/COLOR][/B]
+- Movie lists cleanup
+
+[B][COLOR gold]v4.00.17[/COLOR][/B]
+- Added alternate option to sort source results by Premium primarily and then by resolution
+- Other minor changes to source sort/filtering functions
+
+[B][COLOR gold]v4.00.16[/COLOR][/B]
+- Stop labeling episode sources as cam/scr quality
+- Other internal changes
+
+[B][COLOR gold]v4.00.15[/COLOR][/B]
+- Added missing artwork types on episodes lists
+- Partial re-arrangement of how TV shows metadata are handled
+
+[B][COLOR gold]v4.00.14[/COLOR][/B]
+- Local language artwork fixes
+
+[B][COLOR gold]v4.00.13[/COLOR][/B]
+- Fixed issue with personal Trakt lists failing to load if sorted by release date
+    and some list item(s) has no release date on Trakt database
+- Other minor fixes
+
+[B][COLOR gold]v4.00.12[/COLOR][/B]
+- Fixed Trakt episodes history thumbnails
+- Fixed issues with log viewing/uploading
+
+[B][COLOR gold]v4.00.11[/COLOR][/B]
+- Fixed de-accent scraping title in Kodi 19
+
+[B][COLOR gold]v4.00.10[/COLOR][/B]
+- Make sure we always use English TV show title for scraping
+
+[B][COLOR gold]v4.00.08-9[/COLOR][/B]
+- Added logging functions (on Tools menu):
+    View add-on's log
+    Upload add-on's log to a paste website, for easier debugging
+    Empty log
+- Other logging changes
+
+[B][COLOR gold]v4.00.07[/COLOR][/B]
+- Tweaked title query for scraping
+
+[B][COLOR gold]v4.00.05-6[/COLOR][/B]
+- Fixed setting Viewtypes
+- Fixed issues with some episodes listings
+- Some more code cleanup
+
+[B][COLOR gold]v4.00.03-4[/COLOR][/B]
+- Withdraw uncached torrents from autoplay
+- Fixed issue where local (translated) TV show title would pass for scraping
+- Code cleanup
+
+[B][COLOR gold]v4.00.xx[/COLOR][/B]
+- Switched to TMDb API for TV Shows metadata
+    [I]Note:[/I]  This is a big change - large parts of the code have been re-written
+    and many other parts (some obvious some not) have been touched.
+    Thanks to all the testers involved with this release.
+
+[B][COLOR gold]v3.6.001[/COLOR][/B]
+- Fixed issue with size filtering
+
+[B][COLOR gold]v3.6.000[/COLOR][/B]
+- Description update
+- Stop attempting to scrobble when playback fails to start
+- Minor source fetching function tweaks
+
+[B][COLOR gold]v3.5.007[/COLOR][/B]
+- Removed Openscrapers support
+    Causes unsolvable installation issue in the case of Kodi 18 to 19 upgrade
+    and openscrapers was already installed.
+
+[B][COLOR gold]v3.5.005-6[/COLOR][/B]
+- Minor fixes
+
+[B][COLOR gold]v3.5.004[/COLOR][/B]
+- Attempt to fix error when upgrade Kodi 18 to 19 has occured and
+    openscrapers package was already installed
+    NOTE: Openscrapers is not Kodi 19 compatible so can't be used.
+    If you have it, uninstall from Add-ons/My add-ons/Program add-ons.
+
+[B][COLOR gold]v3.5.003[/COLOR][/B]
+- Applied extra artwork to the player
+- Fixed resume from local resume points (again)
+
+[B][COLOR gold]v3.5.002[/COLOR][/B]
+- Fix local resume points prompting to resume from <120 secs offset
+- Library database fixes
+- Attempt to speedup directory source list appearance a bit
+
+[B][COLOR gold]v3.5.001[/COLOR][/B]
+- Fix playback not starting on local resume point
+
+[B][COLOR gold]v3.5.000[/COLOR][/B]
+- Removed MetaHandler dependency. Local indicators are now handled internaly.
+    [I]NOTE:[/I] Unfortunately, due to this, all [I]local[/I] watched statuses and resume
+    points will reset. This was necessary for several reasons:
+    Metahandler was doing unnecessary API calls, fetching information we already had -
+    it was actually not needed, a leftover from Genesis days.
+    There are various versions of it floating around, some (kinda) working, some don't.
+    It's also not compatible with Kodi 19, and will stop working once tvdb v1 API phases out.
+
+[B][COLOR gold]v3.4.012[/COLOR][/B]
+- Fixed some issues with metadata cacheing
+- Updated cloudflare scraper from source
+
+[B][COLOR gold]v3.4.011[/COLOR][/B]
+- Resume/scrobble fixes for Kodi 19
+
+[B][COLOR gold]v3.4.010[/COLOR][/B]
+- Added check for youtube add-on upon attempt to play trailer, and prompt to install it
+    if it isn't already
+- Reworked resume points/trakt scrobbles, as a preparation for removing MetaHandler dependency
+    This means loss of local resume points. New resume points will properly propagate though
+    Also Trakt scrobbles now properly stop upon finishing playback
+
+[B][COLOR gold]v3.4.009[/COLOR][/B]
+- Search queries tweaks
+
+[B][COLOR gold]v3.4.007-8[/COLOR][/B]
+- Cosmetic and other minor fixes
+
+[B][COLOR gold]v3.4.006[/COLOR][/B]
+- Added notification when trying to play trailer and API key's quota limit has been reached
+- Cloudflare scraper updated from source
+
+[B][COLOR gold]v3.4.005[/COLOR][/B]
+- Added some more titles to the meta/scene mismatches function
+
+[B][COLOR gold]v3.4.004[/COLOR][/B]
+- Utilise kodi_six lib to handle py2/3 diffs on Kodi's python API
+    modules cleaner
+- Removed Feature: check movie/episode before importing to library
+    It's just an insignificant reason to stress our providers when importing lists
+
+[B][COLOR gold]v3.4.003[/COLOR][/B]
+- Minor Kodi 19 fixes
+- Cloudflare scraper updated from source
+
+[B][COLOR gold]v3.4.002[/COLOR][/B]
+- Quantity of items per page on paginated lists made customizable (defaults to 20)
+
+[B][COLOR gold]v3.4.000-1[/COLOR][/B]
+[I]!! YOU HAVE TO RE-AUTHORISE TRAKT AFTER UPDATING TO THIS RELEASE !![/I]
+    (unless you use your own trakt client-id/client-secret.
+    say thanks for this to kodibae and pressplay cloning Nine along with it's API keys)
+- Fixed Trakt episode indicators for Kodi 19
+- Various other fixes
+
+[B][COLOR gold]v3.3.93[/COLOR][/B]
+- Re:sources filters tweaks
+
+[B][COLOR gold]v3.3.92[/COLOR][/B]
+- Fixed downloading to network shares
+
+[B][COLOR gold]v3.3.9[/COLOR][/B]
+- Kodi 19 fix
+
+[B][COLOR gold]v3.3.7-8[/COLOR][/B]
+- Re-arranged source fetching and filtering (internally) for more accuracy on source
+    counting, and pre-emptive termination to take into account more filters (WiP)
+- Personal Fanart.tv API key is now required to be entered in settings, in order to fetch
+    extra and hq artwork
+    That was done due to some add-ons (like fake-exodus from kodibae, and pressplay) cloning
+    Nine, along with the add-on's hard-coded API keys
+
+[B][COLOR gold]v3.3.6[/COLOR][/B]
+- Minor tweaks to previous commits
+
+[B][COLOR gold]v3.3.5[/COLOR][/B]
+- Added option to enable/disable size filtering
+    If you already use size filtering you'll have to enable this option, as it's off by default
+- Pre-emptive termination now takes size filters into account as well
+    That means that scraping will stop when enough sources that meet your max quality
+    and size filters criteria are found
+- Added function that tries to circumvent data mismatches between metadata sites
+    and scene releases
+
+[B][COLOR gold]v3.3.4[/COLOR][/B]
+- Minor fixes
+
+[B][COLOR gold]v3.3.2[/COLOR][/B]
+- Added file size limits options
+- Added option to display file name as extra source info
+- Rearranged settings
+- Applied nasty hack to circumvent odd issue with double line source list scrolling
+
+[B][COLOR gold]v3.3.1[/COLOR][/B]
+- (Re)added option for extra & high quality artwork fetching
+    Personal Fanart.tv API key is recommended to be applied in settings - possibly
+    requiered eventually
+- Fixed some issues with "Play random"
+- Fixed downloading and library insertion when title has accented/special characters
+
+[B][COLOR gold]v3.3.0[/COLOR][/B]
+- Some more text encoding/decoding fixes
+- Library fix for Kodi 19/py3
+
+[B][COLOR gold]v3.2.9[/COLOR][/B]
+- Fixed some internal encoding/decoding text issues
+
+[B][COLOR gold]v3.2.8[/COLOR][/B]
+- Added option to enable/disable Trakt episodes ratings
+    [I]Context:[/I]  TheTVDb stopped supporting ratings some time ago, so we resorted to Trakt
+    for episodes ratings. But this takes an extra call to Trakt, which slows down the episodes
+    list fetching. Now there's an option to turn this on/off - until a better solution is found.
+- Made Channels main menu item optional
+
+[B][COLOR gold]v3.2.7[/COLOR][/B]
+- TV Networks now list all shows of given network, instead of current season's shows
+- Added some threading here and there
+
+[B][COLOR gold]v3.2.6[/COLOR][/B]
+- Added a couple web channels on Networks
+- Minor kodi 19 adjustments
+
+[B][COLOR gold]v3.2.5[/COLOR][/B]
+- Moved scraper accounts settings (ororo, filepursuit) into Ninescrapers's settings
+- Quality identification fixes
+
+[B][COLOR gold]v3.2.4[/COLOR][/B]
+- Added Debrid-Link.fr to the supported torrents cache check services
+- Further simplification of the sources fetching proccess/dialog
+- Fixed busy dialog issue when backgroung progress dialog is selected
+
+[B][COLOR gold]v3.2.3[/COLOR][/B]
+- Fix torrent cache check not terminating if a debrid service is down
+- Minor settings bug fix
+
+[B][COLOR gold]v3.2.2[/COLOR][/B]
+- Various under the hood changes
+
+[B][COLOR gold]v3.2.1[/COLOR][/B]
+- Fixed Trakt (re)auth when Kodi's ui language is other than English
+- Other minor code tweaks
+
+[B][COLOR gold]v3.2.0[/COLOR][/B]
+- Added min quality setting
+- Added option to remove uncached torrents from the source list
+    They will still be listed if none cached found
+- Simplified the sources fetching dialog
+    The old implementation was sometimes freezing the dialog and/or the scraping process
+
+[B][COLOR gold]v3.1.3[/COLOR][/B]
+- Added support for some more debrid hosts
+- Minor fixes
+
+[B][COLOR gold]v3.1.2[/COLOR][/B]
+- Code cleanup
+
+[B][COLOR gold]v3.1.1[/COLOR][/B]
+- Fixed Library integration and Downloads for Kodi 19
+
+[B][COLOR gold]v3.1.0[/COLOR][/B]
+- Finalised compatibility with PY3/K19, while retaining PY2 compat using 'six' module
+    - Both Nine and the Ninescrapers package now work under Kodi 19
+    - Only a couple scrapers have been converted till now
+    - Local indicators don't work due to their dependency on Metahandler
+- Fixed AllDebrid torrents cache check
+
+[B][COLOR gold]v3.0.1[/COLOR][/B]
+- Some more adjustments towards PY3/K19 compatibility
+
+[B][COLOR gold]v3.0.0[/COLOR][/B]
+- Initial work for Python 3 compatibility
+- Other adjustments for Kodi 19
+    (not quite there yet - will also have to ditch Metahandler if it
+     won't be updated for py3/Kodi 19)
+
+[B][COLOR gold]v2.3.0[/COLOR][/B]
+- Cloudflare scraper update
+- Player module updates
+
+[B][COLOR gold]v2.2.9[/COLOR][/B]
+- Added 'Decades' movies category
+
+[B][COLOR gold]v2.2.8[/COLOR][/B]
+- Cloudflare scraper update
+
+[B][COLOR gold]v2.2.7[/COLOR][/B]
+- Re:meta tweaks:
+    Episode ratings now come from Trakt
+
+[B][COLOR gold]v2.2.6[/COLOR][/B]
+- Metadata tweaks:
+    Ratings for movies/shows now come from each list's origination (imdb, trakt etc)
+    Added actor/character info for shows
+    Episodes: fallback to ENG plot if not local found
+
+[B][COLOR gold]v2.2.5[/COLOR][/B]
+- Migration to the new AllDebrid API
+- More accuracy for movie trailers
+
+[B][COLOR gold]v2.2.4[/COLOR][/B]
+- Various under the hood changes
+
+[B][COLOR gold]v2.2.3[/COLOR][/B]
+- Added option to enable trailer selection only on season/episode level (default)
+- Added option to remove CAM/SCR results
+- Sources filters/sorting options tweaks - please re-set your preferences
+
+[B][COLOR gold]v2.2.1[/COLOR][/B]
+- Added Trailer selection feature (enable in settings)
+
+[B][COLOR gold]v2.1.12[/COLOR][/B]
+- Fixed bad link skipping
+- Fixed some issues with Trakt progress list
+
+[B][COLOR gold]v2.1.11[/COLOR][/B]
+- Misc. code updates
+
+[B][COLOR gold]v2.1.10[/COLOR][/B]
+- Trailers:
+    - YouTube add-on now supports playback via external apps/add-ons even without
+       user API key, so we drop that requirement
+    - Added support for seasons/episodes specific trailers
+- Added uptobox/uptostream to captcha hosts, as they require a free account and pairing now
+- Exclude special episodes from Trakt progress list, regardless of setting
+
+[B][COLOR gold]v2.1.9[/COLOR][/B]
+- Added fields for Opensubtitles.org log-in credentials on settings
+    [I]It seems that Opensubtitles stopped supporting anonymous downloads
+    through their API, so you now need to enter your log-in credentials
+    for the subtitles downloading function to work[/I]
+- Minor code update for source list directory
+
+[B][COLOR gold]v2.1.8[/COLOR][/B]
+- Some more debrid cache check fixes
+
+[B][COLOR gold]v2.1.7[/COLOR][/B]
+- Added Premiumize to supported providers for debrid cache check
+
+[B][COLOR gold]v2.1.6[/COLOR][/B]
+- Debrid-check code alterations
+
+[B][COLOR gold]v2.1.5[/COLOR][/B]
+- Added AllDebrid torrents cache check support
+
+[B][COLOR gold]v2.1.4[/COLOR][/B]
+- Playback: bookmark, resume, scrobble, subs notification improvements
+
+[B][COLOR gold]v2.1.2[/COLOR][/B]
+- Added notification upon subtitles download (optional)
+- Debrid cache check dialog fixes
+
+[B][COLOR gold]v2.1.1[/COLOR][/B]
+- Label work
+
+[B][COLOR gold]v2.1.0[/COLOR][/B]
+- Added option to sort torrents by file size. It will only work for the Ninescrapers pack
+    and the built-in Orion scraper for now
+
+[B][COLOR gold]v2.0.5[/COLOR][/B]
+- Trailers: for now user's youtube add-on's api key will be used (provided one was deleted)
+    ie trailers will only work if user has an already working youtube add-on
+- Hopefully fixed r-d cache check failing if r-d token had expired
+
+[B][COLOR gold]v2.0.4[/COLOR][/B]
+- Fix: prevent torrents resolved by services other than R-D to be checked/marked,
+    if services other than R-D are also enabled
+
+[B][COLOR gold]v2.0.3[/COLOR][/B]
+- Debrid cache check updates
+
+[B][COLOR gold]v2.0.0[/COLOR][/B]
+- Added Real-Debrid torrents cache check
+    *Expiremental. Most code adjusted from Fen add-on - many thanks
+- Added option to remove metadata from directory source list, for faster loading
+
+[B][COLOR gold]v1.9.32[/COLOR][/B]
+- Fixed Clean Settings File function for Kodi versions older than 18 (thx Tikipeter!)
+- More code cleanup (Note: re-set your "Max Quality" setting - 1440p option has been removed)
+- Orionoid tweaks
+
+[B][COLOR gold]v1.9.31[/COLOR][/B]
+- Code cleanup
+
+[B][COLOR gold]v1.9.29[/COLOR][/B]
+- Attempt to fix various issues with TV Shows
+
+[B][COLOR gold]v1.9.28[/COLOR][/B]
+- Moved CAM/SCR results at the bottom of the source list
+- Added option to disable Cloudflare-enabled sites scraping
+    *greatly improves scraping time, at the cost of some (well, many...) sources
+
+[B][COLOR gold]v1.9.27[/COLOR][/B]
+- TV Shows/tvdb fix - thx 123Venom!
+- Various other code updates
+
+[B][COLOR gold]v1.9.26[/COLOR][/B]
+- Settings fix
+
+[B][COLOR gold]v1.9.25[/COLOR][/B]
+- Minor code updates
+
+[B][COLOR gold]v1.9.24[/COLOR][/B]
+- Trigger 'Clean settings file' function on add-on startup after update, to fix issue with scraping
+
+[B][COLOR gold]v1.9.23[/COLOR][/B]
+- Fixed episodes order when 'Flatten seasons' is enabled
+- Appended relevant icon (imdb/trakt) on user lists & sorted them by site/name
+
+[B][COLOR gold]v1.9.22[/COLOR][/B]
+- Added IMDb watchlist/user lists sorting options
+- Added support for more content types for IMDb watchlist/user lists
+
+[B][COLOR gold]v1.9.21[/COLOR][/B]
+- Fixed seasons/episodes sort order (another regression from the tvdb fiasko)
+- Added AppleTV+ to Networks
+
+[B][COLOR gold]v1.9.20[/COLOR][/B]
+- Added option to include/exclude special episodes when adding shows to Kodi library
+
+[B][COLOR gold]v1.9.18[/COLOR][/B]
+- Fixed TV calendar
+
+[B][COLOR gold]v1.9.17[/COLOR][/B]
+- Re:fix tvdb
+
+[B][COLOR gold]v1.9.16[/COLOR][/B]
+- Added "Clean Settings file" options on Tools menu for Nine & Ninescrapers
+    *removes obsolete settings entries from add-on's addon_data settings.xml, to
+     increase speed and reduce log spamming.
+     Main code function taken from Fen (thanks), adjusted for Nine
+
+[B][COLOR gold]v1.9.14[/COLOR][/B]
+- Adjusted to TheTVDB API changes for tv shows to work
+    *season posters, some meta and show posters for trakt-based lists (eg People Watching,
+     TV Show Mosts etc) still don't get fetched
+- Added Disney+ to Networks
+
+[B][COLOR gold]v1.9.13[/COLOR][/B]
+- Replaced buggy "Resume" context menu dialog with a yes/no dialog
+
+[B][COLOR gold]v1.9.12[/COLOR][/B]
+- orionoid adjustments
+- Bypass old (deleted) tmdb key if still stored in addon_data settings.xml
+
+[B][COLOR gold]v1.9.10[/COLOR][/B]
+- Added some dead hosts to the 'block' dict
+
+[B][COLOR gold]v1.9.9[/COLOR][/B]
+- Replaced API keys
+    (it seems that some folks forked/cloned Nine but didn't bother replacing my API keys.
+     Now the old ones have been deleted)
+
+[B][COLOR gold]v1.9.7[/COLOR][/B]
+- Added more providers language options in settings, to support Openscrapers's newly
+    added language scrapers
+
+[B][COLOR gold]v1.9.5[/COLOR][/B]
+- Fix crash on sources list dialog exit
+- Made add-on's context menu items labels italics, to differ from Kodi's ones
+
+[B][COLOR gold]v1.9.3[/COLOR][/B]
+- Scrobble/bookmarks/resume optimisations
+
+[B][COLOR gold]v1.9.0[/COLOR][/B]
+- Added Trakt Scrobble function. NOTE: Do Not enable this if you use scrobbling for
+    http sources through the official Trakt add-on, to avoid double scrobbling.
+    * Basic scrobbling functionality - currently only Scrobble on Stop is supported.
+- Other minor code tweaks
+
+[B][COLOR gold]v1.8.11[/COLOR][/B]
+- Added Polish translation - thx kodiultimate
+- Some code adjustments suggested by Venom's dev - thx
+
+[B][COLOR gold]v1.8.9[/COLOR][/B]
+- Fix toggling watched status when Trakt isn't auth'ed or indicators are set to 'Local"
+    and Metahandler 3.99.x is installed
+
+[B][COLOR gold]v1.8.8[/COLOR][/B]
+- Fix dupes filter for openscrapers
+- Minor code tweaks/settings adj
+
+[B][COLOR gold]v1.8.6[/COLOR][/B]
+- Added extra color option for Orion streams (Provider label only - optional)
+
+[B][COLOR gold]v1.8.5[/COLOR][/B]
+- Fix episodes thumb appearance in Estuary
+- Append only the bare minimum of metadata on sources directory
+- Various modules updates
+
+[B][COLOR gold]v1.8.3[/COLOR][/B]
+- Dupes checker tweaks:
+    * now using infohash for magnet links instead of url check, so hopefully no more dupes
+      accross torrent providers
+    * fixed bug in dupes filter (thx Gkobu)
+- cfscrape update (no idea who mod'ed it, but props towards them)
+
+[B][COLOR gold]v1.8.2[/COLOR][/B]
+- Fixed autoplay & cosmetic regressions caused by previous commits
+- Added more color options
+
+[B][COLOR gold]v1.8.0[/COLOR][/B]
+- Sources appearance modifications [I](only tested with the default skin)[/I] :
+    * added option for different color for the extra source infos (rip type, codec, size etc)
+    * added option for double-line source appearance (extra source info text gets splited)
+    * added simple source view option: lacks extra source info and coloring
+       (ideal for non-debrid users - free hosters do not provide reliable infos anyway)
+- Corresponding colored text on color selection settings (idea taken from Seren)
+
+[B][COLOR gold]v1.7.8[/COLOR][/B]
+- Fixed orionoid scraper (thx orion team for pointing out the bug)
+
+[B][COLOR gold]v1.7.4[/COLOR][/B]
+- Fixed issue with links skipping in the background while resolveurl was trying to
+    transfer un-cached torrents to the debrid service, preventing the procedure.
+- Orionoid scraper updates
+- Micro-updates to menus, modules, cfscrape etc
+
+[B][COLOR gold]v1.7.0[/COLOR][/B]
+- Switched default scraper package to Nine scrapers
+- Openscrapers are now an OPTIONAL installation
+
+[B][COLOR gold]v1.6.11[/COLOR][/B]
+- Fix issue where all items appear the 'Resume' dialog when resume point set to
+    Trakt scrobbles. Now it only appears when the watched % is between 2 and 92.
+
+[B][COLOR gold]v1.6.10[/COLOR][/B]
+- Removed cache from the 'Continue watching' movies list, so that Trakt scrobbles can be
+    accessed directly after a scrobble whitout having to clear cache first
+    (list is limited to 20 items only so shouldn't cause problems)
+- Some player module Leia adjustments
+
+[B][COLOR gold]v1.6.9[/COLOR][/B]
+- Added changelog
+- Some more settings/menus/wording adjustments
+
+[B][COLOR gold]v1.6.8[/COLOR][/B]
+- Fix sync with Trakt scrobbles
+- Sync with trakt now occurs on add-on launch (optional) instead of kodi launch
+- Rearrange settings/menus/wording a bit
+    - "Trakt Bookmarks" setting is now under Playback category and renamed to
+      'Resume point source': choose between Trakt scrobbles or locally saved resume points
+    - "Trakt On Deck" became 'Continue watching'
+
+[B][COLOR gold]v1.6.7[/COLOR][/B]
+- Added option to sync watched statuses from Trakt on startup and manually via Tools menu
+
+[B][COLOR gold]v1.6.6[/COLOR][/B]
+- Added duplicate links removal option, original code from doko-desuka - thx,
+      adjusted to show notification with number of removed duplicate links
+
+
+
+[I]-- For older versions changes and more details please visit:
